@@ -1,24 +1,21 @@
 /*
  *  Entity? 連想配列? SQL?
  */
-class entityReferences
+class entityReferences extends entityBasic
 {
   constructor(header, data, row)
   {
-    this.items = {};
-    for (var i = 0; i < header.length; i++) {
-      this.items[header[i].trim()] = data[i];
-    }
+    super(header, data, row);
 
-    this.row = row;
+    this.reviewItems.push('DOI');
+    this.reviewItems.push('BibTex');
+    this.reviewItems.push('Litterature type');
+    this.reviewItems.push('Alternative URL');
+    this.reviewItems.push('Contributor');
+    this.reviewItems.push('Project ID');
 
-    this.errorNums = {};
-    this.errorNums['DOI'] = [];
-    this.errorNums['BibTex'] = [];
-    this.errorNums['Litterature type'] = [];
-    this.errorNums['Alternative URL'] = [];
-    this.errorNums['Contributor'] = [];
-    this.errorNums['Project ID'] = [];
+    for (var i = 0; i < this.reviewItems.length; i++)
+      this.errorNums[this.reviewItems[i]] = [];
 
     this.check();
     this.setAutoErrorCodes();
@@ -29,14 +26,6 @@ class entityReferences
    *  エラーチェック
    *------------------------------------------------------------
    */
-  isDescribed(item)
-  {
-    if (item === '')
-      return false;
-    else
-      return true;
-  }
-
   check()
   {
     this.checkDOI();
@@ -105,57 +94,5 @@ class entityReferences
     } else {
       // Project IDがtext形式で記述されていない。
     }
-  }
-
-  /*
-   *------------------------------------------------------------
-   *  エラー情報
-   *------------------------------------------------------------
-   */
-  hasErrorNums(reviewItem) {
-    if (this.errorNums[reviewItem].length > 0)
-      return true;
-    else
-      return false;
-  }
-
-  getErrorIDsString(reviewItem) {
-    var errorId = [];
-    for (var i = 0; i < this.errorNums[reviewItem].length; i++) {
-      errorId.push(Utilities.formatString("[%s:%s]", this.errorNums[reviewItem][i], reviewItem));
-    }
-    return errorId.join();
-  }
-
-  /*
-   *------------------------------------------------------------
-   *  エラー記録
-   *------------------------------------------------------------
-   */
-  setAutoErrorCodes() {
-    var allCount = 0;
-    var count = 0;
-    var errorsString = "";
-
-    count = this.errorNums['DOI'].length;
-    if (count > 0) {
-      allCount += count;
-      errorsString += ";\n" + this.getErrorIDsString('DOI')
-    }
-
-    count = this.errorNums['BibTex'].length;
-    if (count > 0) {
-      allCount += count;
-      errorsString += ";\n" + this.getErrorIDsString('BibTex')
-    }
-
-    count = this.errorNums['Litterature type'].length;
-    if (count > 0) {
-      allCount += count;
-      errorsString += ";\n" + this.getErrorIDsString('Litterature type')
-    }
-  
-    this.items['Auto Error Codes'] = Utilities.formatString("%s%s", allCount, errorsString);
-
   }
 }
