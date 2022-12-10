@@ -1,16 +1,27 @@
+/*
+ *  基本エンティティ クラス
+ */
 class entityBasic
 {
-  constructor(header, data, row)
+  constructor(header, data, row, reviewItems)
   {
+    // データの項目名と内容
     this.items = {};
     for (var i = 0; i < header.length; i++) {
       this.items[header[i].trim()] = data[i];
     }
 
+    // スプレッドシート行番号
     this.row = row;
 
-    this.reviewItems = [];
+    // 審査対象項目（配列）
+    this.reviewItems = reviewItems;
+
+    // エラーデータの項目名とエラーナンバー
     this.errorNums = {};
+
+    for (var i = 0; i < this.reviewItems.length; i++)
+      this.errorNums[this.reviewItems[i]] = [];
   }
 
   /*
@@ -28,7 +39,7 @@ class entityBasic
 
   /*
    *------------------------------------------------------------
-   *  エラー情報
+   *  項目のエラー情報取得
    *------------------------------------------------------------
    */
   hasErrorNums(reviewItem) {
@@ -48,7 +59,7 @@ class entityBasic
 
   /*
    *------------------------------------------------------------
-   *  エラー記録
+   *  Auto Error Codes 記録
    *------------------------------------------------------------
    */
   setAutoErrorCodes() {

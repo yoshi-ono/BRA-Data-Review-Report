@@ -1,22 +1,11 @@
 /*
- *  Entity? 連想配列? SQL?
+ *  References エンティティ クラス
  */
 class entityReferences extends entityBasic
 {
-  constructor(header, data, row)
+  constructor(header, data, row, reviewItems)
   {
-    super(header, data, row);
-
-    this.reviewItems.push('DOI');
-    this.reviewItems.push('BibTex');
-    this.reviewItems.push('Litterature type');
-    this.reviewItems.push('Alternative URL');
-    this.reviewItems.push('Contributor');
-    this.reviewItems.push('Project ID');
-
-    for (var i = 0; i < this.reviewItems.length; i++)
-      this.errorNums[this.reviewItems[i]] = [];
-
+    super(header, data, row, reviewItems);
     this.check();
     this.setAutoErrorCodes();
   }

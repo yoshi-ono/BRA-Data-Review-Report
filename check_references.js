@@ -23,19 +23,23 @@ function check_references() {
   
   var header = data[0];
 
+  var reviewItems = [];
+  reviewItems.push('DOI');
+  reviewItems.push('BibTex');
+  reviewItems.push('Litterature type');
+  reviewItems.push('Alternative URL');
+  reviewItems.push('Contributor');
+  reviewItems.push('Project ID');
+
   var itemErrors = {};
-  itemErrors['DOI'] = "";
-  itemErrors['BibTex'] = "";
-  itemErrors['Litterature type'] = "";
-  itemErrors['Alternative URL'] = "";
-  itemErrors['Contributor'] = "";
-  itemErrors['Project ID'] = "";
+  for (var i = 0; i < reviewItems.length; i++)
+    itemErrors[reviewItems[i]] = "";
 
   var today = Utilities.formatDate(new Date(), 'JST', "yyyy/MM/dd");
 
   for (var i = 1; i < data.length; i++)
   {
-    var entity = new entityReferences(header, data[i], i + 1);
+    var entity = new entityReferences(header, data[i], i + 1, reviewItems);
     Logger.log(entity);
 
     // 記録
@@ -43,20 +47,12 @@ function check_references() {
     referencesSheet.getRange(entity.row, 22).setValue(hcd_confirmor);
     referencesSheet.getRange(entity.row, 23).setValue(today);
 
-    summaryItemErrors(entity, itemErrors, 'DOI');
-    summaryItemErrors(entity, itemErrors, 'BibTex');
-    summaryItemErrors(entity, itemErrors, 'Litterature type');
-    summaryItemErrors(entity, itemErrors, 'Alternative URL');
-    summaryItemErrors(entity, itemErrors, 'Contributor');
-    summaryItemErrors(entity, itemErrors, 'Project ID');
+    for (var j = 0; j < entity.reviewItems.length; j++)
+      summaryItemErrors(entity, itemErrors, entity.reviewItems[j]);
   }
 
-  Logger.log(itemErrors['DOI']);
-  Logger.log(itemErrors['BibTex']);
-  Logger.log(itemErrors['Litterature type']);
-  Logger.log(itemErrors['Alternative URL']);
-  Logger.log(itemErrors['Contributor']);
-  Logger.log(itemErrors['Project ID']);
+  for (var i = 0; i < reviewItems.length; i++)
+    Logger.log(itemErrors[reviewItems[i]]);
 
   sheet_BIF_autheniticity.getRange("C6").setValue(today);
 
