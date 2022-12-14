@@ -31,7 +31,7 @@ function check_references()
   for (var i = 1; i < data.length; i++)
   {
     var entity = new entityReferences(header, data[i], i + 1, reviewItems);
-    Logger.log(entity);
+    //Logger.log(entity);
 
     // HCDファイル記録
     referencesSheet.getRange(entity.row, 17).setValue(entity.items['Auto Error Codes']);  // Q列=17

@@ -2,7 +2,7 @@ function check_circuits()
 {
   let circuitsSheet = hcdSpreadsheet.getSheetByName('Circuits');
 
-  var data = circuitsSheet.getRange("A1:AM20").getValues();
+  var data = circuitsSheet.getRange("A1:AM21").getValues();
   
   var header = data[0];
 
@@ -28,7 +28,7 @@ function check_circuits()
   for (var i = 1; i < data.length; i++)
   {
     var entity = new entityCircuits(header, data[i], i + 1, reviewItems);
-    Logger.log(entity);
+    //Logger.log(entity);
 
     // HCDファイル記録
     circuitsSheet.getRange(entity.row, 33).setValue(entity.items['Auto Error Codes']);  // AG列=33
