@@ -6,6 +6,8 @@ var hcdSpreadsheet
 
 var listItems;
 
+var today;
+
 function setting()
 {
   let toolSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
@@ -19,4 +21,9 @@ function setting()
 
   listItems = new ListItems();
   Logger.log(listItems);
+
+  today = Utilities.formatDate(new Date(), 'JST', "yyyy/MM/dd");
+
+  // Report
+  sheet_BIF_autheniticity.getRange("C6").setValue(today);
 }
