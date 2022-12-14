@@ -49,6 +49,10 @@ class entityBasic
       return false;
   }
 
+  getErrorNumsString(reviewItem) {
+    return this.errorNums[reviewItem].join();
+  }
+
   getErrorIDsString(reviewItem) {
     var errorId = [];
     for (var i = 0; i < this.errorNums[reviewItem].length; i++) {

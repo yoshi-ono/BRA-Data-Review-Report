@@ -1,6 +1,10 @@
+var sheet_BIF_autheniticity;
 var hcd_id;
 var hcd_confirmor;
-var sheet_BIF_autheniticity;
+
+var hcdSpreadsheet
+
+var listItems;
 
 function setting()
 {
@@ -10,4 +14,9 @@ function setting()
   hcd_confirmor = sheet_BIF_autheniticity.getRange('C3').getValue();
   Logger.log(hcd_id);
   Logger.log(hcd_confirmor);
+
+  hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
+
+  listItems = new ListItems();
+  Logger.log(listItems);
 }

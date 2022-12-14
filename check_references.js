@@ -1,8 +1,6 @@
-var listItems;
-
 function summaryItemErrors(entity, itemErrors, reviewItem) {
   if (entity.hasErrorNums(reviewItem)) {
-    var str = Utilities.formatString("row(%s) %s", entity.row, entity.getErrorIDsString(reviewItem));
+    var str = Utilities.formatString("row(%s) %s", entity.row, entity.getErrorNumsString(reviewItem));
     if (itemErrors[reviewItem] != "") {
       itemErrors[reviewItem] += ";\n"
     }
@@ -10,13 +8,8 @@ function summaryItemErrors(entity, itemErrors, reviewItem) {
   }
 }
 
-function check_references() {
-  setting()
-
-  listItems = new ListItems();
-  Logger.log(listItems);
-
-  let hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
+function check_references()
+{
   let referencesSheet = hcdSpreadsheet.getSheetByName('References');
 
   var data = referencesSheet.getRange("A1:W7").getValues();
@@ -42,7 +35,7 @@ function check_references() {
     var entity = new entityReferences(header, data[i], i + 1, reviewItems);
     Logger.log(entity);
 
-    // 記録
+    // HCDファイル記録
     referencesSheet.getRange(entity.row, 17).setValue(entity.items['Auto Error Codes']);
     referencesSheet.getRange(entity.row, 22).setValue(hcd_confirmor);
     referencesSheet.getRange(entity.row, 23).setValue(today);
@@ -54,12 +47,13 @@ function check_references() {
   for (var i = 0; i < reviewItems.length; i++)
     Logger.log(itemErrors[reviewItems[i]]);
 
+  // Report
   sheet_BIF_autheniticity.getRange("C6").setValue(today);
 
-  sheet_BIF_autheniticity.getRange("C10").setValue(itemErrors['DOI']);
-  sheet_BIF_autheniticity.getRange("D10").setValue(itemErrors['BibTex']);
-  sheet_BIF_autheniticity.getRange("E10").setValue(itemErrors['Litterature type']);
-  sheet_BIF_autheniticity.getRange("F10").setValue(itemErrors['Alternative URL']);
-  sheet_BIF_autheniticity.getRange("G10").setValue(itemErrors['Contributor']);
-  sheet_BIF_autheniticity.getRange("H10").setValue(itemErrors['Project ID']);
+  sheet_BIF_autheniticity.getRange(11, 4).setValue(itemErrors['DOI']);
+  sheet_BIF_autheniticity.getRange(11, 5).setValue(itemErrors['BibTex']);
+  sheet_BIF_autheniticity.getRange(11, 6).setValue(itemErrors['Litterature type']);
+  sheet_BIF_autheniticity.getRange(11, 7).setValue(itemErrors['Alternative URL']);
+  sheet_BIF_autheniticity.getRange(11, 8).setValue(itemErrors['Contributor']);
+  sheet_BIF_autheniticity.getRange(11, 9).setValue(itemErrors['Project ID']);
 }
