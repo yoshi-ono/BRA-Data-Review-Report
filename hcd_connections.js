@@ -50,7 +50,10 @@ class hcdConnections
       for (var j = 0; j < entity.reviewItems.length; j++)
         summaryItemErrors(entity, this.itemErrors, entity.reviewItems[j]);
     }
+  }
 
+  report()
+  {
     for (var i = 0; i < this.reviewItems.length; i++) {
       Logger.log(this.itemErrors[this.reviewItems[i]]);
 

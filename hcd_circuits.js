@@ -1,48 +1,26 @@
-function check_circuits()
+class hcdCircuits extends hcdBasic
 {
-  let circuitsSheet = hcdSpreadsheet.getSheetByName('Circuits');
-
-  var data = circuitsSheet.getRange("A1:AM21").getValues();
-  
-  var header = data[0];
-
-  var reviewItems = [];
-  reviewItems.push('Circuit ID');
-  reviewItems.push('Source of ID');
-  reviewItems.push('Names');
-  reviewItems.push('DHBA: graph_order');
-  reviewItems.push('Sub-Circuits');
-  reviewItems.push('Super Class');
-  reviewItems.push('Uniform');
-  reviewItems.push('Transmitter');
-  reviewItems.push('Modulation Type');
-  reviewItems.push('Size');
-  reviewItems.push('Physiological Data');
-  reviewItems.push('Contributor');
-  reviewItems.push('Project ID');
-
-  var itemErrors = {};
-  for (var i = 0; i < reviewItems.length; i++)
-    itemErrors[reviewItems[i]] = "";
-
-  for (var i = 1; i < data.length; i++)
+  constructor(reviewLastRow)
   {
-    var entity = new entityCircuits(header, data[i], i + 1, reviewItems);
-    //Logger.log(entity);
-
-    // HCDファイル記録
-    circuitsSheet.getRange(entity.row, 33).setValue(entity.items['Auto Error Codes']);  // AG列=33
-    circuitsSheet.getRange(entity.row, 38).setValue(hcd_confirmor);   // AL列=38
-    circuitsSheet.getRange(entity.row, 39).setValue(today);           // AM列=39
-
-    for (var j = 0; j < entity.reviewItems.length; j++)
-      summaryItemErrors(entity, itemErrors, entity.reviewItems[j]);
+    super('Circuits', reviewLastRow);
+    this.setReviewItems();
+    this.initItemErrors();
   }
 
-  for (var i = 0; i < reviewItems.length; i++) {
-    Logger.log(itemErrors[reviewItems[i]]);
-
-    // Report
-    sheet_BIF_autheniticity.getRange(17, 4 + i).setValue(itemErrors[reviewItems[i]]);
+  setReviewItems()
+  {
+    this.reviewItems.push('Circuit ID');
+    this.reviewItems.push('Source of ID');
+    this.reviewItems.push('Names');
+    this.reviewItems.push('DHBA: graph_order');
+    this.reviewItems.push('Sub-Circuits');
+    this.reviewItems.push('Super Class');
+    this.reviewItems.push('Uniform');
+    this.reviewItems.push('Transmitter');
+    this.reviewItems.push('Modulation Type');
+    this.reviewItems.push('Size');
+    this.reviewItems.push('Physiological Data');
+    this.reviewItems.push('Contributor');
+    this.reviewItems.push('Project ID');
   }
 }
