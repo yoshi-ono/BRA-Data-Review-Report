@@ -2,5 +2,8 @@ function main() {
   setting();
 
   //check_references();
-  check_circuits();
+  //check_circuits();
+
+  var connections = new hcdConnections();
+  connections.review();
 }
