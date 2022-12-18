@@ -7,7 +7,7 @@ function main() {
   circuits.review();
   circuits.report(17);
 
-  //var connections = new hcdConnections();
-  //connections.review();
-  //connections.report();
+  var connections = new hcdConnections(70);
+  connections.review();
+  connections.report(23);
 }

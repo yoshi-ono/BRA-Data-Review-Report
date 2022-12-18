@@ -1,10 +1,9 @@
 class hcdBasic
 {
-  constructor(sheetName, reviewLastRow)
+  constructor(sheetName, reviewDataRows)
   {
-    this.reviewLastRow = reviewLastRow;
-
     this.sheet = hcdSpreadsheet.getSheetByName(sheetName);
+    this.reviewDataRows = reviewDataRows;
 
     this.allData = this.sheet.getDataRange().getValues();
     
@@ -26,7 +25,7 @@ class hcdBasic
   summaryItemErrors(entity, reviewItem) {
     if (entity.hasErrorNums(reviewItem)) {
       var str = Utilities.formatString("row(%s) %s", entity.row, entity.getErrorNumsString(reviewItem));
-      Logger.log(str);
+      //Logger.log(str);
 
       if (this.itemErrors[reviewItem] != "") {
         this.itemErrors[reviewItem] += ";\n"
@@ -53,21 +52,15 @@ class hcdBasic
     this.colNumReviewedDate = this.getColNum('Reviewed date');
   }
 
-  review()
+  recordResult(entity)
   {
-    for (var i = 1; i < this.reviewLastRow; i++)
-    {
-      var entity = new entityCircuits(this.header, this.allData[i], i + 1, this.reviewItems);
-      //Logger.log(entity);
+    // HCDファイル記録
+    this.sheet.getRange(entity.row, this.colNumAutoErrorCodes).setValue(entity.items['Auto Error Codes']);
+    this.sheet.getRange(entity.row, this.colNumReviewer).setValue(hcd_confirmor);
+    this.sheet.getRange(entity.row, this.colNumReviewedDate).setValue(today);
 
-      // HCDファイル記録
-      this.sheet.getRange(entity.row, this.colNumAutoErrorCodes).setValue(entity.items['Auto Error Codes']);
-      this.sheet.getRange(entity.row, this.colNumReviewer).setValue(hcd_confirmor);
-      this.sheet.getRange(entity.row, this.colNumReviewedDate).setValue(today);
-
-      for (var j = 0; j < entity.reviewItems.length; j++)
-        this.summaryItemErrors(entity, entity.reviewItems[j]);
-    }
+    for (var j = 0; j < entity.reviewItems.length; j++)
+      this.summaryItemErrors(entity, entity.reviewItems[j]);
   }
 
   report(reportRow)

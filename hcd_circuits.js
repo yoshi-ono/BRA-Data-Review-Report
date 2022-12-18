@@ -1,8 +1,8 @@
 class hcdCircuits extends hcdBasic
 {
-  constructor(reviewLastRow)
+  constructor(reviewDataRows)
   {
-    super('Circuits', reviewLastRow);
+    super('Circuits', reviewDataRows);
     this.setReviewItems();
     this.initItemErrors();
   }
@@ -22,5 +22,16 @@ class hcdCircuits extends hcdBasic
     this.reviewItems.push('Physiological Data');
     this.reviewItems.push('Contributor');
     this.reviewItems.push('Project ID');
+  }
+
+  review()
+  {
+    for (var i = 1; i < this.reviewDataRows; i++)
+    {
+      var entity = new entityCircuits(this.header, this.allData[i], i + 1, this.reviewItems);
+      //Logger.log(entity);
+
+      this.recordResult(entity);
+    }
   }
 }
