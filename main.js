@@ -1,7 +1,9 @@
 function main() {
   setting();
 
-  //check_references();
+  var references = new hcdReferences(7);
+  references.review();
+  references.report(11);
 
   var circuits = new hcdCircuits(21);
   circuits.review();
