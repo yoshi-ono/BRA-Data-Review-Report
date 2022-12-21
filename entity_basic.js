@@ -98,7 +98,11 @@ class entityBasic
       }
     }
  
-    this.items['Auto Error Codes'] = Utilities.formatString("%s Error(s)%s", allCount, errorsString);
+    if (allCount > 0)
+      this.items['Auto Error Codes'] = Utilities.formatString("%s Error(s)%s", allCount, errorsString);
+    else
+      // 0 Error(s) の場合は非表示とする。
+      this.items['Auto Error Codes'] = "";
   }
 
 }
