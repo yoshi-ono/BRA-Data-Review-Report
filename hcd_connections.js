@@ -26,6 +26,15 @@ class hcdConnections extends hcdBasic
     this.reviewItems.push('Project ID');
   }
 
+  setResultItemName()
+  {
+    this.resultItemAutoErrorCodes = "Auto Error Codes"
+    this.resultItemReviewer = "Reviewer";
+    this.resultItemReviewedDate = "Reviewed date";
+
+    this.setResultColNum();
+  }
+
   review()
   {
     for (var i = 1; i < this.reviewDataRows; i++)

@@ -2,18 +2,28 @@ class hcdBasic
 {
   constructor(sheetName, reviewDataRows)
   {
+    // シートオブジェクト
     this.sheet = hcdSpreadsheet.getSheetByName(sheetName);
+
+    // 審査データ行数（最終行）
     this.reviewDataRows = reviewDataRows;
 
+    // シートの全データ
     this.allData = this.sheet.getDataRange().getValues();
     
+    // ヘッダ行
     this.header = this.allData[0];
 
+    // 審査対象項目（配列）
     this.reviewItems = [];
 
-    this.itemErrors = {};
+    // 審査結果項目
+    this.resultItemAutoErrorCodes = "";
+    this.resultItemReviewer = "";
+    this.resultItemReviewedDate = "";
 
-    this.setResultColNum();
+    // 審査項目別エラー（連想配列）
+    this.itemErrors = {};
   }
 
   initItemErrors()
@@ -47,15 +57,15 @@ class hcdBasic
 
   setResultColNum()
   {
-    this.colNumAutoErrorCodes = this.getColNum('Auto Error Codes');
-    this.colNumReviewer = this.getColNum('Reviewer');
-    this.colNumReviewedDate = this.getColNum('Reviewed date');
+    this.colNumAutoErrorCodes = this.getColNum(this.resultItemAutoErrorCodes);
+    this.colNumReviewer = this.getColNum(this.resultItemReviewer);
+    this.colNumReviewedDate = this.getColNum(this.resultItemReviewedDate);
   }
 
   recordResult(entity)
   {
     // HCDファイル記録
-    this.sheet.getRange(entity.row, this.colNumAutoErrorCodes).setValue(entity.items['Auto Error Codes']);
+    this.sheet.getRange(entity.row, this.colNumAutoErrorCodes).setValue(entity.items[this.resultItemAutoErrorCodes]);
     this.sheet.getRange(entity.row, this.colNumReviewer).setValue(hcd_confirmor);
     this.sheet.getRange(entity.row, this.colNumReviewedDate).setValue(today);
 

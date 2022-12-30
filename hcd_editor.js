@@ -19,6 +19,15 @@ class hcdEditor extends hcdBasic
     this.reviewItems.push('Output semantics (1)');
   }
 
+  setResultItemName()
+  {
+    this.resultItemAutoErrorCodes = "Auto Error Codes (1)"
+    this.resultItemReviewer = "Confirmor (1)";
+    this.resultItemReviewedDate = "Confirmed date (1)";
+
+    this.setResultColNum();
+  }
+
   review()
   {
     for (var i = 1; i < this.reviewDataRows; i++)
