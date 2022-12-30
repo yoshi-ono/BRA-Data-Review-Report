@@ -4,7 +4,7 @@ class hcdCircuits extends hcdBasic
   {
     super('Circuits', reviewDataRows);
     this.setReviewItems();
-    this.initItemErrors();
+    this.setResultItemName();
   }
 
   setReviewItems()
@@ -22,6 +22,8 @@ class hcdCircuits extends hcdBasic
     this.reviewItems.push('Physiological Data');
     this.reviewItems.push('Contributor');
     this.reviewItems.push('Project ID');
+
+    this.initItemErrors();
   }
 
   setResultItemName()

@@ -4,7 +4,7 @@ class hcdConnections extends hcdBasic
   {
     super('Connections', reviewDataRows);
     this.setReviewItems();
-    this.initItemErrors();
+    this.setResultItemName();
   }
 
   setReviewItems()
@@ -24,6 +24,8 @@ class hcdConnections extends hcdBasic
     this.reviewItems.push('In-depth literature');
     this.reviewItems.push('Contributor');
     this.reviewItems.push('Project ID');
+
+    this.initItemErrors();
   }
 
   setResultItemName()

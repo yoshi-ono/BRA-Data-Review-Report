@@ -4,7 +4,7 @@ class hcdEditor extends hcdBasic
   {
     super('HCDeditor', reviewDataRows);
     this.setReviewItems();
-    this.initItemErrors();
+    this.setResultItemName();
   }
 
   setReviewItems()
@@ -17,6 +17,8 @@ class hcdEditor extends hcdBasic
     this.reviewItems.push('Region Category (1)');
     this.reviewItems.push('Process (1)');
     this.reviewItems.push('Output semantics (1)');
+
+    this.initItemErrors();
   }
 
   setResultItemName()

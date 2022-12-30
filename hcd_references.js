@@ -4,7 +4,7 @@ class hcdReferences extends hcdBasic
   {
     super('References', reviewDataRows);
     this.setReviewItems();
-    this.initItemErrors();
+    this.setResultItemName();
   }
 
   setReviewItems()
@@ -15,6 +15,8 @@ class hcdReferences extends hcdBasic
     this.reviewItems.push('Alternative URL');
     this.reviewItems.push('Contributor');
     this.reviewItems.push('Project ID');
+
+    this.initItemErrors();
   }
 
   setResultItemName()
