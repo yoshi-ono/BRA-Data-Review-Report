@@ -24,6 +24,5 @@ function main() {
 
   var editor = new hcdEditor();
   editor.review()
-  Logger.log(editor);
   editor.report(g_sheet_reportHCD, 4);
 }

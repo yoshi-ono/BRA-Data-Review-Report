@@ -37,6 +37,8 @@ class hcdEditor extends hcdBasic
       var entity = new entityHCDeditor(this.header, this.allData[i], i + 1, this.reviewItems);
       //Logger.log(entity);
 
+      entity.setAutoErrorCodes(this.resultItemAutoErrorCodes);
+      
       this.recordResult(entity);
     }
   }

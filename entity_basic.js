@@ -84,7 +84,7 @@ class entityBasic
    *  Auto Error Codes 記録
    *------------------------------------------------------------
    */
-  setAutoErrorCodes() {
+  setAutoErrorCodes(itemNameAutoErrorCodes) {
     var allCount = 0;
     var count = 0;
     var errorsString = "";
@@ -99,10 +99,10 @@ class entityBasic
     }
  
     if (allCount > 0)
-      this.items['Auto Error Codes'] = Utilities.formatString("%s Error(s)%s", allCount, errorsString);
+      this.items[itemNameAutoErrorCodes] = Utilities.formatString("%s Error(s)%s", allCount, errorsString);
     else
       // 0 Error(s) の場合は非表示とする。
-      this.items['Auto Error Codes'] = "";
+      this.items[itemNameAutoErrorCodes] = "";
   }
 
 }

@@ -7,7 +7,6 @@ class entityHCDeditor extends entityBasic
   {
     super(header, data, row, reviewItems);
     this.check();
-    this.setAutoErrorCodes();
   }
 
   /*

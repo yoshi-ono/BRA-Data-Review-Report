@@ -44,6 +44,8 @@ class hcdConnections extends hcdBasic
       var entity = new entityConnections(this.header, this.allData[i], i + 1, this.reviewItems);
       //Logger.log(entity);
 
+      entity.setAutoErrorCodes(this.resultItemAutoErrorCodes);
+      
       this.recordResult(entity);
     }
   }
