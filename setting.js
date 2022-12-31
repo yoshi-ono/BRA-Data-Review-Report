@@ -1,4 +1,6 @@
-var sheet_BIF_autheniticity;
+var g_sheet_reportBIF;
+var g_sheet_reportHCD;
+
 var hcd_id;
 var hcd_confirmor;
 
@@ -11,9 +13,11 @@ var today;
 function setting()
 {
   let toolSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  sheet_BIF_autheniticity = toolSpreadsheet.getSheetByName('BIF_autheniticity');
-  hcd_id = sheet_BIF_autheniticity.getRange('C1').getValue();
-  hcd_confirmor = sheet_BIF_autheniticity.getRange('C3').getValue();
+  g_sheet_reportBIF = toolSpreadsheet.getSheetByName('BIF_autheniticity');
+  g_sheet_reportHCD = toolSpreadsheet.getSheetByName('HCD');
+
+  hcd_id = g_sheet_reportBIF.getRange('C1').getValue();
+  hcd_confirmor = g_sheet_reportBIF.getRange('C3').getValue();
   Logger.log(hcd_id);
   Logger.log(hcd_confirmor);
 
@@ -25,5 +29,5 @@ function setting()
   today = Utilities.formatDate(new Date(), 'JST', "yyyy/MM/dd");
 
   // Report
-  sheet_BIF_autheniticity.getRange("C6").setValue(today);
+  g_sheet_reportBIF.getRange("C6").setValue(today);
 }

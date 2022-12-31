@@ -47,26 +47,30 @@ class entityHCDeditor extends entityBasic
     // 「Uniform＝FALSE」にも関わらずOutput Circuit名が書かれている[411:Output Circuits]
     // 二つ以上のCircuitが「;」で区切られていない[413:Output Circuits]
     // [Manual] Output Circuitsが図面中(コンポーネント図)に記述されたOutputと一致しない。[414:Output Circuits]
+    /*
     if (!this.isDescribed(this.items['Output Circuits (1)'])) {
       this.errorNums['Output Circuits (1)'].push(N);
     }
+    */
   }
   check_Output_Circuit_Validation() {
     // Output Circuitsに記述されたCircuit IDがProjectionカラムに記述されていない。(Output Circuit Validationで"x"が表示される。)[418:Output Circuit Validation]
+    /*
     if (!this.isDescribed(this.items['Output Circuit Validation (1)'])) {
       this.errorNums['Output Circuit Validation (1)'].push(N);
-    } else {
     }
+    */
   }
   check_Input_Circuit() {
     // [Manual] Input Circuitが図面中(コンポーネント図)に記述されたInputと一致しない。[422:Input Circuit]
   }
   check_Region_Category() {
     // Region Categoryに指定範囲外の値が記述されている。[428:Region Category]
+    /*
     if (!this.isDescribed(this.items['Region Category (1)'])) {
-    this.errorNums['Region Category (1)'].push(N);
-  } else {
-  }
+      this.errorNums['Region Category (1)'].push(N);
+    }
+    */
   }
   check_Process() {
     // Processが記述されていない。[431:Process]

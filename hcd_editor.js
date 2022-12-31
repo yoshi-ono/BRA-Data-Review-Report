@@ -1,8 +1,8 @@
 class hcdEditor extends hcdBasic
 {
-  constructor(reviewDataRows)
+  constructor()
   {
-    super('HCDeditor', reviewDataRows);
+    super('HCDeditor');
     this.setReviewItems();
     this.setResultItemName();
   }

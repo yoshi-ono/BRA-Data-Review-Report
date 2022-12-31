@@ -4,12 +4,14 @@ class hcdBasic
   {
     // シートオブジェクト
     this.sheet = hcdSpreadsheet.getSheetByName(sheetName);
-
-    // 審査データ行数（最終行）
-    this.reviewDataRows = reviewDataRows;
-
     // シートの全データ
     this.allData = this.sheet.getDataRange().getValues();
+
+    // 審査データ行数（最終行）
+    if (reviewDataRows == null)
+      this.reviewDataRows = this.allData.length;
+    else
+      this.reviewDataRows = reviewDataRows;
     
     // ヘッダ行
     this.header = this.allData[0];
@@ -73,13 +75,12 @@ class hcdBasic
       this.summaryItemErrors(entity, entity.reviewItems[j]);
   }
 
-  report(reportRow)
+  report(reportSheet, reportRow)
   {
     for (var i = 0; i < this.reviewItems.length; i++) {
-      Logger.log(this.itemErrors[this.reviewItems[i]]);
+      reportSheet.getRange(reportRow, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]);
 
-      // Report
-      sheet_BIF_autheniticity.getRange(reportRow, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]);
+      //Logger.log("[" + this.sheet.getName() + " " + this.reviewItems[i] + "]: " + this.itemErrors[this.reviewItems[i]]);
     }
   }
 }

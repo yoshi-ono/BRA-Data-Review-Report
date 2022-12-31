@@ -12,13 +12,18 @@ function main() {
 
   var references = new hcdReferences(referencesReviewEL);
   references.review();
-  references.report(11);
+  references.report(g_sheet_reportBIF, 11);
 
   var circuits = new hcdCircuits(circuitsReviewEL);
   circuits.review();
-  circuits.report(17);
+  circuits.report(g_sheet_reportBIF, 17);
 
   var connections = new hcdConnections(connectionsReviewEL);
   connections.review();
-  connections.report(23);
+  connections.report(g_sheet_reportBIF, 23);
+
+  var editor = new hcdEditor();
+  editor.review()
+  Logger.log(editor);
+  editor.report(g_sheet_reportHCD, 4);
 }
