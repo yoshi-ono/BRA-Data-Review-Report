@@ -2,21 +2,21 @@ class ListItems
 {
   constructor()
   {
-    this.LiteratureType = [];
+    this.adminonlySheet = hcdSpreadsheet.getSheetByName('AdminOnly');
 
-    this.setLiteratureType()
+    this.LiteratureType = this.getItems("E2:E11");
+    this.RegionCategory = this.getItems("Z2:Z6");
   }
 
-  setLiteratureType()
+  getItems(range)
   {
-    let hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
-    let adminonlySheet = hcdSpreadsheet.getSheetByName('AdminOnly');
+    var data = this.adminonlySheet.getRange(range).getValues();
 
-    var data = adminonlySheet.getRange("E2:E11").getValues();
-
+    var items = [];
     for (var i = 0; i < data.length; i++)
     {
-      this.LiteratureType.push(data[i][0]);
+      items.push(data[i][0]);
     }
+    return items;
   }
 }

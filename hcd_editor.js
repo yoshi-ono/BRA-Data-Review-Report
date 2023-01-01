@@ -15,8 +15,8 @@ class hcdEditor extends hcdBasic
     this.reviewItems.push('Output Circuit Validation (1)');
     this.reviewItems.push('Input Circuit (1)');
     this.reviewItems.push('Region Category (1)');
-    this.reviewItems.push('Process (1)');
-    this.reviewItems.push('Output semantics (1)');
+    this.reviewItems.push('Process(1)');
+    this.reviewItems.push('Output Semantics (1)');
 
     this.initItemErrors();
   }
@@ -38,7 +38,7 @@ class hcdEditor extends hcdBasic
       //Logger.log(entity);
 
       entity.setAutoErrorCodes(this.resultItemAutoErrorCodes);
-      
+
       this.recordResult(entity);
     }
   }

@@ -5,7 +5,7 @@ class entityBasic
 {
   constructor(header, data, row, reviewItems)
   {
-    // データの項目名と内容
+    // データの項目名と内容（連想配列）
     this.items = {};
     for (var i = 0; i < header.length; i++) {
       this.items[header[i].trim()] = data[i];
@@ -35,6 +35,22 @@ class entityBasic
       return false;
     else
       return true;
+  }
+
+  isTRUE(item)
+  {
+    if (item === true)
+      return true;
+    else
+      return false;
+  }
+
+  isFALSE(item)
+  {
+    if (item === false)
+      return true;
+    else
+      return false;
   }
 
   check_Contributor(errorNum1, errorNum2) {
