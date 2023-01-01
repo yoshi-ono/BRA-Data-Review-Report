@@ -1,4 +1,16 @@
-function main() {
+function start_auto_review()
+{
+  var ui = SpreadsheetApp.getUi();
+  var response = ui.alert("自動審査", "自動審査を開始します。", ui.ButtonSet.OK_CANCEL);
+  if (response === ui.Button.CANCEL) {
+    return;
+  }
+
+  main();
+}
+
+function main()
+{
   setting();
 
   // Review End Line の取得
