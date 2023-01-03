@@ -7,6 +7,8 @@ function start_auto_review()
   }
 
   main();
+
+  ui.alert("自動審査", "自動審査を終了しました。", ui.ButtonSet.OK);
 }
 
 function main()
@@ -34,7 +36,15 @@ function main()
   connections.review();
   connections.report(g_sheet_reportBIF, 23);
 
-  var editor = new hcdEditor();
-  editor.review()
-  editor.report(g_sheet_reportHCD, 4);
+  var editor1 = new hcdEditor(1);
+  editor1.review()
+  editor1.report(g_sheet_reportHCD, 4);
+
+  var editor2 = new hcdEditor(2);
+  editor2.review()
+  editor2.report(g_sheet_reportHCD, 9);
+
+  var editor3 = new hcdEditor(3);
+  editor3.review()
+  editor3.report(g_sheet_reportHCD, 14);
 }

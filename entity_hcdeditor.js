@@ -3,9 +3,10 @@
  */
 class entityHCDeditor extends entityBasic
 {
-  constructor(header, data, row, reviewItems)
+  constructor(header, data, row, reviewItems, hcdNoStr)
   {
     super(header, data, row, reviewItems);
+    this.hcdNoStr = hcdNoStr;
     this.check();
   }
 
@@ -35,50 +36,60 @@ class entityHCDeditor extends entityBasic
     }
   }
   check_Component_Label() {
+    var itemName = 'Component Label ' + this.hcdNoStr;
+
     // Component Labelが記述されていない。[405:Component Label]
-    if (!this.isDescribed(this.items['Component Label (1)'])) {
-      this.errorNums['Component Label (1)'].push(405);
+    if (!this.isDescribed(this.items[itemName])) {
+      this.errorNums[itemName].push(405);
     }
   }
   check_Output_Circuits() {
+    var itemName = 'Output Circuits ' + this.hcdNoStr;
+
     // 「Uniform=TRUE」であるレコードであるのにOutput Circuitsが書かれていない[408:Output Circuits]
     if (this.isTRUE(this.items['Uniform'])) {
-      if (!this.isDescribed(this.items['Output Circuits (1)']))
-        this.errorNums['Output Circuits (1)'].push(408);
+      if (!this.isDescribed(this.items[itemName]))
+        this.errorNums[itemName].push(408);
     }
     // 「Region Category=Input」であるレコードであるのにOutput Circuitsが書かれていない[409:Output Circuits]
-    if (this.items['Region Category (1)'] === "Input") {
-      if (!this.isDescribed(this.items['Output Circuits (1)']))
-        this.errorNums['Output Circuits (1)'].push(409);
+    if (this.items['Region Category ' + this.hcdNoStr] === "Input") {
+      if (!this.isDescribed(this.items[itemName]))
+        this.errorNums[itemName].push(409);
     }
     // 「Uniform＝FALSE」にも関わらずOutput Circuit名が書かれている[411:Output Circuits]
     if (this.isFALSE(this.items['Uniform'])) {
-      if (this.isDescribed(this.items['Output Circuits (1)']))
-        this.errorNums['Output Circuits (1)'].push(411);
+      if (this.isDescribed(this.items[itemName]))
+        this.errorNums[itemName].push(411);
     }
     // 二つ以上のCircuitが「;」で区切られていない[413:Output Circuits]
     // [Manual] Output Circuitsが図面中(コンポーネント図)に記述されたOutputと一致しない。[414:Output Circuits]
   }
   check_Output_Circuit_Validation() {
+    var itemName = 'Output Circuit Validation ' + this.hcdNoStr;
+
     // Output Circuitsに記述されたCircuit IDがProjectionカラムに記述されていない。(Output Circuit Validationで"x"が表示される。)[418:Output Circuit Validation]
-    if (this.items['Output Circuit Validation (1)'].includes("x")) {
-      this.errorNums['Output Circuit Validation (1)'].push(418);
+    if (this.items[itemName].includes("x")) {
+      this.errorNums[itemName].push(418);
     }
   }
   check_Input_Circuit() {
     // [Manual] Input Circuitが図面中(コンポーネント図)に記述されたInputと一致しない。[422:Input Circuit]
   }
   check_Region_Category() {
-    if (this.isDescribed(this.items['Region Category (1)'])) {
+    var itemName = 'Region Category ' + this.hcdNoStr;
+
+    if (this.isDescribed(this.items[itemName])) {
       // Region Categoryに指定範囲外の値が記述されている。[428:Region Category]
-      if (!listItems.RegionCategory.includes(this.items['Region Category (1)']))
-        this.errorNums['Region Category (1)'].push(428);
+      if (!listItems.RegionCategory.includes(this.items[itemName]))
+        this.errorNums[itemName].push(428);
     }
   }
   check_Process() {
+    var itemName = 'Process' + this.hcdNoStr;
+
     // Processが記述されていない。[431:Process]
-    if (!this.isDescribed(this.items['Process(1)'])) {
-      this.errorNums['Process(1)'].push(431);
+    if (!this.isDescribed(this.items[itemName])) {
+      this.errorNums[itemName].push(431);
     } else {
       // 「Region Category」カラムが「ROI」「inROI」の個所で「(Undefined interface process)」が使用されている[432:Process]
       // 以下の記述様式になっていない．：    O(XXX) および I(XXX) を含む。[433:Process]
@@ -87,9 +98,11 @@ class entityHCDeditor extends entityBasic
     }
   }
   check_Output_semantics() {
+    var itemName = 'Output Semantics ' + this.hcdNoStr;
+
     // Output semanticsが記述されていない。[439:Output semantics]
-    if (!this.isDescribed(this.items['Output Semantics (1)'])) {
-      this.errorNums['Output Semantics (1)'].push(439);
+    if (!this.isDescribed(this.items[itemName])) {
+      this.errorNums[itemName].push(439);
     } else {
       // Referenceシートに記載されていない先行研究が引用されている  [Reference ID][441:Output semantics]
     }
