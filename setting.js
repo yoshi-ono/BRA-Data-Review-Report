@@ -37,5 +37,6 @@ class Setting
   showStatus(status)
   {
     this.spreadsheet.toast(status, "自動審査")
+    Logger.log(status);
   }
 }

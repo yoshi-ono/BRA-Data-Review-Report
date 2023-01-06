@@ -64,6 +64,21 @@ class hcdBasic
     this.colNumReviewedDate = this.getColNum(this.resultItemReviewedDate);
   }
 
+  searchItem(name, value)
+  {
+    var rows = [];
+    var colNum = this.getColNum(name);
+
+    for (var i = 0; i < this.allData.length; i++)
+    {
+      var item = this.allData[i][colNum - 1]
+      if (item.trim() == value)
+        rows.push(i + 1);
+    }
+
+    return rows;
+  }
+
   recordResult(entity)
   {
     // HCDファイル記録

@@ -1,3 +1,5 @@
+var g_editor;
+
 function start_auto_review()
 {
   var ui = SpreadsheetApp.getUi();
@@ -41,6 +43,7 @@ function main()
 
   setting.showStatus("HCDeditor(1) を審査しています。");
   var editor1 = new hcdEditor(1);
+  g_editor = editor1;
   editor1.review()
   editor1.report(g_sheet_reportHCD, 4);
 

@@ -4,7 +4,7 @@ class hcdEditor extends hcdBasic
   {
     super('HCDeditor');
     this.hcdNoStr = "(" + hcdNumber + ")";
-    Logger.log("HCD Number: " + this.hcdNoStr)
+    //Logger.log("HCD Number: " + this.hcdNoStr)
     this.setReviewItems();
     this.setResultItemName();
   }
