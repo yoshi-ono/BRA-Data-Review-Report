@@ -28,26 +28,6 @@ class hcdBasic
     this.itemErrors = {};
   }
 
-  initItemErrors()
-  {
-    for (var i = 0; i < this.reviewItems.length; i++)
-      this.itemErrors[this.reviewItems[i]] = {'Codes':"", 'Count':0};
-  }
-
-  summaryItemErrors(entity, reviewItem) {
-    if (entity.hasErrorNums(reviewItem)) {
-      var str = Utilities.formatString("row(%s) %s", entity.row, entity.getErrorNumsString(reviewItem));
-      //Logger.log(str);
-
-      if (this.itemErrors[reviewItem]['Codes'] != "") {
-        this.itemErrors[reviewItem]['Codes'] += ";\n"
-      }
-      this.itemErrors[reviewItem]['Codes'] += str;
-
-      this.itemErrors[reviewItem]['Count'] += entity.getErrorCount(reviewItem);
-    }
-  }
-
   getColNum(name)
   {
     for (var i = 0; i < this.header.length; i++)
@@ -59,13 +39,12 @@ class hcdBasic
     return (-1);
   }
 
-  setResultColNum()
-  {
-    this.colNumAutoErrorCodes = this.getColNum(this.resultItemAutoErrorCodes);
-    this.colNumReviewer = this.getColNum(this.resultItemReviewer);
-    this.colNumReviewedDate = this.getColNum(this.resultItemReviewedDate);
-  }
-
+  /**
+   * アイテムを検索する。
+   * @param {string} name - 項目名
+   * @param {string} value - 値
+   * @return {number[]} 値が一致した行番号（配列） 
+   */
   searchItem(name, value)
   {
     var rows = [];
@@ -81,6 +60,18 @@ class hcdBasic
     return rows;
   }
 
+  /*
+   *------------------------------------------------------------
+   *  審査結果記録
+   *------------------------------------------------------------
+   */
+  setResultColNum()
+  {
+    this.colNumAutoErrorCodes = this.getColNum(this.resultItemAutoErrorCodes);
+    this.colNumReviewer = this.getColNum(this.resultItemReviewer);
+    this.colNumReviewedDate = this.getColNum(this.resultItemReviewedDate);
+  }
+
   recordResult(entity)
   {
     // HCDファイル記録
@@ -92,13 +83,57 @@ class hcdBasic
       this.summaryItemErrors(entity, entity.reviewItems[j]);
   }
 
-  report(reportSheet, reportRow)
+  /*
+   *------------------------------------------------------------
+   *  レポート（審査項目別エラー）
+   *------------------------------------------------------------
+   */
+  initItemErrors()
+  {
+    for (var i = 0; i < this.reviewItems.length; i++)
+      this.itemErrors[this.reviewItems[i]] = {'Codes':"", 'Count':0};
+  }
+
+  summaryItemErrors(entity, reviewItem)
+  {
+    if (entity.hasErrorNums(reviewItem)) {
+      var str = Utilities.formatString("row(%s) %s", entity.row, entity.getErrorNumsString(reviewItem));
+      //Logger.log(str);
+
+      if (this.itemErrors[reviewItem]['Codes'] != "") {
+        this.itemErrors[reviewItem]['Codes'] += ";\n"
+      }
+      this.itemErrors[reviewItem]['Codes'] += str;
+
+      this.itemErrors[reviewItem]['Count'] += entity.getErrorCount(reviewItem);
+    }
+  }
+
+  /**
+   * @return 'Good' or 'NG' 
+   */
+  getResult()
+  {
+    for (var item in this.itemErrors) {
+      if (this.itemErrors[item]['Count'] > 0)
+        return 'NG';
+    }
+
+    return 'Good';
+  }
+
+  report(reportSheet, rowResult, rowErrorCodes)
   {
     for (var i = 0; i < this.reviewItems.length; i++) {
-      reportSheet.getRange(reportRow, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]['Codes']);
-      reportSheet.getRange(reportRow + 1, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]['Count']);
+      reportSheet.getRange(rowErrorCodes, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]['Codes']);
+      reportSheet.getRange(rowErrorCodes + 1, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]['Count']);
 
       //Logger.log("[" + this.sheet.getName() + " " + this.reviewItems[i] + "]: " + this.itemErrors[this.reviewItems[i]]);
     }
+
+    var result = this.getResult();
+    reportSheet.getRange(rowResult, 3).setValue(result);
+
+    return result;
   }
 }

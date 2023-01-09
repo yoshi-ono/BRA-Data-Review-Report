@@ -1,6 +1,8 @@
 var g_editor;
 
 const execution_error = "not done";
+const auto_incomplete = "reject";
+const auto_complete = "pass";
 
 
 function start_auto_review()
@@ -14,9 +16,11 @@ function start_auto_review()
   var ret = main();
 
   if (ret == execution_error)
-    ui.alert("自動審査", "実行エラーです。実行メッセージを確認してください。", ui.ButtonSet.OK);
+    ui.alert("自動審査", "実行エラーです。実行メッセージを確認してください。\n return status: " + ret, ui.ButtonSet.OK);
+  else if (ret == auto_incomplete)
+    ui.alert("自動審査", "NG があります。\n return status: " + ret, ui.ButtonSet.OK);
   else
-    ui.alert("自動審査", "審査を終了しました。", ui.ButtonSet.OK);
+    ui.alert("自動審査", "すべて Good です！\n return status: " + ret, ui.ButtonSet.OK);
 }
 
 function checkReviewEL(value)
@@ -37,9 +41,16 @@ function setExecutionErrMsg(msg)
 function main()
 {
   var setting = new Setting();
-  var msg = "";
 
   setExecutionErrMsg("");
+
+  try {
+    setting.openHcdSpreadSheet();
+  } catch(e) {
+    setExecutionErrMsg(e.message);
+    return execution_error;
+  }
+
   //--------------------------------------------------------------------------------
   // Review End Line の取得
   //--------------------------------------------------------------------------------
@@ -52,64 +63,74 @@ function main()
   var referencesReviewEL = projectSheet.getRange("B5").getValue();
   Logger.log("References Review End Line: " + referencesReviewEL);
   if (!checkReviewEL(referencesReviewEL)) {
-    setExecutionErrMsg("Review End Line には、1以上の数字を入力してください。（References）");
+    setExecutionErrMsg("Review End Line には、1以上の整数を入力してください。（References）");
     return execution_error;
   }
 
   var circuitsReviewEL = projectSheet.getRange("B6").getValue();
   Logger.log("Circuits Review End Line: " + circuitsReviewEL);
   if (!checkReviewEL(circuitsReviewEL)) {
-    setExecutionErrMsg("Review End Line には、1以上の数字を入力してください。（Circuits）");
+    setExecutionErrMsg("Review End Line には、1以上の整数を入力してください。（Circuits）");
     return execution_error;
   }
 
   var connectionsReviewEL = projectSheet.getRange("B7").getValue();
   Logger.log("Connections Review End Line: " + connectionsReviewEL);
   if (!checkReviewEL(connectionsReviewEL)) {
-    setExecutionErrMsg("Review End Line には、1以上の数字を入力してください。（Connections）");
+    setExecutionErrMsg("Review End Line には、1以上の整数を入力してください。（Connections）");
     return execution_error;
   }
 
   var hcdeditorReviewEL = projectSheet.getRange("B8").getValue();
   Logger.log("HCDeditor Review End Line: " + hcdeditorReviewEL);
   if (!checkReviewEL(hcdeditorReviewEL)) {
-    setExecutionErrMsg("Review End Line には、1以上の数字を入力してください。（HCDeditor）");
+    setExecutionErrMsg("Review End Line には、1以上の整数を入力してください。（HCDeditor）");
     return execution_error;
   }
 
   //--------------------------------------------------------------------------------
   // 自動審査
   //--------------------------------------------------------------------------------
+  var result = auto_complete;
+
   setting.showStatus("References を審査しています。");
   var references = new hcdReferences(referencesReviewEL);
   references.review();
-  references.report(g_sheet_reportBIF, 17);
+  if (references.report(g_sheet_reportBIF, 14, 17) != 'Good')
+    result = auto_incomplete;
 
   setting.showStatus("Circuits を審査しています。");
   var circuits = new hcdCircuits(circuitsReviewEL);
   circuits.review();
-  circuits.report(g_sheet_reportBIF, 23);
+  if (circuits.report(g_sheet_reportBIF, 20, 23) != 'Good')
+    result = auto_incomplete;
 
   setting.showStatus("Connections を審査しています。");
   var connections = new hcdConnections(connectionsReviewEL);
   connections.review();
-  connections.report(g_sheet_reportBIF, 29);
+  if (connections.report(g_sheet_reportBIF, 26, 29) != 'Good')
+    result = auto_incomplete;
 
   setting.showStatus("HCDeditor(1) を審査しています。");
-  var editor1 = new hcdEditor(1);
+  var editor1 = new hcdEditor(1, hcdeditorReviewEL);
   g_editor = editor1;
   editor1.review()
-  editor1.report(g_sheet_reportHCD, 6);
+  if (editor1.report(g_sheet_reportHCD, 3, 6) != 'Good')
+    result = auto_incomplete;
 
   setting.showStatus("HCDeditor(2) を審査しています。");
-  var editor2 = new hcdEditor(2);
+  var editor2 = new hcdEditor(2, hcdeditorReviewEL);
   editor2.review()
-  editor2.report(g_sheet_reportHCD, 12);
+  if (editor2.report(g_sheet_reportHCD, 9, 12) != 'Good')
+    result = auto_incomplete;
 
   setting.showStatus("HCDeditor(3) を審査しています。");
-  var editor3 = new hcdEditor(3);
+  var editor3 = new hcdEditor(3, hcdeditorReviewEL);
   editor3.review()
-  editor3.report(g_sheet_reportHCD, 18);
+  if (editor3.report(g_sheet_reportHCD, 15, 18) != 'Good')
+    result = auto_incomplete;
 
   setting.showStatus("審査を終了しました。");
+
+  return result;
 }

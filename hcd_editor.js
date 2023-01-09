@@ -1,8 +1,8 @@
 class hcdEditor extends hcdBasic
 {
-  constructor(hcdNumber)
+  constructor(hcdNumber, reviewDataRows)
   {
-    super('HCDeditor');
+    super('HCDeditor', reviewDataRows);
     this.hcdNoStr = "(" + hcdNumber + ")";
     //Logger.log("HCD Number: " + this.hcdNoStr)
     this.setReviewItems();

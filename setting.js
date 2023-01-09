@@ -1,7 +1,6 @@
 var g_sheet_reportBIF;
 var g_sheet_reportHCD;
 
-var hcd_id;
 var hcd_confirmor;
 
 var hcdSpreadsheet
@@ -18,10 +17,23 @@ class Setting
     g_sheet_reportBIF = this.spreadsheet.getSheetByName('BIF_autheniticity');
     g_sheet_reportHCD = this.spreadsheet.getSheetByName('HCD');
 
-    hcd_id = g_sheet_reportBIF.getRange('C7').getValue();
-    hcd_confirmor = g_sheet_reportBIF.getRange('C9').getValue();
+    today = Utilities.formatDate(new Date(), 'JST', "yyyy/MM/dd");
+
+    // Confirmed date
+    g_sheet_reportBIF.getRange("C12").setValue(today);
+  }
+
+  openHcdSpreadSheet()
+  {
+    var hcd_id = g_sheet_reportBIF.getRange('C7').getValue();
     Logger.log(hcd_id);
+    if (hcd_id.trim() == "")
+      throw new Error("Document ID を入力してください。");
+
+    hcd_confirmor = g_sheet_reportBIF.getRange('C9').getValue();
     Logger.log(hcd_confirmor);
+    if (hcd_confirmor.trim() == "")
+      throw new Error("Confirmor を入力してください。");
 
     this.showStatus("HCDファイルを開いています。（この処理には、時間がかかる場合があります）")
     hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
@@ -29,11 +41,6 @@ class Setting
 
     listItems = new ListItems();
     Logger.log(listItems);
-
-    today = Utilities.formatDate(new Date(), 'JST', "yyyy/MM/dd");
-
-    // Report
-    g_sheet_reportBIF.getRange("C12").setValue(today);
   }
 
   showStatus(status)
