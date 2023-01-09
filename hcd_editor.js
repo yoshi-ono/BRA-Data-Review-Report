@@ -1,10 +1,17 @@
 class hcdEditor extends hcdBasic
 {
-  constructor(hcdNumber, reviewDataRows)
+  constructor(hcdNumber, reviewDataRows, enable)
   {
-    super('HCDeditor', reviewDataRows);
+    var rows = reviewDataRows;
+    if (!enable)
+      rows = 1;
+
+    super('HCDeditor', rows);
+
     this.hcdNoStr = "(" + hcdNumber + ")";
     //Logger.log("HCD Number: " + this.hcdNoStr)
+    this.enable = enable;
+    
     this.setReviewItems();
     this.setResultItemName();
   }
@@ -30,6 +37,18 @@ class hcdEditor extends hcdBasic
     this.resultItemReviewedDate = "Confirmed date " + this.hcdNoStr;
 
     this.setResultColNum();
+  }
+
+  /**
+   * オーバーライド
+   * @return 'Good', 'NG' or 'Not used'
+   */
+  getResult()
+  {
+    if (!this.enable)
+      return 'Not used';
+
+    return super.getResult();
   }
 
   review()

@@ -39,8 +39,23 @@ class Setting
     hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
     this.showStatus("HCDファイルを開きました。")
 
+    var sheetHCDs = hcdSpreadsheet.getSheetByName('HCDs');
+    this.hcdNames = {};
+    this.hcdNames[1] = sheetHCDs.getRange("B2").getValue().trim();
+    this.hcdNames[2] = sheetHCDs.getRange("B3").getValue().trim();
+    this.hcdNames[3] = sheetHCDs.getRange("B4").getValue().trim();
+    Logger.log(this.hcdNames);
+
     listItems = new ListItems();
     Logger.log(listItems);
+  }
+
+  isEnableHCD(hcdNumber)
+  {
+    if (this.hcdNames[hcdNumber] == "")
+      return false;
+    else
+      return true;
   }
 
   showStatus(status)
