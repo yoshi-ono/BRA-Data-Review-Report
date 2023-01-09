@@ -76,8 +76,12 @@ class entityBasic
    *  項目のエラー情報取得
    *------------------------------------------------------------
    */
+  getErrorCount(reviewItem) {
+    return this.errorNums[reviewItem].length;
+  }
+
   hasErrorNums(reviewItem) {
-    if (this.errorNums[reviewItem].length > 0)
+    if (this.getErrorCount(reviewItem) > 0)
       return true;
     else
       return false;

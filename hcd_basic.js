@@ -24,14 +24,14 @@ class hcdBasic
     this.resultItemReviewer = "";
     this.resultItemReviewedDate = "";
 
-    // 審査項目別エラー（連想配列）
+    // 審査項目別エラー（連想配列 + 連想配列{Codes, Count}）
     this.itemErrors = {};
   }
 
   initItemErrors()
   {
     for (var i = 0; i < this.reviewItems.length; i++)
-      this.itemErrors[this.reviewItems[i]] = "";
+      this.itemErrors[this.reviewItems[i]] = {'Codes':"", 'Count':0};
   }
 
   summaryItemErrors(entity, reviewItem) {
@@ -39,10 +39,12 @@ class hcdBasic
       var str = Utilities.formatString("row(%s) %s", entity.row, entity.getErrorNumsString(reviewItem));
       //Logger.log(str);
 
-      if (this.itemErrors[reviewItem] != "") {
-        this.itemErrors[reviewItem] += ";\n"
+      if (this.itemErrors[reviewItem]['Codes'] != "") {
+        this.itemErrors[reviewItem]['Codes'] += ";\n"
       }
-      this.itemErrors[reviewItem] += str;
+      this.itemErrors[reviewItem]['Codes'] += str;
+
+      this.itemErrors[reviewItem]['Count'] += entity.getErrorCount(reviewItem);
     }
   }
 
@@ -93,7 +95,8 @@ class hcdBasic
   report(reportSheet, reportRow)
   {
     for (var i = 0; i < this.reviewItems.length; i++) {
-      reportSheet.getRange(reportRow, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]);
+      reportSheet.getRange(reportRow, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]['Codes']);
+      reportSheet.getRange(reportRow + 1, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]['Count']);
 
       //Logger.log("[" + this.sheet.getName() + " " + this.reviewItems[i] + "]: " + this.itemErrors[this.reviewItems[i]]);
     }
