@@ -52,7 +52,7 @@ function main()
   }
 
   //--------------------------------------------------------------------------------
-  // Review End Line の取得
+  // Project 情報の参照
   //--------------------------------------------------------------------------------
   var projectSheet = hcdSpreadsheet.getSheetByName("Project");
   if (projectSheet ===　null) {
@@ -60,6 +60,16 @@ function main()
     return execution_error;
   }
 
+  var projectInfo = projectSheet.getRange("A2:E2").getValues();
+  g_sheet_reportBIF.getRange("C1").setValue(projectInfo[0][0]);
+  g_sheet_reportBIF.getRange("C2").setValue(projectInfo[0][1]);
+  g_sheet_reportBIF.getRange("C3").setValue(projectInfo[0][2]);
+  g_sheet_reportBIF.getRange("C4").setValue(projectInfo[0][3]);
+  g_sheet_reportBIF.getRange("C5").setValue(projectInfo[0][4]);
+
+  //--------------------------------------------------------------------------------
+  // Review End Line の取得
+  //--------------------------------------------------------------------------------
   var referencesReviewEL = projectSheet.getRange("B5").getValue();
   Logger.log("References Review End Line: " + referencesReviewEL);
   if (!checkReviewEL(referencesReviewEL)) {
