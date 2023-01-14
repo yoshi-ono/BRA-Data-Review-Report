@@ -58,6 +58,17 @@ class entityBasic
       return false;
   }
 
+  isURL(item)
+  {
+    if (isFinite(item))
+      return false;
+    
+    if (item.startsWith("http://") || item.startsWith("https://"))
+      return true;
+    else
+      return false;
+  }
+
   check_Contributor(errorNum1, errorNum2) {
     // Contributorが記述されていない。
     if (!this.isDescribed(this.items['Contributor'])) {
@@ -155,7 +166,7 @@ class entityBasic
         if (this.isDescribed(code))
           this.manualErrorCount++;
       }
-      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, this.items[nameOEC]) + "\n";
+      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, otherEC) + "\n";
     }
 
     this.items[itemName] = this.autoErrorCount + this.manualErrorCount;

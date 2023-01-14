@@ -16,23 +16,31 @@ class entityReferences extends entityBasic
    */
   check()
   {
-    this.checkDOI();
+    this.check_DOI_AlternativeURL();
     this.checkBibTex();
     this.checkLitteratureType();
-    this.checkAlternativeURL();
-    this.checkContributor();
-    this.checkProjectID();
+    this.check_Contributor(15, 16);
+    this.check_Project_ID(19, 20);
   }
 
-  checkDOI()
+  check_DOI_AlternativeURL()
   {
-    // DOIが記述抜けており、同じレコードのAlternative URLにも記述がない。
-    if (!this.isDescribed(this.items['DOI']) && !this.isDescribed(this.items['Alternative URL'])) {
-      this.errorNums['DOI'].push(1);
+    if (!this.isDescribed(this.items['DOI'])) {
+      if (!this.isDescribed(this.items['Alternative URL'])) {
+      // DOIが記述抜けており、同じレコードのAlternative URLにも記述がない。
+        this.errorNums['DOI'].push(1);
+      } else {
+        // Alternative URLの記述形式がURL形式ではない。[12:Alternative URL]
+        if (!this.isURL(this.items['Alternative URL']))
+          this.errorNums['Alternative URL'].push(12);
+      }
     } else {
-      // DOIの記述形式が正しくない。
+      // DOIの記述形式が正しくない。>>NEXT
 
-      // DOIがユニークでない（重複している）。
+      // DOIがユニークでない（重複している）。[3:DOI]
+      var rows = g_references.searchItem('DOI', this.items['DOI']);
+      if (rows.length > 1)
+        this.errorNums['DOI'].push(3);
     }
   }
 
@@ -55,32 +63,6 @@ class entityReferences extends entityBasic
       // Litterature typeに指定範囲外の値が記述されている。
       if (!listItems.LiteratureType.includes(this.items['Litterature type']))
         this.errorNums['Litterature type'].push(11);
-    }
-  }
-
-  checkAlternativeURL()
-  {
-    // Alternative URLの記述形式がURL形式ではない。
-
-  }
-
-  checkContributor()
-  {
-    // Contributorが記述されていない。
-    if (!this.isDescribed(this.items['Contributor'])) {
-      this.errorNums['Contributor'].push(15);
-    } else {
-      // Contributorがtext形式で記述されていない。
-    }
-  }
-
-  checkProjectID()
-  {
-    // Project IDが記述されていない。
-    if (!this.isDescribed(this.items['Project ID'])) {
-      this.errorNums['Project ID'].push(19);
-    } else {
-      // Project IDがtext形式で記述されていない。
     }
   }
 }

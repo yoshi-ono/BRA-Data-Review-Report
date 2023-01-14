@@ -27,8 +27,8 @@ class entityCircuits extends entityBasic
     this.checkModulationType();
     this.checkSize();
     this.checkPhysiologicalData();
-    this.checkContributor();
-    this.checkProjectID();
+    this.check_Contributor(151, 152);
+    this.check_Project_ID(155, 156);
   }
 
   checkCircuitID()
@@ -115,25 +115,5 @@ class entityCircuits extends entityBasic
   checkPhysiologicalData()
   {
     // [Manual] Physiological Dataの記述がIndex to data (URLs, drawings in papers, etc.)ではない。
-  }
-
-  checkContributor()
-  {
-    // Contributorが記述されていない。
-    if (!this.isDescribed(this.items['Contributor'])) {
-      this.errorNums['Contributor'].push(151);
-    } else {
-      // Contributorがtext形式で記述されていない。
-    }
-  }
-
-  checkProjectID()
-  {
-    // Project IDが記述されていない。
-    if (!this.isDescribed(this.items['Project ID'])) {
-      this.errorNums['Project ID'].push(155);
-    } else {
-      // Project IDがtext形式で記述されていない。
-    }
   }
 }

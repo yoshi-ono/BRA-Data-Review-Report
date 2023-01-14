@@ -1,3 +1,6 @@
+var g_references;
+var g_circuits;
+var g_connections;
 var g_editor;
 
 const execution_error = "not done";
@@ -105,18 +108,21 @@ function main()
 
   setting.showStatus("References を審査しています。");
   var references = new hcdReferences(referencesReviewEL);
+  g_references = references;
   references.review();
   if (references.report(g_sheet_reportBIF, 14, 17) == 'NG')
     result = auto_incomplete;
 
   setting.showStatus("Circuits を審査しています。");
   var circuits = new hcdCircuits(circuitsReviewEL);
+  g_circuits = circuits;
   circuits.review();
   if (circuits.report(g_sheet_reportBIF, 20, 23) == 'NG')
     result = auto_incomplete;
 
   setting.showStatus("Connections を審査しています。");
   var connections = new hcdConnections(connectionsReviewEL);
+  g_connections = connections;
   connections.review();
   if (connections.report(g_sheet_reportBIF, 26, 29) == 'NG')
     result = auto_incomplete;
