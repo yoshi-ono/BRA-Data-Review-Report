@@ -10,6 +10,7 @@ class entityBasic
     for (var i = 0; i < header.length; i++) {
       this.items[header[i].trim()] = data[i];
     }
+    //Logger.log(this.items);
 
     // スプレッドシート行番号
     this.row = row;
@@ -125,9 +126,25 @@ class entityBasic
       this.items[itemName] = "";
   }
 
-  setReviewResults(itemName)
+  setReviewResults(itemName, nameEC1, nameEC2, nameOEC)
   {
     var allCount = this.autoErrorCount;
+
+    if (this.isDescribed(this.items[nameEC1]))
+      allCount++;
+
+    if (this.isDescribed(this.items[nameEC2]))
+      allCount++;
+
+    var otherEC = this.items[nameOEC];
+    if (isFinite(otherEC)) {
+      otherEC = String(otherEC);
+    }
+    var errorCodes = otherEC.split(';');
+    for (var code of errorCodes) {
+      if (this.isDescribed(code))
+        allCount++;
+    }
 
     this.items[itemName] = allCount;
   }

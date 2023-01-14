@@ -73,28 +73,28 @@ function main()
   var referencesReviewEL = projectSheet.getRange("B5").getValue();
   Logger.log("References Review End Line: " + referencesReviewEL);
   if (!checkReviewEL(referencesReviewEL)) {
-    setExecutionErrMsg("Review End Line には、1以上の整数を入力してください。（References）");
+    setExecutionErrMsg("Project シートの Review End Line には、1以上の整数を入力してください。（References）");
     return execution_error;
   }
 
   var circuitsReviewEL = projectSheet.getRange("B6").getValue();
   Logger.log("Circuits Review End Line: " + circuitsReviewEL);
   if (!checkReviewEL(circuitsReviewEL)) {
-    setExecutionErrMsg("Review End Line には、1以上の整数を入力してください。（Circuits）");
+    setExecutionErrMsg("Project シートの Review End Line には、1以上の整数を入力してください。（Circuits）");
     return execution_error;
   }
 
   var connectionsReviewEL = projectSheet.getRange("B7").getValue();
   Logger.log("Connections Review End Line: " + connectionsReviewEL);
   if (!checkReviewEL(connectionsReviewEL)) {
-    setExecutionErrMsg("Review End Line には、1以上の整数を入力してください。（Connections）");
+    setExecutionErrMsg("Project シートの Review End Line には、1以上の整数を入力してください。（Connections）");
     return execution_error;
   }
 
   var hcdeditorReviewEL = projectSheet.getRange("B8").getValue();
   Logger.log("HCDeditor Review End Line: " + hcdeditorReviewEL);
   if (!checkReviewEL(hcdeditorReviewEL)) {
-    setExecutionErrMsg("Review End Line には、1以上の整数を入力してください。（HCDeditor）");
+    setExecutionErrMsg("Project シートの Review End Line には、1以上の整数を入力してください。（HCDeditor）");
     return execution_error;
   }
 

@@ -34,7 +34,7 @@ class hcdCircuits extends hcdBasic
       //Logger.log(entity);
 
       entity.setAutoErrorCodes(this.resultItemAutoErrorCodes);
-      entity.setReviewResults(this.resultItemReviewResult);
+      entity.setReviewResults(this.resultItemReviewResult, this.resultItemErrorCode1, this.resultItemErrorCode2, this.resultItemOtherErrorCodes);
       
       this.recordResult(entity);
     }

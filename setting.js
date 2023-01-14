@@ -1,7 +1,7 @@
 var g_sheet_reportBIF;
 var g_sheet_reportHCD;
 
-var hcd_confirmor;
+//var hcd_confirmor;
 
 var hcdSpreadsheet
 
@@ -29,12 +29,12 @@ class Setting
     Logger.log(hcd_id);
     if (hcd_id.trim() == "")
       throw new Error("Document ID を入力してください。");
-
+/*
     hcd_confirmor = g_sheet_reportBIF.getRange('C9').getValue();
     Logger.log(hcd_confirmor);
     if (hcd_confirmor.trim() == "")
       throw new Error("Confirmor を入力してください。");
-
+*/
     this.showStatus("HCDファイルを開いています。（この処理には、時間がかかる場合があります）")
     hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
     this.showStatus("HCDファイルを開きました。")
