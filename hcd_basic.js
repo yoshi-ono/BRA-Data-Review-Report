@@ -20,7 +20,12 @@ class hcdBasic
     this.reviewItems = [];
 
     // 審査結果項目
-    this.resultItemAutoErrorCodes = "";
+    this.resultItemReviewResult = "";
+    this.resultItemAutoErrorCodes = ""
+    this.resultItemErrorCode1 = "";
+    this.resultItemErrorCode2 = "";
+    this.resultItemOtherErrorCodes = "";
+    this.resultItemReviewComments = "";
     this.resultItemReviewer = "";
     this.resultItemReviewedDate = "";
 
@@ -65,9 +70,28 @@ class hcdBasic
    *  審査結果記録
    *------------------------------------------------------------
    */
+  setResultItemName()
+  {
+    this.resultItemReviewResult = "Review results";
+    this.resultItemAutoErrorCodes = "Auto Error Codes"
+    this.resultItemErrorCode1 = "Error Code-1";
+    this.resultItemErrorCode2 = "Error Code-2";
+    this.resultItemOtherErrorCodes = "Other Error Codes";
+    this.resultItemReviewComments = "Review comments";
+    this.resultItemReviewer = "Reviewer";
+    this.resultItemReviewedDate = "Reviewed date";
+
+    this.setResultColNum();
+  }
+
   setResultColNum()
   {
+    this.colNumReviewResult = this.getColNum(this.resultItemReviewResult);
     this.colNumAutoErrorCodes = this.getColNum(this.resultItemAutoErrorCodes);
+    this.colNumErrorCode1 = this.getColNum(this.resultItemErrorCode1);
+    this.colNumErrorCode2 = this.getColNum(this.resultItemErrorCode2);
+    this.colNumOtherErrorCodes = this.getColNum(this.resultItemOtherErrorCodes);
+    this.colNumReviewComments = this.getColNum(this.resultItemReviewComments);
     this.colNumReviewer = this.getColNum(this.resultItemReviewer);
     this.colNumReviewedDate = this.getColNum(this.resultItemReviewedDate);
   }
@@ -75,9 +99,10 @@ class hcdBasic
   recordResult(entity)
   {
     // HCDファイル記録
+    this.sheet.getRange(entity.row, this.colNumReviewResult).setValue(entity.items[this.resultItemReviewResult]);
     this.sheet.getRange(entity.row, this.colNumAutoErrorCodes).setValue(entity.items[this.resultItemAutoErrorCodes]);
-    this.sheet.getRange(entity.row, this.colNumReviewer).setValue(hcd_confirmor);
-    this.sheet.getRange(entity.row, this.colNumReviewedDate).setValue(today);
+    //this.sheet.getRange(entity.row, this.colNumReviewer).setValue(hcd_confirmor);
+    //this.sheet.getRange(entity.row, this.colNumReviewedDate).setValue(today);
 
     for (var j = 0; j < entity.reviewItems.length; j++)
       this.summaryItemErrors(entity, entity.reviewItems[j]);

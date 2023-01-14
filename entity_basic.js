@@ -104,8 +104,8 @@ class entityBasic
    *  Auto Error Codes 記録
    *------------------------------------------------------------
    */
-  setAutoErrorCodes(itemNameAutoErrorCodes) {
-    var allCount = 0;
+  setAutoErrorCodes(itemName) {
+    this.autoErrorCount = 0;
     var count = 0;
     var errorsString = "";
 
@@ -113,16 +113,22 @@ class entityBasic
     {
       count = this.errorNums[this.reviewItems[i]].length;
       if (count > 0) {
-        allCount += count;
+        this.autoErrorCount += count;
         errorsString += ";\n" + this.getErrorIDsString(this.reviewItems[i])
       }
     }
  
-    if (allCount > 0)
-      this.items[itemNameAutoErrorCodes] = Utilities.formatString("%s Error(s)%s", allCount, errorsString);
+    if (this.autoErrorCount > 0)
+      this.items[itemName] = Utilities.formatString("%s Error(s)%s", this.autoErrorCount, errorsString);
     else
       // 0 Error(s) の場合は非表示とする。
-      this.items[itemNameAutoErrorCodes] = "";
+      this.items[itemName] = "";
   }
 
+  setReviewResults(itemName)
+  {
+    var allCount = this.autoErrorCount;
+
+    this.items[itemName] = allCount;
+  }
 }

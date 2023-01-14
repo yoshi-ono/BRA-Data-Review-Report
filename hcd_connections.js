@@ -28,15 +28,6 @@ class hcdConnections extends hcdBasic
     this.initItemErrors();
   }
 
-  setResultItemName()
-  {
-    this.resultItemAutoErrorCodes = "Auto Error Codes"
-    this.resultItemReviewer = "Reviewer";
-    this.resultItemReviewedDate = "Reviewed date";
-
-    this.setResultColNum();
-  }
-
   review()
   {
     for (var i = 1; i < this.reviewDataRows; i++)
@@ -45,6 +36,7 @@ class hcdConnections extends hcdBasic
       //Logger.log(entity);
 
       entity.setAutoErrorCodes(this.resultItemAutoErrorCodes);
+      entity.setReviewResults(this.resultItemReviewResult);
       
       this.recordResult(entity);
     }
