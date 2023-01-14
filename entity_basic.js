@@ -32,7 +32,11 @@ class entityBasic
    */
   isDescribed(item)
   {
-    if (item === '')
+    var val = item;
+    if (isFinite(val))
+      val = String(val);
+
+    if (val.trim() === '')
       return false;
     else
       return true;
@@ -128,24 +132,32 @@ class entityBasic
 
   setReviewResults(itemName, nameEC1, nameEC2, nameOEC)
   {
-    var allCount = this.autoErrorCount;
+    this.manualErrorCount = 0;
+    this.reportManualErrorCodes = "";
 
-    if (this.isDescribed(this.items[nameEC1]))
-      allCount++;
-
-    if (this.isDescribed(this.items[nameEC2]))
-      allCount++;
-
-    var otherEC = this.items[nameOEC];
-    if (isFinite(otherEC)) {
-      otherEC = String(otherEC);
-    }
-    var errorCodes = otherEC.split(';');
-    for (var code of errorCodes) {
-      if (this.isDescribed(code))
-        allCount++;
+    if (this.isDescribed(this.items[nameEC1])) {
+      this.manualErrorCount++;
+      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, this.items[nameEC1]) + "\n";
     }
 
-    this.items[itemName] = allCount;
+    if (this.isDescribed(this.items[nameEC2])) {
+      this.manualErrorCount++;
+      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, this.items[nameEC2]) + "\n";
+    }
+
+    if (this.isDescribed(this.items[nameOEC])) {
+      var otherEC = this.items[nameOEC];
+      if (isFinite(otherEC)) {
+        otherEC = String(otherEC);
+      }
+      var errorCodes = otherEC.split(';');
+      for (var code of errorCodes) {
+        if (this.isDescribed(code))
+          this.manualErrorCount++;
+      }
+      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, this.items[nameOEC]) + "\n";
+    }
+
+    this.items[itemName] = this.autoErrorCount + this.manualErrorCount;
   }
 }

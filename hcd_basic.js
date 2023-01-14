@@ -31,6 +31,9 @@ class hcdBasic
 
     // 審査項目別エラー（連想配列 + 連想配列{Codes, Count}）
     this.itemErrors = {};
+
+    // マニュアル審査エラー（連想配列{Codes, Count}）
+    this.manualErrors = {'Codes':"", 'Count':0};
   }
 
   getColNum(name)
@@ -104,8 +107,12 @@ class hcdBasic
     //this.sheet.getRange(entity.row, this.colNumReviewer).setValue(hcd_confirmor);
     //this.sheet.getRange(entity.row, this.colNumReviewedDate).setValue(today);
 
+    // レポート用サマライズ
     for (var j = 0; j < entity.reviewItems.length; j++)
       this.summaryItemErrors(entity, entity.reviewItems[j]);
+
+    this.manualErrors['Codes'] += entity.reportManualErrorCodes;
+    this.manualErrors['Count'] += entity.manualErrorCount;
   }
 
   /*
@@ -144,6 +151,9 @@ class hcdBasic
         return 'NG';
     }
 
+    if (this.manualErrors['Count'] > 0)
+      return 'NG';
+
     return 'Good';
   }
 
@@ -155,6 +165,11 @@ class hcdBasic
 
       //Logger.log("[" + this.sheet.getName() + " " + this.reviewItems[i] + "]: " + this.itemErrors[this.reviewItems[i]]);
     }
+
+    var colManual = 4 + this.reviewItems.length + 3;
+    reportSheet.getRange(rowErrorCodes, colManual).setValue(this.manualErrors['Codes']);
+    reportSheet.getRange(rowErrorCodes + 1, colManual).setValue(this.manualErrors['Count']);
+    //Logger.log(this.manualErrors);
 
     var result = this.getResult();
     reportSheet.getRange(rowResult, 3).setValue(result);
