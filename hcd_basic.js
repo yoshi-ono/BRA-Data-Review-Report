@@ -61,11 +61,21 @@ class hcdBasic
     for (var i = 0; i < this.allData.length; i++)
     {
       var item = this.allData[i][colNum - 1]
+
+      if (isFinite(item))
+        item = String(item);
+
       if (item.trim() == value)
         rows.push(i + 1);
     }
 
     return rows;
+  }
+
+  getRowItemValue(row, item)
+  {
+    var colNum = this.getColNum(item);
+    return this.allData[row - 1][colNum - 1];
   }
 
   /*

@@ -37,8 +37,13 @@ class entityCircuits extends entityBasic
     if (!this.isDescribed(this.items['Circuit ID'])) {
       this.errorNums['Circuit ID'].push(101);
     } else {
-      // Circuit IDの記述がStringではない。
-      // Circuit IDがユニークではない（重複する記号が他のレコードに存在する）。
+      // Circuit IDの記述がStringではない。>>NEXT
+
+      // Circuit IDがユニークではない（重複する記号が他のレコードに存在する）。[103:Circuit ID]
+      var rows = g_circuits.searchItem('Circuit ID', this.items['Circuit ID']);
+      if (rows.length > 1)
+        this.errorNums['Circuit ID'].push(103);
+
       // [Manual] 既存のCircuitを異なる名前で表している疑いがある（意味的な重複） 
     }
   }
@@ -49,8 +54,13 @@ class entityCircuits extends entityBasic
     if (!this.isDescribed(this.items['Source of ID'])) {
       this.errorNums['Source of ID'].push(107);
     } else {
-      // Source of IDに指定範囲外の値が記述されている。
-      // Source of IDに"makeshift"が指定されている場合には、追加の専門手的な判断を要するためEditorに通知する。（このためにエラーを設定する）
+      // Source of IDに指定範囲外の値が記述されている。[108:Source of ID]
+      if (!listItems.SourceOfID.includes(this.items['Source of ID']))
+        this.errorNums['Source of ID'].push(108);
+
+      // Source of IDに"makeshift"が指定されている場合には、追加の専門手的な判断を要するためEditorに通知する。（このためにエラーを設定する）[109:Source of ID]
+      if (this.items['Source of ID'] == "makeshift")
+        this.errorNums['Source of ID'].push(109);
     }
   }
 
@@ -60,7 +70,7 @@ class entityCircuits extends entityBasic
     if (!this.isDescribed(this.items['Names'])) {
       this.errorNums['Names'].push(111);
     } else {
-      // Namesの記述がStringsではない。
+      // Namesの記述がStringsではない。>>NEXT
     }
   }
 
@@ -70,8 +80,28 @@ class entityCircuits extends entityBasic
     if (!this.isDescribed(this.items['DHBA: graph_order'])) {
       this.errorNums['DHBA: graph_order'].push(115);
     } else {
-      // DHBA: graph_orderの小数点以下の桁数を含む数値ではない。
-      // DHBA: graph_orderの小数点以上の数値がDHBAで指定されるCircuitに存在しない。
+      var val = this.items['DHBA: graph_order'];
+      // DHBA: graph_orderの小数点以下の桁数を含む数値ではない。[116:DHBA: graph_order]
+      if (isFinite(val)) {
+        val = String(val);
+        if (!val.includes('.')) {
+          this.errorNums['DHBA: graph_order'].push(116);
+        } else {
+          // DHBA: graph_orderの小数点以上の数値がDHBAで指定されるCircuitに存在しない。
+          var order = val.split('.');
+          var rows = g_circuits.searchItem('DHBA: graph_order', order[0]);
+          var err = true;
+          for (var row of rows) {
+            var id = g_circuits.getRowItemValue(row, 'Source of ID');
+            if (id == "DHBA")
+              err = false;
+          }
+          if (err)
+            this.errorNums['DHBA: graph_order'].push(117);
+        }
+      } else {
+        this.errorNums['DHBA: graph_order'].push(116);
+      }
     }
   }
 
