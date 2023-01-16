@@ -107,13 +107,26 @@ class entityCircuits extends entityBasic
 
   checkSubCircuit()
   {
-    // Source of IDがcollectionであるにも関わらず、Sub-Circuitsが記述されていない。
-    // Sub-Circuitに列挙されたCircuit IDの何れかが、Cicuit IDとして定義されていない。
+    // Source of IDがcollectionであるにも関わらず、Sub-Circuitsが記述されていない。[120:Sub-Circuits]
+    if (this.items['Source of ID'] == "collection") {
+      if (!this.isDescribed(this.items['Sub-Circuits'])) {
+        this.errorNums['Sub-Circuits'].push(120);
+      }
+    }
+    // Sub-Circuitに列挙されたCircuit IDの何れかが、Cicuit IDとして定義されていない。[121:Sub-Circuits]
+    if (this.isDescribed(this.items['Sub-Circuits'])) {
+      if (!this.isDefinedCircuits(this.items['Sub-Circuits']))
+        this.errorNums['Sub-Circuits'].push(121);
+    }
   }
 
   checkSuperClass()
   {
-    // Super Classに列挙されたCircuit IDの何れかが、Cicuit IDとして定義されていない。
+    // Super Classに列挙されたCircuit IDの何れかが、Cicuit IDとして定義されていない。[124:Super Class]
+    if (this.isDescribed(this.items['Super Class'])) {
+      if (!this.isDefinedCircuits(this.items['Super Class']))
+        this.errorNums['Super Class'].push(124);
+    }
   }
 
   checkUniform()
@@ -123,23 +136,33 @@ class entityCircuits extends entityBasic
       this.errorNums['Uniform'].push(127);
     } else {
       // Uniformに指定範囲外の値が記述されている。
-
+      if (!listItems.Uniform.includes(this.items['Uniform']))
+        this.errorNums['Uniform'].push(128);
     }
   }
 
   checkTransmitter()
   {
-    // Transmitterに指定範囲外の値が記述されている。
+    if (this.isDescribed(this.items['Transmitter'])) {
+      // Transmitterに指定範囲外の値が記述されている。
+      if (!listItems.Transmitter.includes(this.items['Transmitter']))
+        this.errorNums['Transmitter'].push(131);
+    }
   }
 
   checkModulationType()
   {
     // Modulation Typeに指定範囲外の値が記述されている。
+    if (this.isDescribed(this.items['Modulation Type'])) {
+      // Transmitterに指定範囲外の値が記述されている。
+      if (!listItems.ModulationType.includes(this.items['Modulation Type']))
+        this.errorNums['Modulation Type'].push(134);
+    }
   }
 
   checkSize()
   {
-    // Sizeにnumber+[Reference ID] 以外の値が記述されている。
+    // Sizeにnumber+[Reference ID] 以外の値が記述されている。>>NEXT
   }
 
   checkPhysiologicalData()

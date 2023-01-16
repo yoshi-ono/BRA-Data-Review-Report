@@ -69,6 +69,25 @@ class entityBasic
       return false;
   }
 
+  isDefinedCircuits(value)
+  {
+    var ret = true;
+
+    var circuits = value;
+    if (isFinite(circuits)) {
+      circuits = String(circuits);
+    }
+    var idList = circuits.split(';');
+    for (var id of idList) {
+      if (this.isDescribed(id))
+        var rows = g_circuits.searchItem('Circuit ID', id.trim());
+        if (rows.length == 0)
+          ret = false;
+    }
+
+    return ret;
+  }
+
   check_Contributor(errorNum1, errorNum2) {
     // Contributorが記述されていない。
     if (!this.isDescribed(this.items['Contributor'])) {
