@@ -7,7 +7,7 @@ class ListItems
     this.LiteratureType = this.getItems("E2:E11");
     this.RegionCategory = this.getItems("Z2:Z6");
     this.SourceOfID = this.getItems("T2:T223");
-    this.Uniform = ["TRUE", "FALSE"];
+    this.Uniform = ["TRUE", "FALSE", true, false];
     this.Transmitter = this.getItems("P2:P7");
     this.ModulationType = this.getItems("R2:R4");
     this.CIDRelation = ["=", "'=", "<", ">"];

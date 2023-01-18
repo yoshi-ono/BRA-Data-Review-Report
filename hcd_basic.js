@@ -5,7 +5,13 @@ class hcdBasic
     // シートオブジェクト
     this.sheet = hcdSpreadsheet.getSheetByName(sheetName);
     // シートの全データ
-    this.allData = this.sheet.getDataRange().getValues();
+    /*
+    var lastColumn = this.sheet.getLastColumn();
+    var lastRow = this.sheet.getLastRow();
+    var dataRange = this.sheet.getRange(1, 1, lastColumn, lastRow);
+    */
+    var dataRange = this.sheet.getDataRange();
+    this.allData = dataRange.getValues();
 
     // 審査データ行数（最終行）
     if (reviewDataRows == null)

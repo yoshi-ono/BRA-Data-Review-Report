@@ -69,19 +69,29 @@ class entityBasic
       return false;
   }
 
-  isDefinedCircuits(value)
+  isDefinedCircuit(value)
+  {
+    var rows = g_circuits.searchItem('Circuit ID', value.trim());
+    if (rows.length == 0)
+      return false;
+    else
+      return true;
+  }
+
+  isDefinedCircuits(values)
   {
     var ret = true;
 
-    var circuits = value;
+    var circuits = values;
     if (isFinite(circuits)) {
       circuits = String(circuits);
     }
     var idList = circuits.split(';');
     for (var id of idList) {
       if (this.isDescribed(id))
-        var rows = g_circuits.searchItem('Circuit ID', id.trim());
-        if (rows.length == 0)
+        //var rows = g_circuits.searchItem('Circuit ID', id.trim());
+        //if (rows.length == 0)
+        if (!this.isDefinedCircuit(id))
           ret = false;
     }
 

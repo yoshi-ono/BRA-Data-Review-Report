@@ -39,6 +39,8 @@ class entityConnections extends entityBasic
       this.errorNums['Sender Circuit ID (sCID)'].push(201);
     } else {
       // Sender Circuit ID (sCID)に定義済みのCircuit ID以外の値が記述されている。
+      if (!this.isDefinedCircuit(this.items['Sender Circuit ID (sCID)']))
+        this.errorNums['Sender Circuit ID (sCID)'].push(202);
     }
   }
   check_sCID_relation() {
@@ -47,6 +49,8 @@ class entityConnections extends entityBasic
       this.errorNums['sCID relation'].push(207);
     } else {
       // sCID relationに指定範囲外の値が記述されている。
+      if (!listItems.CIDRelation.includes(this.items['sCID relation']))
+        this.errorNums['sCID relation'].push(208);
     }
   }
   check_Notation_of_sCID_in_Literature() {
