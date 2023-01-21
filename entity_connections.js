@@ -55,7 +55,15 @@ class entityConnections extends entityBasic
   }
   check_Notation_of_sCID_in_Literature() {
     // sCID relationがイコール(=)で無いにも関わらずNotation of sCID in Literatureが記述されていない。
+    if (this.items['sCID relation'] != "=") {
+      if (!this.isDescribed(this.items['Notation of sCID in Literature']))
+        this.errorNums['Notation of sCID in Literature'].push(213);
+    }
     // Notation of sCID in Literatureに定義済みのCircuit ID以外の値が記述されている。
+    if (this.isDescribed(this.items['Notation of sCID in Literature'])) {
+      if (!this.isDefinedCircuit(this.items['Notation of sCID in Literature']))
+        this.errorNums['Notation of sCID in Literature'].push(214);
+    }
   }
   check_rCID() {
     // Receiver Circuit ID (rCID)が記述されていない。
@@ -63,6 +71,8 @@ class entityConnections extends entityBasic
       this.errorNums['Receiver Circuit ID (rCID)'].push(219);
     } else {
       // Receiver Circuit ID (rCID)に定義済みのCircuit ID以外の値が記述されている。
+      if (!this.isDefinedCircuit(this.items['Receiver Circuit ID (rCID)']))
+        this.errorNums['Receiver Circuit ID (rCID)'].push(224);
     }
   }
   check_rCID_relation() {
@@ -70,23 +80,38 @@ class entityConnections extends entityBasic
     if (!this.isDescribed(this.items['rCID relation'])) {
       this.errorNums['rCID relation'].push(229);
     } else {
-      // rCID relationに指定範囲外の値が記述されている。
+      // rCID relationに指定範囲外の値が記述されている。[230:rCID relation]
+      if (!listItems.CIDRelation.includes(this.items['rCID relation']))
+        this.errorNums['rCID relation'].push(230);
     }
   }
   check_Notation_of_rCID_in_Literature() {
-    // rCID relationがイコール(=)で無いにも関わらずNotation of rCID in Literatureが記述されていない。
-    // Notation of rCID in Literatureに定義済みのCircuit ID以外の値が記述されている。
+    // rCID relationがイコール(=)で無いにも関わらずNotation of rCID in Literatureが記述されていない。[235:Notation of rCID in Literature]
+    if (this.items['rCID relation'] != "=") {
+      if (!this.isDescribed(this.items['Notation of rCID in Literature']))
+        this.errorNums['Notation of sCID in Literature'].push(235);
+    }
+    // Notation of rCID in Literatureに定義済みのCircuit ID以外の値が記述されている。[236:Notation of rCID in Literature]
+    if (this.isDescribed(this.items['Notation of rCID in Literature'])) {
+      if (!this.isDefinedCircuit(this.items['Notation of rCID in Literature']))
+        this.errorNums['Notation of rCID in Literature'].push(236);
+    }
   }
   check_Size() {
-    // Sizeにnumber+[Reference ID] 以外の値が記述されている。
+    // Sizeにnumber+[Reference ID] 以外の値が記述されている。>>NEXT
   }
   check_Reference_ID() {
     // Reference IDが記述されていない。
     if (!this.isDescribed(this.items['Reference ID'])) {
       this.errorNums['Reference ID'].push(252);
     } else {
-      // Reference IDに指定範囲外の値が記述されている。
-      // Reference IDに"makeshift"が指定されている場合には、追加の専門手的な判断を要するためEditorに通知する。（このためにエラーを設定する）
+      // Reference IDに指定範囲外の値が記述されている。[253:Reference ID]
+      if (!listItems.ReferenceID.includes(this.items['Reference ID']))
+        this.errorNums['Reference ID'].push(253);
+
+      // Reference IDに"makeshift"が指定されている場合には、追加の専門手的な判断を要するためEditorに通知する。（このためにエラーを設定する）[254:Reference ID]
+      if (this.items['Reference ID'] == "makeshift")
+        this.errorNums['Reference ID'].push(254);
     }
   }
   check_Taxon() {
@@ -94,7 +119,9 @@ class entityConnections extends entityBasic
     if (!this.isDescribed(this.items['Taxon'])) {
       this.errorNums['Taxon'].push(259);
     } else {
-      // Taxonに指定範囲外の値が記述されている。
+      // Taxonに指定範囲外の値が記述されている。[260:Taxon]
+      if (!listItems.Taxon.includes(this.items['Taxon']))
+        this.errorNums['Taxon'].push(260);
     }
   }
   check_Measurement_method() {
@@ -102,7 +129,9 @@ class entityConnections extends entityBasic
     if (!this.isDescribed(this.items['Measurement method'])) {
       this.errorNums['Measurement method'].push(265);
     } else {
-      // Measurement methodに指定範囲外の値が記述されている。
+      // Measurement methodに指定範囲外の値が記述されている。[266:Measurement method]
+      if (!listItems.MeasurementMethod.includes(this.items['Measurement method']))
+        this.errorNums['Measurement method'].push(266);
     }
   }
   check_Pointers_on_literature() {
@@ -111,9 +140,16 @@ class entityConnections extends entityBasic
       if (!this.isDescribed(this.items['Pointers on figure']))
         this.errorNums['Pointers on literature'].push(271);
     } else {
-      // Pointers on literatureの記述が 10 words以上ではない。
-      // このPointers on literatureセル内に記述されている文を、Reference IDで指定された文献上で見つけられない。
-      // このPointers on literatureセル内に記述されている文によっては、このレコードで表現されるコネクションの存在を担保できない。
+      // Pointers on literatureの記述が 10 words以上ではない。[272:Pointers on literature]
+      var literature = this.items['Pointers on literature'];
+      if (isFinite(literature))
+        literature = String(literature);
+        
+      if (literature.length < 10)
+        this.errorNums['Pointers on literature'].push(272);
+
+      // [Manual] このPointers on literatureセル内に記述されている文を、Reference IDで指定された文献上で見つけられない。
+      // [Manual] このPointers on literatureセル内に記述されている文によっては、このレコードで表現されるコネクションの存在を担保できない。
     }
   }
   check_Pointers_on_figure() {
@@ -122,11 +158,11 @@ class entityConnections extends entityBasic
       if (!this.isDescribed(this.items['Pointers on literature']))
         this.errorNums['Pointers on figure'].push(277);
     } else {
-      // Pinter on figureの記述が、一つのFigureを指定するtext形式ではない。
-      // Reference IDで指定された文献中におけるPointers on figureで指定される図面によっては、このレコードで表現されるコネクションの存在を担保できない。
+      // Pinter on figureの記述が、一つのFigureを指定するtext形式ではない。>>NEXT
+      // [Manual] Reference IDで指定された文献中におけるPointers on figureで指定される図面によっては、このレコードで表現されるコネクションの存在を担保できない。
     }
   }
   check_Indepth_literature() {
-    // In-depth literatureの値がReference IDでない。
+    // In-depth literatureの値がReference IDでない。>>NEXT
   }
 }

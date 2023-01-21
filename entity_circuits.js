@@ -152,9 +152,8 @@ class entityCircuits extends entityBasic
 
   checkModulationType()
   {
-    // Modulation Typeに指定範囲外の値が記述されている。
     if (this.isDescribed(this.items['Modulation Type'])) {
-      // Transmitterに指定範囲外の値が記述されている。
+      // Modulation Typeに指定範囲外の値が記述されている。
       if (!listItems.ModulationType.includes(this.items['Modulation Type']))
         this.errorNums['Modulation Type'].push(134);
     }

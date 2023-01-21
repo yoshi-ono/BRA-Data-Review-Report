@@ -106,47 +106,53 @@ function main()
   //--------------------------------------------------------------------------------
   var result = auto_complete;
 
-  setting.showStatus("References を審査しています。");
-  var references = new hcdReferences(referencesReviewEL);
-  g_references = references;
-  references.review();
-  if (references.report(g_sheet_reportBIF, 14, 17) == 'NG')
-    result = auto_incomplete;
+  try {
+    setting.showStatus("References を審査しています。");
+    var references = new hcdReferences(referencesReviewEL);
+    g_references = references;
+    references.review();
+    if (references.report(g_sheet_reportBIF, 14, 17) == 'NG')
+      result = auto_incomplete;
 
-  setting.showStatus("Circuits を審査しています。");
-  var circuits = new hcdCircuits(circuitsReviewEL);
-  g_circuits = circuits;
-  circuits.review();
-  if (circuits.report(g_sheet_reportBIF, 20, 23) == 'NG')
-    result = auto_incomplete;
+    setting.showStatus("Circuits を審査しています。");
+    var circuits = new hcdCircuits(circuitsReviewEL);
+    g_circuits = circuits;
+    circuits.review();
+    if (circuits.report(g_sheet_reportBIF, 20, 23) == 'NG')
+      result = auto_incomplete;
 
-  setting.showStatus("Connections を審査しています。");
-  var connections = new hcdConnections(connectionsReviewEL);
-  g_connections = connections;
-  connections.review();
-  if (connections.report(g_sheet_reportBIF, 26, 29) == 'NG')
-    result = auto_incomplete;
+    setting.showStatus("Connections を審査しています。");
+    var connections = new hcdConnections(connectionsReviewEL);
+    g_connections = connections;
+    connections.review();
+    if (connections.report(g_sheet_reportBIF, 26, 29) == 'NG')
+      result = auto_incomplete;
 
-  setting.showStatus("HCDeditor(1) を審査しています。");
-  var editor1 = new hcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
-  g_editor = editor1;
-  editor1.review()
-  if (editor1.report(g_sheet_reportHCD, 3, 6) == 'NG')
-    result = auto_incomplete;
+    setting.showStatus("HCDeditor(1) を審査しています。");
+    var editor1 = new hcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
+    g_editor = editor1;
+    editor1.review()
+    if (editor1.report(g_sheet_reportHCD, 3, 6) == 'NG')
+      result = auto_incomplete;
 
-  setting.showStatus("HCDeditor(2) を審査しています。");
-  var editor2 = new hcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
-  editor2.review()
-  if (editor2.report(g_sheet_reportHCD, 9, 12) == 'NG')
-    result = auto_incomplete;
+    setting.showStatus("HCDeditor(2) を審査しています。");
+    var editor2 = new hcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
+    editor2.review()
+    if (editor2.report(g_sheet_reportHCD, 9, 12) == 'NG')
+      result = auto_incomplete;
 
-  setting.showStatus("HCDeditor(3) を審査しています。");
-  var editor3 = new hcdEditor(3, hcdeditorReviewEL, setting.isEnableHCD(3));
-  editor3.review()
-  if (editor3.report(g_sheet_reportHCD, 15, 18) == 'NG')
-    result = auto_incomplete;
+    setting.showStatus("HCDeditor(3) を審査しています。");
+    var editor3 = new hcdEditor(3, hcdeditorReviewEL, setting.isEnableHCD(3));
+    editor3.review()
+    if (editor3.report(g_sheet_reportHCD, 15, 18) == 'NG')
+      result = auto_incomplete;
 
-  setting.showStatus("審査を終了しました。");
+    setting.showStatus("審査を終了しました。");
+  }
+  catch (e) {
+    setExecutionErrMsg(e.message);
+    return execution_error;
+  }
 
   return result;
 }
