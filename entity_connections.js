@@ -86,12 +86,14 @@ class entityConnections extends entityBasic
     }
   }
   check_Notation_of_rCID_in_Literature() {
-    // rCID relationがイコール(=)で無いにも関わらずNotation of rCID in Literatureが記述されていない。[235:Notation of rCID in Literature]
+    // rCID relationがイコール(=)で無いにも関わらずNotation of rCID in Literatureが記述されていない。
+    // [235:Notation of rCID in Literature]
     if (this.items['rCID relation'] != "=") {
       if (!this.isDescribed(this.items['Notation of rCID in Literature']))
-        this.errorNums['Notation of sCID in Literature'].push(235);
+        this.errorNums['Notation of rCID in Literature'].push(235);
     }
-    // Notation of rCID in Literatureに定義済みのCircuit ID以外の値が記述されている。[236:Notation of rCID in Literature]
+    // Notation of rCID in Literatureに定義済みのCircuit ID以外の値が記述されている。
+    // [236:Notation of rCID in Literature]
     if (this.isDescribed(this.items['Notation of rCID in Literature'])) {
       if (!this.isDefinedCircuit(this.items['Notation of rCID in Literature']))
         this.errorNums['Notation of rCID in Literature'].push(236);
@@ -144,7 +146,7 @@ class entityConnections extends entityBasic
       var literature = this.items['Pointers on literature'];
       if (isFinite(literature))
         literature = String(literature);
-        
+
       if (literature.length < 10)
         this.errorNums['Pointers on literature'].push(272);
 
