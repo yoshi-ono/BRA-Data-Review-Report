@@ -35,14 +35,14 @@ class hcdEditor extends hcdBasic
    */
   setResultItemName()
   {
-    this.resultItemReviewResult = "Confirmation results " + this.hcdNoStr;
+    this.resultItemReviewResult = "Review results " + this.hcdNoStr;
     this.resultItemAutoErrorCodes = "Auto Error Codes " + this.hcdNoStr;
     this.resultItemErrorCode1 = "Error Code-1 " + this.hcdNoStr;
     this.resultItemErrorCode2 = "Error Code-2 " + this.hcdNoStr;
     this.resultItemOtherErrorCodes = "Other Error Codes " + this.hcdNoStr;
     this.resultItemReviewComments = "Review comments " + this.hcdNoStr;
-    this.resultItemReviewer = "Confirmor " + this.hcdNoStr;
-    this.resultItemReviewedDate = "Confirmed date " + this.hcdNoStr;
+    this.resultItemReviewer = "Reviewer " + this.hcdNoStr;
+    this.resultItemReviewedDate = "Reviewed date " + this.hcdNoStr;
 
     this.setResultColNum();
   }
