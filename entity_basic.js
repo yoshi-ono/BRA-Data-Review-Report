@@ -146,7 +146,7 @@ class entityBasic
 
   /*
    *------------------------------------------------------------
-   *  Auto Error Codes 記録
+   *  Auto Error Codes, Review results 記録
    *------------------------------------------------------------
    */
   setAutoErrorCodes(itemName) {

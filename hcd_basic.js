@@ -18,6 +18,9 @@ class hcdBasic
       this.reviewDataRows = this.allData.length;
     else
       this.reviewDataRows = reviewDataRows;
+
+    // マニュアル審査完了数
+    this.manualReviewed = 0;
     
     // ヘッダ行
     this.header = this.allData[0];
@@ -44,13 +47,15 @@ class hcdBasic
 
   getColNum(name)
   {
+    var col = (-1);
+
     for (var i = 0; i < this.header.length; i++)
     {
       if (this.header[i] == name)
-        return i + 1;
+        col = i + 1;
     }
 
-    return (-1);
+    return col;
   }
 
   /**

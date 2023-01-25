@@ -110,15 +110,42 @@ class entityHCDeditor extends entityBasic
           this.errorNums[itemName].push(432);
       }
 
-      var matchOut = this.items[itemName].match(/O\(.+?\)/g);
-      var matchIn = this.items[itemName].match(/I\(.+?\)/g);
-      // 以下の記述様式になっていない．：    O(XXX) および I(XXX) を含む。[433:Process]
-      if (matchOut == null || matchIn == null) {
-          this.errorNums[itemName].push(433);
-      } else {
-        // I(X)に記載されているXに，Input CircuitにAF（Input Circuit）カラムで記述されているもの以外が存在する[434:Process]
+      // 以下の記述様式何れかになっていない。：     [433:Process]
+      // ・(Undefined interface process)
+      // ・O(Y) および I(X) を含む。
+      if (this.items[itemName] != "(Undefined interface process)") {
+        var matchOut = this.items[itemName].match(/O\(.+?\)/g);
+        var matchIn = this.items[itemName].match(/I\(.+?\)/g);
+        if (matchOut == null || matchIn == null) {
+            this.errorNums[itemName].push(433);
+        } else {
+          // I(X)に記載されているXに，Input CircuitにAF（Input Circuit）カラムで記述されているもの以外が存在する[434:Process]
+          var inputCircuit = this.items['Input Circuit ' + this.hcdNoStr];
+          var inputCircuitList = inputCircuit.split('\n');
+          var isMatch = true;
+          for (var inval of matchIn) {
+            var X = inval.slice(2, -1);
+            if (!inputCircuitList.includes(X.trim())) {
+              isMatch = false;
+              break;
+            }
+          }
+          if (!isMatch)
+              this.errorNums[itemName].push(434);
 
-        // O(Y)に記載されているYが，AB（Circuit ID）カラムと異なる[435:Process]
+          // O(Y)に記載されているYが，AB（Circuit ID）カラムと異なる[435:Process]
+          var id = this.items['Circuit ID'];
+          var isMatch = true;
+          for (var outval of matchOut) {
+            var Y = outval.slice(2, -1);
+            if (id != Y.trim()) {
+              isMatch = false;
+              break;
+            }
+          }
+          if (!isMatch)
+              this.errorNums[itemName].push(435);
+        }
       }
     }
   }
