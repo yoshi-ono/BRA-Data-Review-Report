@@ -11,9 +11,11 @@ var today;
 
 class Setting
 {
-  constructor()
+  constructor(toolDocId)
   {
-    this.spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    //this.spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    this.spreadsheet = SpreadsheetApp.openById(toolDocId);
+
     g_sheet_reportBIF = this.spreadsheet.getSheetByName('BIF_autheniticity');
     g_sheet_reportHCD = this.spreadsheet.getSheetByName('HCD');
 

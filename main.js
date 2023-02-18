@@ -41,9 +41,9 @@ function setExecutionErrMsg(msg)
   Logger.log(msg);
 }
 
-function main()
+function main(toolDocId)
 {
-  var setting = new Setting();
+  var setting = new Setting(toolDocId);
 
   setExecutionErrMsg("");
 
