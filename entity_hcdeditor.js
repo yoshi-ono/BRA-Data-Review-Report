@@ -98,13 +98,18 @@ class entityHCDeditor extends entityBasic
   }
   check_Process() {
     var itemName = 'Process' + this.hcdNoStr;
+    var nameRegionCategory = 'Region Category ' + this.hcdNoStr;
 
-    // Processが記述されていない。[431:Process]
-    if (!this.isDescribed(this.items[itemName])) {
-      this.errorNums[itemName].push(431);
-    } else {
+    // 「Region Category」カラムが「ROI」「inROI」の個所であるが、Processが記述されていない。[431:Process]
+    if (this.items[nameRegionCategory] == "ROI" || this.items[nameRegionCategory] == "inROI") {
+      if (!this.isDescribed(this.items[itemName])) {
+        this.errorNums[itemName].push(431);
+      }      
+    }
+
+    if (this.isDescribed(this.items[itemName]))
+    {
       // 「Region Category」カラムが「ROI」「inROI」の個所で「(Undefined interface process)」が使用されている[432:Process]
-      var nameRegionCategory = 'Region Category ' + this.hcdNoStr;
       if (this.items[nameRegionCategory] == "ROI" || this.items[nameRegionCategory] == "inROI") {
         if (this.items[itemName] == "(Undefined interface process)")
           this.errorNums[itemName].push(432);
@@ -151,12 +156,18 @@ class entityHCDeditor extends entityBasic
   }
   check_Output_semantics() {
     var itemName = 'Output Semantics ' + this.hcdNoStr;
+    var nameRegionCategory = 'Region Category ' + this.hcdNoStr;
 
-    // Output semanticsが記述されていない。[439:Output semantics]
-    if (!this.isDescribed(this.items[itemName])) {
-      this.errorNums[itemName].push(439);
-    } else {
-      // Referenceシートに記載されていない先行研究が引用されている  [Reference ID][441:Output semantics]
+    // 「Region Category」カラムが「ROI」「inROI」「Input」「Input/Output」の個所であるが、Output Semanticsが記述されていない。
+    // [439:Output semantics]
+    if (this.items[nameRegionCategory] == "ROI" || this.items[nameRegionCategory] == "inROI"
+      || this.items[nameRegionCategory] == "Input" || this.items[nameRegionCategory] == "Input/Output")
+    {
+      if (!this.isDescribed(this.items[itemName])) {
+        this.errorNums[itemName].push(439);
+      } else {
+        // Referenceシートに記載されていない先行研究が引用されている  [Reference ID][441:Output semantics]
+      }
     }
   }
 }

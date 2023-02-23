@@ -87,6 +87,7 @@ class entityCircuits extends entityBasic
         if (!val.includes('.')) {
           this.errorNums['DHBA: graph_order'].push(116);
         } else {
+          /*
           // DHBA: graph_orderの小数点以上の数値がDHBAで指定されるCircuitに存在しない。
           var order = val.split('.');
           var rows = g_circuits.searchItem('DHBA: graph_order', order[0]);
@@ -98,6 +99,13 @@ class entityCircuits extends entityBasic
           }
           if (err)
             this.errorNums['DHBA: graph_order'].push(117);
+          */
+          // DHBA:graph_order の切り捨て値は 2 から 3316 までの整数値ではない。[117:DHBA: graph_order]
+          var order = val.split('.');
+          var roundnum = order[0];
+          if (roundnum < 2 || 3316 < roundnum) {
+            this.errorNums['DHBA: graph_order'].push(117);
+          }
         }
       } else {
         this.errorNums['DHBA: graph_order'].push(116);
