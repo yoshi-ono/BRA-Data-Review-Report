@@ -7,6 +7,9 @@ const execution_error = "halt";
 const auto_incomplete = "fail";
 const auto_complete = "pass";
 
+/**
+ * 単体実行・デバッグ用関数
+ */
 function debug_auto_review()
 {
   // HCD Data Review Tool のドキュメントID
@@ -16,6 +19,10 @@ function debug_auto_review()
   Logger.log(ret);
 }
 
+/**
+ * Review End Line のチェック
+ * （1以上の整数）
+ */
 function checkReviewEL(value)
 {
   if (Number.isInteger(value)) {
@@ -25,6 +32,9 @@ function checkReviewEL(value)
   return false;
 }
 
+/**
+ * 実行エラーメッセージ
+ */
 function setExecutionErrMsg(msg)
 {
   g_sheet_reportSummary.getRange("F48").setValue('Halt');
@@ -33,6 +43,12 @@ function setExecutionErrMsg(msg)
   Logger.log(msg);
 }
 
+/**
+ * main関数
+ * 
+ * @param {string} toolDocId HCD Data Review Tool のドキュメントID
+ * @return {string} 'pass', 'fail' or 'halt'
+ */
 function main(toolDocId)
 {
   var setting = new Setting(toolDocId);
@@ -96,48 +112,48 @@ function main(toolDocId)
   //--------------------------------------------------------------------------------
   // 自動審査
   //--------------------------------------------------------------------------------
-  var result = auto_complete;
+  var retCode = auto_complete;
 
   try {
     setting.showStatus("References を審査しています。");
     var references = new hcdReferences(referencesReviewEL);
     g_references = references;
     references.review();
-    if (references.report(g_sheet_reportReferences, 3, 8, 14) != 'Pass')
-      result = auto_incomplete;
+    if (references.report(g_sheet_reportReferences, 3, 8, 14) == 'Fail')
+      retCode = auto_incomplete;
 
     setting.showStatus("Circuits を審査しています。");
     var circuits = new hcdCircuits(circuitsReviewEL);
     g_circuits = circuits;
     circuits.review();
-    if (circuits.report(g_sheet_reportCircuits, 3, 8, 14) != 'Pass')
-      result = auto_incomplete;
+    if (circuits.report(g_sheet_reportCircuits, 3, 8, 14) == 'Fail')
+      retCode = auto_incomplete;
 
     setting.showStatus("Connections を審査しています。");
     var connections = new hcdConnections(connectionsReviewEL);
     g_connections = connections;
     connections.review();
-    if (connections.report(g_sheet_reportConnections, 3, 8, 14) != 'Pass')
-      result = auto_incomplete;
+    if (connections.report(g_sheet_reportConnections, 3, 8, 14) == 'Fail')
+      retCode = auto_incomplete;
 
     setting.showStatus("HCDeditor(1) を審査しています。");
     var editor1 = new hcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
     g_editor = editor1;
     editor1.review()
-    if (editor1.report(g_sheet_reportHCDeditor, 4, 7, 11) != 'Pass')
-      result = auto_incomplete;
+    if (editor1.report(g_sheet_reportHCDeditor, 4, 7, 11) == 'Fail')
+      retCode = auto_incomplete;
 
     setting.showStatus("HCDeditor(2) を審査しています。");
     var editor2 = new hcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
     editor2.review()
-    if (editor2.report(g_sheet_reportHCDeditor, 16, 19, 23) != 'Pass')
-      result = auto_incomplete;
+    if (editor2.report(g_sheet_reportHCDeditor, 16, 19, 23) == 'Fail')
+      retCode = auto_incomplete;
 
     setting.showStatus("HCDeditor(3) を審査しています。");
     var editor3 = new hcdEditor(3, hcdeditorReviewEL, setting.isEnableHCD(3));
     editor3.review()
-    if (editor3.report(g_sheet_reportHCDeditor, 28, 31, 35) != 'Pass')
-      result = auto_incomplete;
+    if (editor3.report(g_sheet_reportHCDeditor, 28, 31, 35) == 'Fail')
+      retCode = auto_incomplete;
 
     setting.showStatus("審査を終了しました。");
   }
@@ -147,11 +163,11 @@ function main(toolDocId)
   }
 
   // Overall result
-  var overallResult = 'Fail';
-  if (result == auto_complete)
-    overallResult = 'Pass';
+  var overallResult = 'Pass';
+  if (retCode == auto_incomplete)
+    overallResult = 'Fail';
 
   g_sheet_reportSummary.getRange("F48").setValue(overallResult);
 
-  return result;
+  return retCode;
 }
