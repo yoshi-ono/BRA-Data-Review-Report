@@ -163,19 +163,19 @@ class hcdBasic
   }
 
   /**
-   * @return 'Good' or 'NG' 
+   * @return 'Pass' or 'Fail'
    */
   getResult()
   {
     for (var item in this.itemErrors) {
       if (this.itemErrors[item]['Count'] > 0)
-        return 'NG';
+        return 'Fail';
     }
 
     if (this.manualErrors['Count'] > 0)
-      return 'NG';
+      return 'Fail';
 
-    return 'Good';
+    return 'Pass';
   }
 
   report(reportSheet, rowResult, rowAutoErrorCodes, rowManualErrorCodes)

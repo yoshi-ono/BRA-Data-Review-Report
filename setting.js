@@ -1,7 +1,3 @@
-/*
-var g_sheet_reportBIF;
-var g_sheet_reportHCD;
-*/
 var g_sheet_reportSummary;
 var g_sheet_reportReferences;
 var g_sheet_reportCircuits;
@@ -20,10 +16,6 @@ class Setting
   {
     this.spreadsheet = SpreadsheetApp.openById(toolDocId);
 
-    /*
-    g_sheet_reportBIF = this.spreadsheet.getSheetByName('BIF_autheniticity');
-    g_sheet_reportHCD = this.spreadsheet.getSheetByName('HCD');
-    */
     g_sheet_reportSummary = this.spreadsheet.getSheetByName('Summary');
     g_sheet_reportReferences = this.spreadsheet.getSheetByName('References');
     g_sheet_reportCircuits = this.spreadsheet.getSheetByName('Circuits');

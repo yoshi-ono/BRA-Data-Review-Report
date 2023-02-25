@@ -49,7 +49,7 @@ class hcdEditor extends hcdBasic
 
   /**
    * オーバーライド
-   * @return 'Good', 'NG' or 'Not used'
+   * @return 'Pass', 'Fail' or 'Not used'
    */
   getResult()
   {
