@@ -7,23 +7,13 @@ const execution_error = "not done";
 const auto_incomplete = "reject";
 const auto_complete = "pass";
 
-
-function start_auto_review()
+function debug_auto_review()
 {
-  var ui = SpreadsheetApp.getUi();
-  var response = ui.alert("自動審査", "審査を開始します。", ui.ButtonSet.OK_CANCEL);
-  if (response === ui.Button.CANCEL) {
-    return;
-  }
+  // HCD Data Review Tool のドキュメントID
+  var toolDocId = '12Vn_rlLPOeYz-rKjRzMVVZwUxHO-UXUVSZztFC0kRDg';
 
-  var ret = main();
-
-  if (ret == execution_error)
-    ui.alert("自動審査", "実行エラーです。実行メッセージを確認してください。\n return status: " + ret, ui.ButtonSet.OK);
-  else if (ret == auto_incomplete)
-    ui.alert("自動審査", "NG があります。\n return status: " + ret, ui.ButtonSet.OK);
-  else
-    ui.alert("自動審査", "すべて Good です！\n return status: " + ret, ui.ButtonSet.OK);
+  var ret = main(toolDocId);
+  Logger.log(ret);
 }
 
 function checkReviewEL(value)
@@ -37,7 +27,7 @@ function checkReviewEL(value)
 
 function setExecutionErrMsg(msg)
 {
-  g_sheet_reportBIF.getRange("L7").setValue(msg);
+  g_sheet_reportSummary.getRange("C21").setValue(msg);
   Logger.log(msg);
 }
 
@@ -64,11 +54,11 @@ function main(toolDocId)
   }
 
   var projectInfo = projectSheet.getRange("A2:E2").getValues();
-  g_sheet_reportBIF.getRange("C1").setValue(projectInfo[0][0]);
-  g_sheet_reportBIF.getRange("C2").setValue(projectInfo[0][1]);
-  g_sheet_reportBIF.getRange("C3").setValue(projectInfo[0][2]);
-  g_sheet_reportBIF.getRange("C4").setValue(projectInfo[0][3]);
-  g_sheet_reportBIF.getRange("C5").setValue(projectInfo[0][4]);
+  g_sheet_reportSummary.getRange("C32").setValue(projectInfo[0][0]);
+  g_sheet_reportSummary.getRange("C33").setValue(projectInfo[0][1]);
+  g_sheet_reportSummary.getRange("C34").setValue(projectInfo[0][2]);
+  g_sheet_reportSummary.getRange("C35").setValue(projectInfo[0][3]);
+  g_sheet_reportSummary.getRange("C36").setValue(projectInfo[0][4]);
 
   //--------------------------------------------------------------------------------
   // Review End Line の取得
@@ -111,40 +101,40 @@ function main(toolDocId)
     var references = new hcdReferences(referencesReviewEL);
     g_references = references;
     references.review();
-    if (references.report(g_sheet_reportBIF, 14, 17) == 'NG')
+    if (references.report(g_sheet_reportReferences, 3, 8, 14) == 'NG')
       result = auto_incomplete;
 
     setting.showStatus("Circuits を審査しています。");
     var circuits = new hcdCircuits(circuitsReviewEL);
     g_circuits = circuits;
     circuits.review();
-    if (circuits.report(g_sheet_reportBIF, 20, 23) == 'NG')
+    if (circuits.report(g_sheet_reportCircuits, 3, 8, 14) == 'NG')
       result = auto_incomplete;
 
     setting.showStatus("Connections を審査しています。");
     var connections = new hcdConnections(connectionsReviewEL);
     g_connections = connections;
     connections.review();
-    if (connections.report(g_sheet_reportBIF, 26, 29) == 'NG')
+    if (connections.report(g_sheet_reportConnections, 3, 8, 14) == 'NG')
       result = auto_incomplete;
 
     setting.showStatus("HCDeditor(1) を審査しています。");
     var editor1 = new hcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
     g_editor = editor1;
     editor1.review()
-    if (editor1.report(g_sheet_reportHCD, 3, 6) == 'NG')
+    if (editor1.report(g_sheet_reportHCDeditor, 4, 7, 11) == 'NG')
       result = auto_incomplete;
 
     setting.showStatus("HCDeditor(2) を審査しています。");
     var editor2 = new hcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
     editor2.review()
-    if (editor2.report(g_sheet_reportHCD, 9, 12) == 'NG')
+    if (editor2.report(g_sheet_reportHCDeditor, 16, 19, 23) == 'NG')
       result = auto_incomplete;
 
     setting.showStatus("HCDeditor(3) を審査しています。");
     var editor3 = new hcdEditor(3, hcdeditorReviewEL, setting.isEnableHCD(3));
     editor3.review()
-    if (editor3.report(g_sheet_reportHCD, 15, 18) == 'NG')
+    if (editor3.report(g_sheet_reportHCDeditor, 28, 31, 35) == 'NG')
       result = auto_incomplete;
 
     setting.showStatus("審査を終了しました。");

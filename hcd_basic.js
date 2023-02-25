@@ -178,22 +178,24 @@ class hcdBasic
     return 'Good';
   }
 
-  report(reportSheet, rowResult, rowErrorCodes)
+  report(reportSheet, rowResult, rowAutoErrorCodes, rowManualErrorCodes)
   {
+    // Auto-review results
     for (var i = 0; i < this.reviewItems.length; i++) {
-      reportSheet.getRange(rowErrorCodes, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]['Codes']);
-      reportSheet.getRange(rowErrorCodes + 1, 4 + i).setValue(this.itemErrors[this.reviewItems[i]]['Count']);
+      reportSheet.getRange(rowAutoErrorCodes, 3 + i).setValue(this.itemErrors[this.reviewItems[i]]['Codes']);
+      reportSheet.getRange(rowAutoErrorCodes + 1, 3 + i).setValue(this.itemErrors[this.reviewItems[i]]['Count']);
 
       //Logger.log("[" + this.sheet.getName() + " " + this.reviewItems[i] + "]: " + this.itemErrors[this.reviewItems[i]]);
     }
 
-    var colManual = 4 + this.reviewItems.length + 3;
-    reportSheet.getRange(rowErrorCodes, colManual).setValue(this.manualErrors['Codes']);
-    reportSheet.getRange(rowErrorCodes + 1, colManual).setValue(this.manualErrors['Count']);
+    // Manual-review results
+    reportSheet.getRange(rowManualErrorCodes, 3).setValue(this.manualErrors['Codes']);
+    reportSheet.getRange(rowManualErrorCodes + 1, 3).setValue(this.manualErrors['Count']);
     //Logger.log(this.manualErrors);
 
+    // Results
     var result = this.getResult();
-    reportSheet.getRange(rowResult, 3).setValue(result);
+    reportSheet.getRange(rowResult, 2).setValue(result);
 
     return result;
   }

@@ -1,7 +1,12 @@
+/*
 var g_sheet_reportBIF;
 var g_sheet_reportHCD;
-
-//var hcd_confirmor;
+*/
+var g_sheet_reportSummary;
+var g_sheet_reportReferences;
+var g_sheet_reportCircuits;
+var g_sheet_reportConnections;
+var g_sheet_reportHCDeditor;
 
 var hcdSpreadsheet
 
@@ -13,30 +18,31 @@ class Setting
 {
   constructor(toolDocId)
   {
-    //this.spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     this.spreadsheet = SpreadsheetApp.openById(toolDocId);
 
+    /*
     g_sheet_reportBIF = this.spreadsheet.getSheetByName('BIF_autheniticity');
     g_sheet_reportHCD = this.spreadsheet.getSheetByName('HCD');
+    */
+    g_sheet_reportSummary = this.spreadsheet.getSheetByName('Summary');
+    g_sheet_reportReferences = this.spreadsheet.getSheetByName('References');
+    g_sheet_reportCircuits = this.spreadsheet.getSheetByName('Circuits');
+    g_sheet_reportConnections = this.spreadsheet.getSheetByName('Connections');
+    g_sheet_reportHCDeditor = this.spreadsheet.getSheetByName('HCDeditor');
 
-    today = Utilities.formatDate(new Date(), 'JST', "yyyy/MM/dd");
+    today = Utilities.formatDate(new Date(), 'JST', "yyyy/MM/dd HH:mm:ss");
 
-    // Confirmed date
-    g_sheet_reportBIF.getRange("C12").setValue(today);
+    // Date and time of reviewed
+    g_sheet_reportSummary.getRange("B28").setValue(today);
   }
 
   openHcdSpreadSheet()
   {
-    var hcd_id = g_sheet_reportBIF.getRange('C7').getValue();
+    var hcd_id = g_sheet_reportSummary.getRange('C9').getValue();
     Logger.log(hcd_id);
     if (hcd_id.trim() == "")
       throw new Error("Document ID を入力してください。");
-/*
-    hcd_confirmor = g_sheet_reportBIF.getRange('C9').getValue();
-    Logger.log(hcd_confirmor);
-    if (hcd_confirmor.trim() == "")
-      throw new Error("Confirmor を入力してください。");
-*/
+
     this.showStatus("HCDファイルを開いています。（この処理には、時間がかかる場合があります）")
     hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
     this.showStatus("HCDファイルを開きました。")
@@ -62,7 +68,11 @@ class Setting
 
   showStatus(status)
   {
-    this.spreadsheet.toast(status, "自動審査")
+    try {
+      this.spreadsheet.toast(status, "自動審査")
+    } catch (e) {
+      Logger.log(e.message);
+    }
     Logger.log(status);
   }
 }
