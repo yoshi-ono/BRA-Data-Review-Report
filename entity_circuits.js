@@ -27,8 +27,8 @@ class entityCircuits extends entityBasic
     this.checkModulationType();
     this.checkSize();
     this.checkPhysiologicalData();
-    this.check_Contributor(151, 152);
-    this.check_Project_ID(155, 156);
+    this.check_Contributor(151);
+    this.check_Project_ID(155);
   }
 
   checkCircuitID()
@@ -37,8 +37,6 @@ class entityCircuits extends entityBasic
     if (!this.isDescribed(this.items['Circuit ID'])) {
       this.errorNums['Circuit ID'].push(101);
     } else {
-      // Circuit IDの記述がStringではない。>>NEXT
-
       // Circuit IDがユニークではない（重複する記号が他のレコードに存在する）。[103:Circuit ID]
       var rows = g_circuits.searchItem('Circuit ID', this.items['Circuit ID']);
       if (rows.length > 1)
@@ -69,8 +67,6 @@ class entityCircuits extends entityBasic
     // Namesが記述されていない。
     if (!this.isDescribed(this.items['Names'])) {
       this.errorNums['Names'].push(111);
-    } else {
-      // Namesの記述がStringsではない。>>NEXT
     }
   }
 
@@ -169,7 +165,7 @@ class entityCircuits extends entityBasic
 
   checkSize()
   {
-    // Sizeにnumber+[Reference ID] 以外の値が記述されている。>>NEXT
+    // Sizeにnumber+[Reference ID] 以外の値が記述されている。<<保留>>
   }
 
   checkPhysiologicalData()

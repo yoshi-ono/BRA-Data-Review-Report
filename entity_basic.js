@@ -98,21 +98,17 @@ class entityBasic
     return ret;
   }
 
-  check_Contributor(errorNum1, errorNum2) {
+  check_Contributor(errorNum1) {
     // Contributorが記述されていない。
     if (!this.isDescribed(this.items['Contributor'])) {
       this.errorNums['Contributor'].push(errorNum1);
-    } else {
-      // Contributorがtext形式で記述されていない。
     }
   }
   
-  check_Project_ID(errorNum1, errorNum2) {
+  check_Project_ID(errorNum1) {
     // Project IDが記述されていない。
     if (!this.isDescribed(this.items['Project ID'])) {
       this.errorNums['Project ID'].push(errorNum1);
-    } else {
-      // Project IDがtext形式で記述されていない。
     }
   }
 

@@ -19,8 +19,8 @@ class entityReferences extends entityBasic
     this.check_DOI_AlternativeURL();
     this.checkBibTex();
     this.checkLitteratureType();
-    this.check_Contributor(15, 16);
-    this.check_Project_ID(19, 20);
+    this.check_Contributor(15);
+    this.check_Project_ID(19);
   }
 
   check_DOI_AlternativeURL()

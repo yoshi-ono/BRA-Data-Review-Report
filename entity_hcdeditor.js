@@ -167,8 +167,6 @@ class entityHCDeditor extends entityBasic
     {
       if (!this.isDescribed(this.items[itemName])) {
         this.errorNums[itemName].push(439);
-      } else {
-        // Referenceシートに記載されていない先行研究が引用されている  [Reference ID][441:Output semantics]
       }
     }
   }

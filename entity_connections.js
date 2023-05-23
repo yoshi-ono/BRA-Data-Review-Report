@@ -29,8 +29,8 @@ class entityConnections extends entityBasic
     this.check_Pointers_on_literature();
     this.check_Pointers_on_figure();
     this.check_Indepth_literature();
-    this.check_Contributor(288, 289);
-    this.check_Project_ID(294, 295);
+    this.check_Contributor(288);
+    this.check_Project_ID(294);
   }
 
   check_sCID() {
@@ -100,7 +100,7 @@ class entityConnections extends entityBasic
     }
   }
   check_Size() {
-    // Sizeにnumber+[Reference ID] 以外の値が記述されている。>>NEXT
+    // Sizeにnumber+[Reference ID] 以外の値が記述されている。<<保留>>
   }
   check_Reference_ID() {
     // Reference IDが記述されていない。
@@ -160,11 +160,15 @@ class entityConnections extends entityBasic
       if (!this.isDescribed(this.items['Pointers on literature']))
         this.errorNums['Pointers on figure'].push(277);
     } else {
-      // Pinter on figureの記述が、一つのFigureを指定するtext形式ではない。>>NEXT
+      // Pinter on figureの記述が、一つのFigureを指定するtext形式ではない。<<保留>>
       // [Manual] Reference IDで指定された文献中におけるPointers on figureで指定される図面によっては、このレコードで表現されるコネクションの存在を担保できない。
     }
   }
   check_Indepth_literature() {
-    // In-depth literatureの値がReference IDでない。>>NEXT
+    // In-depth literatureのReference IDに指定範囲以外の値が記述されている。（同253）[283:In-depth literature]
+    if (this.isDescribed(this.items['In-depth literature'])) {
+      if (!listItems.ReferenceID.includes(this.items['In-depth literature']))
+        this.errorNums['In-depth literature'].push(283);
+    }
   }
 }
