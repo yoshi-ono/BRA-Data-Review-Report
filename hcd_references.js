@@ -19,6 +19,38 @@ class hcdReferences extends hcdBasic
     this.initItemErrors();
   }
 
+  /**
+   * オーバーライド
+   */
+  setResultItemName()
+  {
+    this.resultItemBibTex = "BibTex";
+  
+    super.setResultItemName();
+  }
+
+  /**
+   * オーバーライド
+   */
+  setResultColNum()
+  {
+    this.colNumBibTex = this.getColNum(this.resultItemBibTex);
+
+    super.setResultColNum();
+  }
+
+  /**
+   * オーバーライド
+   */
+  recordResult(entity)
+  {
+    if (entity.BibTex != "") {
+      this.sheet.getRange(entity.row, this.colNumBibTex).setValue(entity.BibTex);
+    }
+
+    super.recordResult(entity);
+  }
+
   review()
   {
     for (var i = 1; i < this.reviewDataRows; i++)

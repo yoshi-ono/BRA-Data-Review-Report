@@ -28,16 +28,6 @@ class hcdBasic
     // 審査対象項目（配列）
     this.reviewItems = [];
 
-    // 審査結果項目
-    this.resultItemReviewResult = "";
-    this.resultItemAutoErrorCodes = ""
-    this.resultItemErrorCode1 = "";
-    this.resultItemErrorCode2 = "";
-    this.resultItemOtherErrorCodes = "";
-    this.resultItemReviewComments = "";
-    this.resultItemReviewer = "";
-    this.resultItemReviewedDate = "";
-
     // 審査項目別エラー（連想配列 + 連想配列{Codes, Count}）
     this.itemErrors = {};
 
@@ -51,7 +41,7 @@ class hcdBasic
 
     for (var i = 0; i < this.header.length; i++)
     {
-      if (this.header[i] == name)
+      if (this.header[i].trim() == name)
         col = i + 1;
     }
 
