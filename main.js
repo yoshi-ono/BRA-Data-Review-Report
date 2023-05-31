@@ -3,6 +3,8 @@ var g_circuits;
 var g_connections;
 var g_editor;
 
+var g_spreadsheet_template;
+
 const execution_error = "halt";
 const auto_incomplete = "fail";
 const auto_complete = "pass";
@@ -78,6 +80,9 @@ function main(toolDocId)
   g_sheet_reportSummary.getRange("C35").setValue(projectInfo[0][3]);
   g_sheet_reportSummary.getRange("C36").setValue(projectInfo[0][4]);
 
+  var templateURL = projectSheet.getRange("G2").getValue();
+  g_spreadsheet_template = SpreadsheetApp.openByUrl(templateURL);
+
   //--------------------------------------------------------------------------------
   // Review End Line の取得
   //--------------------------------------------------------------------------------
@@ -114,34 +119,60 @@ function main(toolDocId)
   //--------------------------------------------------------------------------------
   var retCode = auto_complete;
 
+  var formulasError = "";
+
   try {
+    // References
     setting.showStatus("References を審査しています。");
     var references = new hcdReferences(referencesReviewEL);
     g_references = references;
     references.review();
     if (references.report(g_sheet_reportReferences, 3, 8, 14) == 'Fail')
       retCode = auto_incomplete;
+    
+    var refTemplate = new Template('References');
+    refTemplate.checkFormulas(references.allFormulas, referencesReviewEL);
+    Logger.log(refTemplate.not_match)
+    formulasError += refTemplate.getReportString();
 
+    // Circuits
     setting.showStatus("Circuits を審査しています。");
     var circuits = new hcdCircuits(circuitsReviewEL);
     g_circuits = circuits;
     circuits.review();
     if (circuits.report(g_sheet_reportCircuits, 3, 8, 14) == 'Fail')
       retCode = auto_incomplete;
+    
+    var cirTemplate = new Template('Circuits');
+    cirTemplate.checkFormulas(circuits.allFormulas, circuitsReviewEL);
+    Logger.log(cirTemplate.not_match)
+    formulasError += cirTemplate.getReportString();
 
+    // Connections
     setting.showStatus("Connections を審査しています。");
     var connections = new hcdConnections(connectionsReviewEL);
     g_connections = connections;
     connections.review();
     if (connections.report(g_sheet_reportConnections, 3, 8, 14) == 'Fail')
       retCode = auto_incomplete;
+    
+    var conTemplate = new Template('Connections');
+    conTemplate.checkFormulas(connections.allFormulas, connectionsReviewEL);
+    Logger.log(conTemplate.not_match)
+    formulasError += conTemplate.getReportString();
 
+    // HCDeditor
     setting.showStatus("HCDeditor(1) を審査しています。");
     var editor1 = new hcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
     g_editor = editor1;
     editor1.review()
     if (editor1.report(g_sheet_reportHCDeditor, 4, 7, 11) == 'Fail')
       retCode = auto_incomplete;
+    
+    var hcdTemplate = new Template('HCDeditor');
+    hcdTemplate.checkFormulas(editor1.allFormulas, hcdeditorReviewEL);
+    Logger.log(hcdTemplate.not_match)
+    formulasError += hcdTemplate.getReportString();
 
     setting.showStatus("HCDeditor(2) を審査しています。");
     var editor2 = new hcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
@@ -160,6 +191,10 @@ function main(toolDocId)
   catch (e) {
     setExecutionErrMsg(e.message);
     return execution_error;
+  }
+
+  if (formulasError != "") {
+    g_sheet_reportSummary.getRange("E25").setValue(formulasError);
   }
 
   // Overall result

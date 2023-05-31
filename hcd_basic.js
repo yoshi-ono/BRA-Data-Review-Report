@@ -12,6 +12,7 @@ class hcdBasic
     */
     var dataRange = this.sheet.getDataRange();
     this.allData = dataRange.getValues();
+    this.allFormulas = dataRange.getFormulas();
 
     // 審査データ行数（最終行）
     if (reviewDataRows == null)
