@@ -42,7 +42,7 @@ function setExecutionErrMsg(msg)
   g_sheet_reportSummary.getRange("F48").setValue('Halt');
 
   g_sheet_reportSummary.getRange("C21").setValue(msg);
-  Logger.log(msg);
+  Logger.log("Execution errors: " + msg);
 }
 
 /**
@@ -55,7 +55,9 @@ function main(toolDocId)
 {
   var setting = new Setting(toolDocId);
 
+  // クリア
   setExecutionErrMsg("");
+  g_sheet_reportSummary.getRange("E25").setValue("");
 
   try {
     setting.openHcdSpreadSheet();
@@ -68,7 +70,7 @@ function main(toolDocId)
   // Project 情報の参照
   //--------------------------------------------------------------------------------
   var projectSheet = hcdSpreadsheet.getSheetByName("Project");
-  if (projectSheet ===　null) {
+  if (projectSheet === null) {
     setExecutionErrMsg("Project シートが存在しません。");
     return execution_error;
   }

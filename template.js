@@ -65,11 +65,11 @@ class Template
             if (tempFormula != braFormula)
             {
               this.addNotMatch(i + 1, j + 1);
-              Logger.log("Not match (row:%s col:%s)\nTMP[%s]\n != \nDAT[%s]", i + 1, j + 1, tempFormula, braFormula)
+              //Logger.log("Not match (row:%s col:%s)\nTMP[%s]\n != \nDAT[%s]", i + 1, j + 1, tempFormula, braFormula)
             }
           } catch (e) {
             this.addNotMatch(i + 1, j + 1);
-            Logger.log("(row:%s col:%s) [%s]", i + 1, j + 1, e.message);
+            //Logger.log("(row:%s col:%s) [%s]", i + 1, j + 1, e.message);
           }
         }
       }

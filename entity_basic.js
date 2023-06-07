@@ -71,8 +71,14 @@ class entityBasic
 
   isDefinedCircuit(value)
   {
+    /*
     var rows = g_circuits.searchItem('Circuit ID', value.trim());
     if (rows.length == 0)
+      return false;
+    else
+      return true;
+    */
+    if (!g_circuits.multisetCircuitID.has(value.trim()))
       return false;
     else
       return true;

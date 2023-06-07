@@ -5,6 +5,39 @@ class hcdCircuits extends hcdBasic
     super('Circuits', reviewDataRows);
     this.setReviewItems();
     this.setResultItemName();
+
+    this.createMultisetCircuitID();
+  }
+
+  createMultisetCircuitID()
+  {
+    this.multisetCircuitID = new Map();
+
+    var colNum = this.getColNum('Circuit ID');
+
+    for (var i = 0; i < this.allData.length; i++)
+    {
+      var item = this.allData[i][colNum - 1]
+
+      if (isFinite(item))
+        item = String(item);
+      else
+        item = item.trim();
+
+      if (item == "")
+        continue;
+
+      if (!this.multisetCircuitID.has(item)) {
+        this.multisetCircuitID.set(item, []);
+      }
+
+      var row = i + 1;
+      var rows = this.multisetCircuitID.get(item);
+      rows.push(row);
+
+      if (rows.length > 1)
+        Logger.log("duplicate Circuit ID: %s (row %s)", item, this.multisetCircuitID.get(item).join(", ")); 
+    }
   }
 
   setReviewItems()
