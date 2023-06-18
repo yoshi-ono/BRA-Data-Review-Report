@@ -39,7 +39,7 @@ function checkReviewEL(value)
  */
 function setExecutionErrMsg(msg)
 {
-  g_sheet_reportSummary.getRange("F48").setValue('Halt');
+  g_sheet_reportSummary.getRange("H48").setValue('Halt');
 
   g_sheet_reportSummary.getRange("C21").setValue(msg);
   Logger.log("Execution errors: " + msg);
@@ -129,7 +129,7 @@ function main(toolDocId)
     var references = new hcdReferences(referencesReviewEL);
     g_references = references;
     references.review();
-    if (references.report(g_sheet_reportReferences, 3, 8, 14) == 'Fail')
+    if (references.report(g_sheet_reportReferences, 3, 8, 19) == 'Fail')
       retCode = auto_incomplete;
     
     var refTemplate = new Template('References');
@@ -142,7 +142,7 @@ function main(toolDocId)
     var circuits = new hcdCircuits(circuitsReviewEL);
     g_circuits = circuits;
     circuits.review();
-    if (circuits.report(g_sheet_reportCircuits, 3, 8, 14) == 'Fail')
+    if (circuits.report(g_sheet_reportCircuits, 3, 8, 19) == 'Fail')
       retCode = auto_incomplete;
     
     var cirTemplate = new Template('Circuits');
@@ -155,7 +155,7 @@ function main(toolDocId)
     var connections = new hcdConnections(connectionsReviewEL);
     g_connections = connections;
     connections.review();
-    if (connections.report(g_sheet_reportConnections, 3, 8, 14) == 'Fail')
+    if (connections.report(g_sheet_reportConnections, 3, 8, 19) == 'Fail')
       retCode = auto_incomplete;
     
     var conTemplate = new Template('Connections');
@@ -168,7 +168,7 @@ function main(toolDocId)
     var editor1 = new hcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
     g_editor = editor1;
     editor1.review()
-    if (editor1.report(g_sheet_reportHCDeditor, 4, 7, 11) == 'Fail')
+    if (editor1.report(g_sheet_reportHCDeditor, 4, 8, 16) == 'Fail')
       retCode = auto_incomplete;
     
     var hcdTemplate = new Template('HCDeditor');
@@ -179,13 +179,13 @@ function main(toolDocId)
     setting.showStatus("HCDeditor(2) を審査しています。");
     var editor2 = new hcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
     editor2.review()
-    if (editor2.report(g_sheet_reportHCDeditor, 16, 19, 23) == 'Fail')
+    if (editor2.report(g_sheet_reportHCDeditor, 25, 29, 37) == 'Fail')
       retCode = auto_incomplete;
 
     setting.showStatus("HCDeditor(3) を審査しています。");
     var editor3 = new hcdEditor(3, hcdeditorReviewEL, setting.isEnableHCD(3));
     editor3.review()
-    if (editor3.report(g_sheet_reportHCDeditor, 28, 31, 35) == 'Fail')
+    if (editor3.report(g_sheet_reportHCDeditor, 46, 50, 58) == 'Fail')
       retCode = auto_incomplete;
 
     setting.showStatus("審査を終了しました。");
@@ -204,7 +204,7 @@ function main(toolDocId)
   if (retCode == auto_incomplete)
     overallResult = 'Fail';
 
-  g_sheet_reportSummary.getRange("F48").setValue(overallResult);
+  g_sheet_reportSummary.getRange("H48").setValue(overallResult);
 
   return retCode;
 }
