@@ -83,7 +83,7 @@ class Template
       return "";
 
     var str = "[" + this.sheetname + "]\n";
-    str += "Row: Cols\n";
+    str += "Row: Columns\n";
 
     for (var row = 1; row <= this.checkRows; row++)
     {
