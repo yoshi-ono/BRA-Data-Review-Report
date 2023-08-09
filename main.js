@@ -4,6 +4,7 @@ var g_connections;
 var g_editor;
 
 var g_spreadsheet_template;
+const g_BRAver = "Template-v1-6.bra";
 
 const execution_error = "halt";
 const auto_incomplete = "fail";
@@ -15,7 +16,7 @@ const auto_complete = "pass";
 function debug_auto_review()
 {
   // HCD Data Review Tool のドキュメントID
-  var toolDocId = '12Vn_rlLPOeYz-rKjRzMVVZwUxHO-UXUVSZztFC0kRDg';
+  var toolDocId = '1ADLTlVnQdL5GkBLLBRFJo_1sAWOiYx_HOmn3FfC56D0';
 
   var ret = main(toolDocId);
   Logger.log(ret);
@@ -82,8 +83,19 @@ function main(toolDocId)
   g_sheet_reportSummary.getRange("C35").setValue(projectInfo[0][3]);
   g_sheet_reportSummary.getRange("C36").setValue(projectInfo[0][4]);
 
+  var bra_ver = projectSheet.getRange("F2").getValue();
+  if (bra_ver.trim() != g_BRAver) {
+    setExecutionErrMsg("BRA version が「" + g_BRAver + "」ではありません。");
+    return execution_error;
+  }
+
   var templateURL = projectSheet.getRange("G2").getValue();
-  g_spreadsheet_template = SpreadsheetApp.openByUrl(templateURL);
+  try {
+    g_spreadsheet_template = SpreadsheetApp.openByUrl(templateURL);
+  } catch (e) {
+    setExecutionErrMsg("Template file が開けません。");
+    return execution_error;
+  }
 
   //--------------------------------------------------------------------------------
   // Review End Line の取得

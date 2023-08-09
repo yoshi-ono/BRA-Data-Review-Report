@@ -33,10 +33,14 @@ class Setting
     var hcd_id = g_sheet_reportSummary.getRange('C9').getValue();
     Logger.log(hcd_id);
     if (hcd_id.trim() == "")
-      throw new Error("Document ID を入力してください。");
+      throw new Error("Step.1 file ID を入力してください。");
 
     this.showStatus("HCDファイルを開いています。（この処理には、時間がかかる場合があります）")
-    hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
+    try {
+      hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
+    } catch (e) {
+      throw new Error("Step.1 file ID の BRA Data を開けません。");
+    }
     this.showStatus("HCDファイルを開きました。")
 
     var sheetHCDs = hcdSpreadsheet.getSheetByName('HCDs');
