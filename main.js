@@ -5,6 +5,7 @@ var g_editor;
 
 var g_spreadsheet_template;
 const g_BRAver = "Template-v1-6.bra";
+const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
 
 const execution_error = "halt";
 const auto_incomplete = "fail";
@@ -89,7 +90,20 @@ function main(toolDocId)
     return execution_error;
   }
 
-  var templateURL = projectSheet.getRange("G2").getValue();
+  var publicFolder = DriveApp.getFolderById(g_publicFolderId);
+  var files = publicFolder.getFilesByName(g_BRAver);
+  var templateURL = "";
+  while (files.hasNext())
+  {
+    if (templateURL != "") {
+      setExecutionErrMsg("Template file が複数存在します。");
+      return execution_error;
+    }
+    var templateFile = files.next();
+    templateURL = templateFile.getUrl();
+    Logger.log(g_BRAver + ": " + templateURL);
+  }
+
   try {
     g_spreadsheet_template = SpreadsheetApp.openByUrl(templateURL);
   } catch (e) {
