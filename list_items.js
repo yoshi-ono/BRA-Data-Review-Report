@@ -4,7 +4,7 @@ class ListItems
   {
     this.adminonlySheet = hcdSpreadsheet.getSheetByName('AdminOnly');
 
-    this.LiteratureType = this.getItems("E2:E11");
+    this.LiteratureType = this.getItems("E2:E14");
     this.RegionCategory = this.getItems("Z2:Z6");
     this.SourceOfID = this.getItems("T2:T223");
     this.Uniform = ["TRUE", "FALSE", true, false];
@@ -12,7 +12,7 @@ class ListItems
     this.ModulationType = this.getItems("R2:R4");
     this.CIDRelation = ["=", "'=", "<", ">"];
     this.ReferenceID = this.getItems("U2:U223");
-    this.Taxon = this.getItems("H2:H10");
+    this.Taxon = this.getItems("H2:H12");
     this.MeasurementMethod = this.getItems("M2:M20");
   }
 
