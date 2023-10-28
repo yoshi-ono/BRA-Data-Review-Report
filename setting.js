@@ -4,7 +4,7 @@ var g_sheet_reportCircuits;
 var g_sheet_reportConnections;
 var g_sheet_reportHCDeditor;
 
-var hcdSpreadsheet
+var g_braSpreadsheet;
 
 var listItems;
 
@@ -28,7 +28,7 @@ class Setting
     g_sheet_reportSummary.getRange("B28").setValue(today);
   }
 
-  openHcdSpreadSheet()
+  openBraSpreadSheet()
   {
     var hcd_id = g_sheet_reportSummary.getRange('C9').getValue();
     Logger.log(hcd_id);
@@ -37,13 +37,13 @@ class Setting
 
     this.showStatus("HCDファイルを開いています。（この処理には、時間がかかる場合があります）")
     try {
-      hcdSpreadsheet = SpreadsheetApp.openById(hcd_id);
+      g_braSpreadsheet = SpreadsheetApp.openById(hcd_id);
     } catch (e) {
       throw new Error("Step.1 file ID の BRA Data を開けません。");
     }
     this.showStatus("HCDファイルを開きました。")
 
-    var sheetHCDs = hcdSpreadsheet.getSheetByName('HCDs');
+    var sheetHCDs = g_braSpreadsheet.getSheetByName('HCDs');
     this.hcdNames = {};
     this.hcdNames[1] = sheetHCDs.getRange("B2").getValue().trim();
     this.hcdNames[2] = sheetHCDs.getRange("B3").getValue().trim();

@@ -62,7 +62,7 @@ function main(toolDocId)
   g_sheet_reportSummary.getRange("E25").setValue("");
 
   try {
-    setting.openHcdSpreadSheet();
+    setting.openBraSpreadSheet();
   } catch(e) {
     setExecutionErrMsg(e.message);
     return execution_error;
@@ -71,7 +71,7 @@ function main(toolDocId)
   //--------------------------------------------------------------------------------
   // Project 情報の参照
   //--------------------------------------------------------------------------------
-  var projectSheet = hcdSpreadsheet.getSheetByName("Project");
+  var projectSheet = g_braSpreadsheet.getSheetByName("Project");
   if (projectSheet === null) {
     setExecutionErrMsg("Project シートが存在しません。");
     return execution_error;

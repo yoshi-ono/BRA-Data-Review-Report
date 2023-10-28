@@ -3,7 +3,7 @@ class hcdBasic
   constructor(sheetName, reviewDataRows)
   {
     // シートオブジェクト
-    this.sheet = hcdSpreadsheet.getSheetByName(sheetName);
+    this.sheet = g_braSpreadsheet.getSheetByName(sheetName);
     // シートの全データ
     /*
     var lastColumn = this.sheet.getLastColumn();
