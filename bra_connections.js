@@ -1,4 +1,4 @@
-class hcdConnections extends hcdBasic
+class hcdConnections extends braBasic
 {
   constructor(reviewDataRows)
   {

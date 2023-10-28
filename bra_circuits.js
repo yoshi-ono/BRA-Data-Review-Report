@@ -1,4 +1,4 @@
-class hcdCircuits extends hcdBasic
+class hcdCircuits extends braBasic
 {
   constructor(reviewDataRows)
   {

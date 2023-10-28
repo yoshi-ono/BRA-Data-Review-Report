@@ -1,4 +1,4 @@
-class hcdReferences extends hcdBasic
+class hcdReferences extends braBasic
 {
   constructor(reviewDataRows)
   {

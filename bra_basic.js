@@ -1,4 +1,4 @@
-class hcdBasic
+class braBasic
 {
   constructor(sheetName, reviewDataRows)
   {
