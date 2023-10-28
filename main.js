@@ -152,7 +152,7 @@ function main(toolDocId)
   try {
     // References
     setting.showStatus("References を審査しています。");
-    var references = new hcdReferences(referencesReviewEL);
+    var references = new braReferences(referencesReviewEL);
     g_references = references;
     references.review();
     if (references.report(g_sheet_reportReferences, 3, 8, 19) == 'Fail')
@@ -165,7 +165,7 @@ function main(toolDocId)
 
     // Circuits
     setting.showStatus("Circuits を審査しています。");
-    var circuits = new hcdCircuits(circuitsReviewEL);
+    var circuits = new braCircuits(circuitsReviewEL);
     g_circuits = circuits;
     circuits.review();
     if (circuits.report(g_sheet_reportCircuits, 3, 8, 19) == 'Fail')
@@ -178,7 +178,7 @@ function main(toolDocId)
 
     // Connections
     setting.showStatus("Connections を審査しています。");
-    var connections = new hcdConnections(connectionsReviewEL);
+    var connections = new braConnections(connectionsReviewEL);
     g_connections = connections;
     connections.review();
     if (connections.report(g_sheet_reportConnections, 3, 8, 19) == 'Fail')
@@ -191,7 +191,7 @@ function main(toolDocId)
 
     // HCDeditor
     setting.showStatus("HCDeditor(1) を審査しています。");
-    var editor1 = new hcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
+    var editor1 = new braHcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
     g_editor = editor1;
     editor1.review()
     if (editor1.report(g_sheet_reportHCDeditor, 4, 8, 16) == 'Fail')
@@ -203,13 +203,13 @@ function main(toolDocId)
     formulasError += hcdTemplate.getReportString();
 
     setting.showStatus("HCDeditor(2) を審査しています。");
-    var editor2 = new hcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
+    var editor2 = new braHcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
     editor2.review()
     if (editor2.report(g_sheet_reportHCDeditor, 25, 29, 37) == 'Fail')
       retCode = auto_incomplete;
 
     setting.showStatus("HCDeditor(3) を審査しています。");
-    var editor3 = new hcdEditor(3, hcdeditorReviewEL, setting.isEnableHCD(3));
+    var editor3 = new braHcdEditor(3, hcdeditorReviewEL, setting.isEnableHCD(3));
     editor3.review()
     if (editor3.report(g_sheet_reportHCDeditor, 46, 50, 58) == 'Fail')
       retCode = auto_incomplete;
