@@ -30,18 +30,18 @@ class Setting
 
   openBraSpreadSheet()
   {
-    var hcd_id = g_sheet_reportSummary.getRange('C9').getValue();
-    Logger.log(hcd_id);
-    if (hcd_id.trim() == "")
-      throw new Error("Step.1 file ID を入力してください。");
+    var bra_id = g_sheet_reportSummary.getRange('C9').getValue();
+    Logger.log(bra_id);
+    if (bra_id.trim() == "")
+      throw new Error("Step.1 Please enter the file ID.");
 
-    this.showStatus("HCDファイルを開いています。（この処理には、時間がかかる場合があります）")
+    this.showStatus("Opening BRA Data file. (This process may take some time)")
     try {
-      g_braSpreadsheet = SpreadsheetApp.openById(hcd_id);
+      g_braSpreadsheet = SpreadsheetApp.openById(bra_id);
     } catch (e) {
-      throw new Error("Step.1 file ID の BRA Data を開けません。");
+      throw new Error("Step.1 Unable to open BRA Data with file ID.");
     }
-    this.showStatus("HCDファイルを開きました。")
+    this.showStatus("Opened the BRA Data file.")
 
     var sheetHCDs = g_braSpreadsheet.getSheetByName('HCDs');
     this.hcdNames = {};
