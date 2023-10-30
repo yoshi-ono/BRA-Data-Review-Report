@@ -1,4 +1,4 @@
-class braBasic
+class dataBasic
 {
   constructor(sheetName, reviewDataRows)
   {

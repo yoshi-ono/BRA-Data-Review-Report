@@ -98,28 +98,28 @@ class braData
   //--------------------------------------------------------------------------------
   reviewReferences()
   {
-    this.references = new braReferences(this.referencesReviewEL);
+    this.references = new dataReferences(this.referencesReviewEL);
     this.references.review();
     return this.references.report(g_sheet_reportReferences, 3, 8, 19);
   }
 
   reviewCircuits()
   {
-    this.circuits = new braCircuits(this.circuitsReviewEL);
+    this.circuits = new dataCircuits(this.circuitsReviewEL);
     this.circuits.review();
     return this.circuits.report(g_sheet_reportCircuits, 3, 8, 19);
   }
 
   reviewConnections()
   {
-    this.connections = new braConnections(this.connectionsReviewEL);
+    this.connections = new dataConnections(this.connectionsReviewEL);
     this.connections.review();
     return this.connections.report(g_sheet_reportConnections, 3, 8, 19);
   }
 
   reviewHcdEditor(hcdNumber)
   {
-    this.hcd_editor[hcdNumber] = new braHcdEditor(1, this.hcdeditorReviewEL, this.isEnableHCD(1));
+    this.hcd_editor[hcdNumber] = new dataHcdEditor(1, this.hcdeditorReviewEL, this.isEnableHCD(1));
     this.hcd_editor[hcdNumber].review();
     switch (hcdNumber) {
       case 1:

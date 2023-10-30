@@ -1,4 +1,4 @@
-class braHcdEditor extends braBasic
+class dataHcdEditor extends dataBasic
 {
   constructor(hcdNumber, reviewDataRows, enable)
   {
