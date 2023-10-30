@@ -2,7 +2,7 @@ class ListItems
 {
   constructor()
   {
-    this.adminonlySheet = g_braSpreadsheet.getSheetByName('AdminOnly');
+    this.adminonlySheet = g_bra_data.getSheet('AdminOnly');
 
     this.LiteratureType = this.getItems("E2:E14");
     this.RegionCategory = this.getItems("Z2:Z6");

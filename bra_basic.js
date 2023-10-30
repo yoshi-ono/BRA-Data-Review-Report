@@ -3,7 +3,7 @@ class braBasic
   constructor(sheetName, reviewDataRows)
   {
     // シートオブジェクト
-    this.sheet = g_braSpreadsheet.getSheetByName(sheetName);
+    this.sheet = g_bra_data.getSheet(sheetName);
     // シートの全データ
     /*
     var lastColumn = this.sheet.getLastColumn();

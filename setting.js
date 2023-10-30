@@ -4,7 +4,7 @@ var g_sheet_reportCircuits;
 var g_sheet_reportConnections;
 var g_sheet_reportHCDeditor;
 
-var g_braSpreadsheet;
+var g_bra_data;
 
 var listItems;
 
@@ -26,40 +26,6 @@ class Setting
 
     // Date and time of reviewed
     g_sheet_reportSummary.getRange("B28").setValue(today);
-  }
-
-  openBraSpreadSheet()
-  {
-    var bra_id = g_sheet_reportSummary.getRange('C9').getValue();
-    Logger.log(bra_id);
-    if (bra_id.trim() == "")
-      throw new Error("Step.1 Please enter the file ID.");
-
-    this.showStatus("Opening BRA Data file. (This process may take some time)")
-    try {
-      g_braSpreadsheet = SpreadsheetApp.openById(bra_id);
-    } catch (e) {
-      throw new Error("Step.1 Unable to open BRA Data with file ID.");
-    }
-    this.showStatus("Opened the BRA Data file.")
-
-    var sheetHCDs = g_braSpreadsheet.getSheetByName('HCDs');
-    this.hcdNames = {};
-    this.hcdNames[1] = sheetHCDs.getRange("B2").getValue().trim();
-    this.hcdNames[2] = sheetHCDs.getRange("B3").getValue().trim();
-    this.hcdNames[3] = sheetHCDs.getRange("B4").getValue().trim();
-    Logger.log(this.hcdNames);
-
-    listItems = new ListItems();
-    Logger.log(listItems);
-  }
-
-  isEnableHCD(hcdNumber)
-  {
-    if (this.hcdNames[hcdNumber] == "")
-      return false;
-    else
-      return true;
   }
 
   showStatus(status)

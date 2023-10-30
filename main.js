@@ -1,15 +1,10 @@
-var g_references;
-var g_circuits;
-var g_connections;
-var g_editor;
+const execution_error = "halt";
+const auto_incomplete = "fail";
+const auto_complete = "pass";
 
 var g_spreadsheet_template;
 const g_BRAver = "Template-v1-6.bra";
 const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
-
-const execution_error = "halt";
-const auto_incomplete = "fail";
-const auto_complete = "pass";
 
 /**
  * 単体実行・デバッグ用関数
@@ -21,19 +16,6 @@ function debug_auto_review()
 
   var ret = main(toolDocId);
   Logger.log(ret);
-}
-
-/**
- * Review End Line のチェック
- * （1以上の整数）
- */
-function checkReviewEL(value)
-{
-  if (Number.isInteger(value)) {
-    if (value > 0)
-      return true;
-  }
-  return false;
 }
 
 /**
@@ -61,31 +43,40 @@ function main(toolDocId)
   setExecutionErrMsg("");
   g_sheet_reportSummary.getRange("E25").setValue("");
 
+  // BRA Data
+  var bra_id = g_sheet_reportSummary.getRange('C9').getValue();
+  Logger.log(bra_id);
+  if (bra_id.trim() == "") {
+    setExecutionErrMsg("Step.1 Please enter the file ID.");
+    return execution_error;
+  }
+
+  g_bra_data = new braData(bra_id);
+
+  setting.showStatus("Opening BRA Data file. (This process may take some time)")
+
   try {
-    setting.openBraSpreadSheet();
+    g_bra_data.openBraSpreadSheet();
   } catch(e) {
     setExecutionErrMsg(e.message);
     return execution_error;
   }
 
+  setting.showStatus("Opened the BRA Data file.")
+
   //--------------------------------------------------------------------------------
   // Project 情報の参照
   //--------------------------------------------------------------------------------
-  var projectSheet = g_braSpreadsheet.getSheetByName("Project");
-  if (projectSheet === null) {
-    setExecutionErrMsg("Project シートが存在しません。");
-    return execution_error;
-  }
+  g_sheet_reportSummary.getRange("C32").setValue(g_bra_data.Contributor);
+  g_sheet_reportSummary.getRange("C33").setValue(g_bra_data.ProjectID);
+  g_sheet_reportSummary.getRange("C34").setValue(g_bra_data.NumberOfHCDs);
+  g_sheet_reportSummary.getRange("C35").setValue(g_bra_data.ListOfContributors);
+  g_sheet_reportSummary.getRange("C36").setValue(g_bra_data.Description);
 
-  var projectInfo = projectSheet.getRange("A2:E2").getValues();
-  g_sheet_reportSummary.getRange("C32").setValue(projectInfo[0][0]);
-  g_sheet_reportSummary.getRange("C33").setValue(projectInfo[0][1]);
-  g_sheet_reportSummary.getRange("C34").setValue(projectInfo[0][2]);
-  g_sheet_reportSummary.getRange("C35").setValue(projectInfo[0][3]);
-  g_sheet_reportSummary.getRange("C36").setValue(projectInfo[0][4]);
+  var bra_ver = g_bra_data.BRAVersion;
+  g_sheet_reportSummary.getRange("C37").setValue(bra_ver);
 
-  var bra_ver = projectSheet.getRange("F2").getValue();
-  if (bra_ver.trim() != g_BRAver) {
+  if (bra_ver.trim() !== g_BRAver) {
     setExecutionErrMsg("BRA version が「" + g_BRAver + "」ではありません。");
     return execution_error;
   }
@@ -112,37 +103,6 @@ function main(toolDocId)
   }
 
   //--------------------------------------------------------------------------------
-  // Review End Line の取得
-  //--------------------------------------------------------------------------------
-  var referencesReviewEL = projectSheet.getRange("B5").getValue();
-  Logger.log("References Review End Line: " + referencesReviewEL);
-  if (!checkReviewEL(referencesReviewEL)) {
-    setExecutionErrMsg("Project シートの Review End Line には、1以上の整数を入力してください。（References）");
-    return execution_error;
-  }
-
-  var circuitsReviewEL = projectSheet.getRange("B6").getValue();
-  Logger.log("Circuits Review End Line: " + circuitsReviewEL);
-  if (!checkReviewEL(circuitsReviewEL)) {
-    setExecutionErrMsg("Project シートの Review End Line には、1以上の整数を入力してください。（Circuits）");
-    return execution_error;
-  }
-
-  var connectionsReviewEL = projectSheet.getRange("B7").getValue();
-  Logger.log("Connections Review End Line: " + connectionsReviewEL);
-  if (!checkReviewEL(connectionsReviewEL)) {
-    setExecutionErrMsg("Project シートの Review End Line には、1以上の整数を入力してください。（Connections）");
-    return execution_error;
-  }
-
-  var hcdeditorReviewEL = projectSheet.getRange("B8").getValue();
-  Logger.log("HCDeditor Review End Line: " + hcdeditorReviewEL);
-  if (!checkReviewEL(hcdeditorReviewEL)) {
-    setExecutionErrMsg("Project シートの Review End Line には、1以上の整数を入力してください。（HCDeditor）");
-    return execution_error;
-  }
-
-  //--------------------------------------------------------------------------------
   // 自動審査
   //--------------------------------------------------------------------------------
   var retCode = auto_complete;
@@ -152,68 +112,52 @@ function main(toolDocId)
   try {
     // References
     setting.showStatus("References を審査しています。");
-    var references = new braReferences(referencesReviewEL);
-    g_references = references;
-    references.review();
-    if (references.report(g_sheet_reportReferences, 3, 8, 19) == 'Fail')
+    if (g_bra_data.reviewReferences() === 'Fail')
       retCode = auto_incomplete;
     
     var refTemplate = new Template('References');
-    refTemplate.checkFormulas(references.allFormulas, referencesReviewEL);
+    refTemplate.checkFormulas(g_bra_data.references.allFormulas, g_bra_data.referencesReviewEL);
     Logger.log(refTemplate.not_match)
     formulasError += refTemplate.getReportString();
 
     // Circuits
     setting.showStatus("Circuits を審査しています。");
-    var circuits = new braCircuits(circuitsReviewEL);
-    g_circuits = circuits;
-    circuits.review();
-    if (circuits.report(g_sheet_reportCircuits, 3, 8, 19) == 'Fail')
+    if (g_bra_data.reviewCircuits() === 'Fail')
       retCode = auto_incomplete;
-    
+
     var cirTemplate = new Template('Circuits');
-    cirTemplate.checkFormulas(circuits.allFormulas, circuitsReviewEL);
+    cirTemplate.checkFormulas(g_bra_data.circuits.allFormulas, g_bra_data.circuitsReviewEL);
     Logger.log(cirTemplate.not_match)
     formulasError += cirTemplate.getReportString();
 
     // Connections
     setting.showStatus("Connections を審査しています。");
-    var connections = new braConnections(connectionsReviewEL);
-    g_connections = connections;
-    connections.review();
-    if (connections.report(g_sheet_reportConnections, 3, 8, 19) == 'Fail')
+    if (g_bra_data.reviewConnections() === 'Fail')
       retCode = auto_incomplete;
-    
+
     var conTemplate = new Template('Connections');
-    conTemplate.checkFormulas(connections.allFormulas, connectionsReviewEL);
+    conTemplate.checkFormulas(g_bra_data.connections.allFormulas, g_bra_data.connectionsReviewEL);
     Logger.log(conTemplate.not_match)
     formulasError += conTemplate.getReportString();
 
     // HCDeditor
     setting.showStatus("HCDeditor(1) を審査しています。");
-    var editor1 = new braHcdEditor(1, hcdeditorReviewEL, setting.isEnableHCD(1));
-    g_editor = editor1;
-    editor1.review()
-    if (editor1.report(g_sheet_reportHCDeditor, 4, 8, 16) == 'Fail')
+    if (g_bra_data.reviewHcdEditor(1) === 'Fail')
       retCode = auto_incomplete;
-    
+
     var hcdTemplate = new Template('HCDeditor');
-    hcdTemplate.checkFormulas(editor1.allFormulas, hcdeditorReviewEL);
+    hcdTemplate.checkFormulas(g_bra_data.hcd_editor[1].allFormulas, g_bra_data.hcdeditorReviewEL);
     Logger.log(hcdTemplate.not_match)
     formulasError += hcdTemplate.getReportString();
 
     setting.showStatus("HCDeditor(2) を審査しています。");
-    var editor2 = new braHcdEditor(2, hcdeditorReviewEL, setting.isEnableHCD(2));
-    editor2.review()
-    if (editor2.report(g_sheet_reportHCDeditor, 25, 29, 37) == 'Fail')
+    if (g_bra_data.reviewHcdEditor(2) === 'Fail')
       retCode = auto_incomplete;
 
     setting.showStatus("HCDeditor(3) を審査しています。");
-    var editor3 = new braHcdEditor(3, hcdeditorReviewEL, setting.isEnableHCD(3));
-    editor3.review()
-    if (editor3.report(g_sheet_reportHCDeditor, 46, 50, 58) == 'Fail')
+    if (g_bra_data.reviewHcdEditor(3) === 'Fail')
       retCode = auto_incomplete;
-
+    
     setting.showStatus("審査を終了しました。");
   }
   catch (e) {

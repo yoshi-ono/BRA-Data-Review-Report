@@ -79,7 +79,7 @@ class entityReferences extends entityBasic
       }
 
       // DOIがユニークでない（重複している）。[3:DOI]
-      var rows = g_references.searchItem('DOI', this.items['DOI']);
+      var rows = g_bra_data.references.searchItem('DOI', this.items['DOI']);
       if (rows.length > 1) {
         this.errorNums['DOI'].push(3);
         return;

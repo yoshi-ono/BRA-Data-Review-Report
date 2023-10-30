@@ -38,7 +38,7 @@ class entityCircuits extends entityBasic
       this.errorNums['Circuit ID'].push(101);
     } else {
       // Circuit IDがユニークではない（重複する記号が他のレコードに存在する）。[103:Circuit ID]
-      var rows = g_circuits.searchItem('Circuit ID', this.items['Circuit ID']);
+      var rows = g_bra_data.circuits.searchItem('Circuit ID', this.items['Circuit ID']);
       if (rows.length > 1)
         this.errorNums['Circuit ID'].push(103);
 
@@ -86,10 +86,10 @@ class entityCircuits extends entityBasic
           /*
           // DHBA: graph_orderの小数点以上の数値がDHBAで指定されるCircuitに存在しない。
           var order = val.split('.');
-          var rows = g_circuits.searchItem('DHBA: graph_order', order[0]);
+          var rows = g_bra_data.circuits.searchItem('DHBA: graph_order', order[0]);
           var err = true;
           for (var row of rows) {
-            var id = g_circuits.getRowItemValue(row, 'Source of ID');
+            var id = g_bra_data.circuits.getRowItemValue(row, 'Source of ID');
             if (id == "DHBA")
               err = false;
           }

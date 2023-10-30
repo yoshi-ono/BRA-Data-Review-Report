@@ -72,13 +72,13 @@ class entityBasic
   isDefinedCircuit(value)
   {
     /*
-    var rows = g_circuits.searchItem('Circuit ID', value.trim());
+    var rows = g_bra_data.circuits.searchItem('Circuit ID', value.trim());
     if (rows.length == 0)
       return false;
     else
       return true;
     */
-    if (!g_circuits.multisetCircuitID.has(value.trim()))
+    if (!g_bra_data.circuits.multisetCircuitID.has(value.trim()))
       return false;
     else
       return true;
@@ -95,8 +95,6 @@ class entityBasic
     var idList = circuits.split(';');
     for (var id of idList) {
       if (this.isDescribed(id))
-        //var rows = g_circuits.searchItem('Circuit ID', id.trim());
-        //if (rows.length == 0)
         if (!this.isDefinedCircuit(id))
           ret = false;
     }
