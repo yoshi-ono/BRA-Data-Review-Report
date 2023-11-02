@@ -3,7 +3,7 @@ const auto_incomplete = "fail";
 const auto_complete = "pass";
 
 var g_spreadsheet_template;
-const g_BRAver = "Template-v1-6.bra";
+const g_BRAver = "Template-v1-7.bra";
 const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
 
 /**
@@ -11,8 +11,8 @@ const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
  */
 function debug_auto_review()
 {
-  // HCD Data Review Tool のドキュメントID
-  var toolDocId = '1ADLTlVnQdL5GkBLLBRFJo_1sAWOiYx_HOmn3FfC56D0';
+  // BRA Data Review Tool のドキュメントID
+  var toolDocId = '1-2_cZSlQu_rDhhJ_8MtrkJb_6Hd4j7pQZHtW8KNqm7c';
 
   var ret = main(toolDocId);
   Logger.log(ret);

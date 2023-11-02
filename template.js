@@ -62,7 +62,7 @@ class Template
           try {
             var braFormula = braFormulas[i][j];
 
-            if (tempFormula != braFormula)
+            if (tempFormula !== braFormula)
             {
               this.addNotMatch(i + 1, j + 1);
               //Logger.log("Not match (row:%s col:%s)\nTMP[%s]\n != \nDAT[%s]", i + 1, j + 1, tempFormula, braFormula)
