@@ -119,7 +119,7 @@ class braData
 
   reviewHcdEditor(hcdNumber)
   {
-    this.hcd_editor[hcdNumber] = new dataHcdEditor(1, this.hcdeditorReviewEL, this.isEnableHCD(1));
+    this.hcd_editor[hcdNumber] = new dataHcdEditor(hcdNumber, this.hcdeditorReviewEL, this.isEnableHCD(hcdNumber));
     this.hcd_editor[hcdNumber].review();
     switch (hcdNumber) {
       case 1:
