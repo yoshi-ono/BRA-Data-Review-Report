@@ -23,6 +23,12 @@ class entityBasic
 
     for (var i = 0; i < this.reviewItems.length; i++)
       this.errorNums[this.reviewItems[i]] = [];
+
+    // ワーニングデータの項目名とエラーナンバー
+    this.warningNums = {};
+
+    for (var i = 0; i < this.reviewItems.length; i++)
+      this.warningNums[this.reviewItems[i]] = [];
   }
 
   /*
@@ -146,34 +152,82 @@ class entityBasic
 
   /*
    *------------------------------------------------------------
+   *  項目のワーニング情報取得
+   *------------------------------------------------------------
+   */
+  getWarningCount(reviewItem) {
+    return this.warningNums[reviewItem].length;
+  }
+
+  hasWarningNums(reviewItem) {
+    if (this.getWarningCount(reviewItem) > 0)
+      return true;
+    else
+      return false;
+  }
+
+  getWarningNumsString(reviewItem) {
+    return this.warningNums[reviewItem].join();
+  }
+
+  getWarningIDsString(reviewItem) {
+    var warningId = [];
+    for (var i = 0; i < this.warningNums[reviewItem].length; i++) {
+      warningId.push(Utilities.formatString("[%s:%s]", this.warningNums[reviewItem][i], reviewItem));
+    }
+    return warningId.join();
+  }
+
+  /*
+   *------------------------------------------------------------
    *  Auto Error Codes, Review results 記録
    *------------------------------------------------------------
    */
-  setAutoErrorCodes(itemName) {
+  setAutoErrorCodes(itemName)
+  {
     this.autoErrorCount = 0;
-    var count = 0;
+    this.autoWarningCount = 0;
+    var eCount = 0;
+    var wCount = 0;
     var errorsString = "";
+    var warningsString = "";
 
     for (var i = 0; i < this.reviewItems.length; i++)
     {
-      count = this.errorNums[this.reviewItems[i]].length;
-      if (count > 0) {
-        this.autoErrorCount += count;
+      eCount = this.errorNums[this.reviewItems[i]].length;
+      if (eCount > 0) {
+        this.autoErrorCount += eCount;
         errorsString += ";\n" + this.getErrorIDsString(this.reviewItems[i])
+      }
+
+      wCount = this.warningNums[this.reviewItems[i]].length;
+      if (wCount > 0) {
+        this.autoWarningCount += wCount;
+        warningsString += ";\n" + this.getWarningIDsString(this.reviewItems[i])
       }
     }
  
-    if (this.autoErrorCount > 0)
-      this.items[itemName] = Utilities.formatString("%s Error(s)%s", this.autoErrorCount, errorsString);
-    else
-      // 0 Error(s) の場合は非表示とする。
-      this.items[itemName] = "";
+    // 0 Error(s)/Warning(s) の場合は非表示とする。
+    this.items[itemName] = "";
+ 
+    if (this.autoErrorCount > 0) {
+      this.items[itemName] += Utilities.formatString("%s Error(s)%s", this.autoErrorCount, errorsString);
+    }
+
+    if (this.autoWarningCount > 0) {
+      if (this.items[itemName] != "") {
+        this.items[itemName] += ";\n"
+      }
+      this.items[itemName] += Utilities.formatString("%s Warning(s)%s", this.autoWarningCount, warningsString);
+    }
   }
 
   setReviewResults(itemName, nameEC1, nameEC2, nameOEC)
   {
     this.manualErrorCount = 0;
+    this.manualWarningCount = 0;
     this.reportManualErrorCodes = "";
+    this.reportManualWarningCodes = "";
 
     if (this.isDescribed(this.items[nameEC1])) {
       this.manualErrorCount++;
@@ -198,6 +252,20 @@ class entityBasic
       this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, otherEC) + "\n";
     }
 
-    this.items[itemName] = this.autoErrorCount + this.manualErrorCount;
+    this.items[itemName] = "";
+    if (this.autoErrorCount > 0 || this.manualErrorCount > 0) {
+      this.items[itemName] += Utilities.formatString("Error: %s", this.autoErrorCount + this.manualErrorCount);
+    }
+
+    if (this.autoWarningCount > 0 || this.manualWarningCount > 0) {
+      if (this.items[itemName] != "") {
+        this.items[itemName] += ";\n";
+      }
+      this.items[itemName] += Utilities.formatString("Warning: %s", this.autoWarningCount + this.manualWarningCount);
+    }
+
+    if (this.items[itemName] == "") {
+      this.items[itemName] = 0;
+    }
   }
 }

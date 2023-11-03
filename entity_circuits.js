@@ -58,7 +58,7 @@ class entityCircuits extends entityBasic
 
       // Source of IDに"makeshift"が指定されている場合には、追加の専門手的な判断を要するためEditorに通知する。（このためにエラーを設定する）[109:Source of ID]
       if (this.items['Source of ID'] == "makeshift")
-        this.errorNums['Source of ID'].push(109);
+        this.warningNums['Source of ID'].push(109);
     }
   }
 

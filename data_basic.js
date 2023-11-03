@@ -31,9 +31,11 @@ class dataBasic
 
     // 審査項目別エラー（連想配列 + 連想配列{Codes, Count}）
     this.itemErrors = {};
+    this.itemWarnings = {};
 
     // マニュアル審査エラー（連想配列{Codes, Count}）
     this.manualErrors = {'Codes':"", 'Count':0};
+    this.manualWarnings = {'Codes':"", 'Count':0};
   }
 
   getColNum(name)
@@ -113,11 +115,9 @@ class dataBasic
 
   recordResult(entity)
   {
-    // HCDファイル記録
+    // BRAデータファイル記録
     this.sheet.getRange(entity.row, this.colNumReviewResult).setValue(entity.items[this.resultItemReviewResult]);
     this.sheet.getRange(entity.row, this.colNumAutoErrorCodes).setValue(entity.items[this.resultItemAutoErrorCodes]);
-    //this.sheet.getRange(entity.row, this.colNumReviewer).setValue(hcd_confirmor);
-    //this.sheet.getRange(entity.row, this.colNumReviewedDate).setValue(today);
 
     // レポート用サマライズ
     for (var j = 0; j < entity.reviewItems.length; j++)
@@ -137,6 +137,11 @@ class dataBasic
     for (var i = 0; i < this.reviewItems.length; i++)
       this.itemErrors[this.reviewItems[i]] = {'Codes':"", 'Count':0};
   }
+  initItemWarnings()
+  {
+    for (var i = 0; i < this.reviewItems.length; i++)
+      this.itemWarnings[this.reviewItems[i]] = {'Codes':"", 'Count':0};
+  }
 
   summaryItemErrors(entity, reviewItem)
   {
@@ -150,6 +155,20 @@ class dataBasic
       this.itemErrors[reviewItem]['Codes'] += str;
 
       this.itemErrors[reviewItem]['Count'] += entity.getErrorCount(reviewItem);
+    }
+  }
+  summaryItemWarnings(entity, reviewItem)
+  {
+    if (entity.hasWarningNums(reviewItem)) {
+      var str = Utilities.formatString("row(%s) %s", entity.row, entity.getWarningNumsString(reviewItem));
+      //Logger.log(str);
+
+      if (this.itemWarnings[reviewItem]['Codes'] != "") {
+        this.itemWarnings[reviewItem]['Codes'] += ";\n"
+      }
+      this.itemWarnings[reviewItem]['Codes'] += str;
+
+      this.itemWarnings[reviewItem]['Count'] += entity.getWarningCount(reviewItem);
     }
   }
 
