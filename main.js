@@ -146,7 +146,7 @@ function main(toolDocId)
       retCode = auto_incomplete;
 
     var hcdTemplate = new Template('HCDeditor');
-    hcdTemplate.checkFormulas(g_bra_data.hcd_editor[1].allFormulas, g_bra_data.hcdeditorReviewEL);
+    hcdTemplate.checkFormulas(g_bra_data.hcd_editor_anyone.allFormulas, g_bra_data.hcdeditorReviewEL);
     Logger.log(hcdTemplate.not_match)
     formulasError += hcdTemplate.getReportString();
 

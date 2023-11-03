@@ -12,6 +12,8 @@ class braData
   get Description() { return this.sheetProject.getRange("E2").getValue(); }
   get BRAVersion() { return this.sheetProject.getRange("F2").getValue(); }
 
+  get hcd_editor_anyone() { return this.hcd_editor[1]; }
+
   openBraSpreadSheet()
   {
     try {

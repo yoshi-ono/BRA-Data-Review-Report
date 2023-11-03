@@ -33,7 +33,7 @@ class entityHCDeditor extends entityBasic
       this.errorNums['Circuit ID'].push(401);
     } else {
       // 異なるレコードに同じCircuit IDが記述されている．[402:Circuit ID]
-      var rows = g_bra_data.hcd_editor[1].searchItem('Circuit ID', this.items['Circuit ID']);
+      var rows = g_bra_data.hcd_editor_anyone.searchItem('Circuit ID', this.items['Circuit ID']);
       if (rows.length > 1)
         this.errorNums['Circuit ID'].push(402);
     }
