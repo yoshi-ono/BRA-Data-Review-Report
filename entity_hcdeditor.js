@@ -62,7 +62,7 @@ class entityHCDeditor extends entityBasic
     // 「Uniform＝FALSE」にも関わらずOutput Circuit名が書かれている[411:Output Circuits]
     if (this.isFALSE(this.items['Uniform'])) {
       if (this.isDescribed(this.items[itemName]))
-        this.errorNums[itemName].push(411);
+        this.warningNums[itemName].push(411);
     }
     // Output Circuitsに列挙されたCircuit IDの何れかが、Cicuit IDとして定義されていない。[413:Output Circuits]
     if (this.isDescribed(this.items[itemName])) {
