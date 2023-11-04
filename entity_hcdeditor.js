@@ -92,7 +92,7 @@ class entityHCDeditor extends entityBasic
         this.errorNums[itemName].push(428);
     } else {
       // Region Categoryに指定範囲外の値が記述されている。[429:Region Category]
-      if (!listItems.RegionCategory.includes(this.items[itemName]))
+      if (!g_bra_data.listItems.RegionCategory.includes(this.items[itemName]))
         this.errorNums[itemName].push(429);
     }
   }

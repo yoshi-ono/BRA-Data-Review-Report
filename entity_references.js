@@ -115,7 +115,7 @@ class entityReferences extends entityBasic
       this.errorNums['Litterature type'].push(10);
     } else {
       // Litterature typeに指定範囲外の値が記述されている。
-      if (!listItems.LiteratureType.includes(this.items['Litterature type']))
+      if (!g_bra_data.listItems.LiteratureType.includes(this.items['Litterature type']))
         this.errorNums['Litterature type'].push(11);
     }
   }

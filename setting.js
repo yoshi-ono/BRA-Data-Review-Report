@@ -6,8 +6,6 @@ var g_sheet_reportHCDeditor;
 
 var g_bra_data;
 
-var listItems;
-
 var today;
 
 class Setting

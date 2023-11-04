@@ -53,7 +53,7 @@ class entityCircuits extends entityBasic
       this.errorNums['Source of ID'].push(107);
     } else {
       // Source of IDに指定範囲外の値が記述されている。[108:Source of ID]
-      if (!listItems.SourceOfID.includes(this.items['Source of ID']))
+      if (!g_bra_data.listItems.SourceOfID.includes(this.items['Source of ID']))
         this.errorNums['Source of ID'].push(108);
 
       // Source of IDに"makeshift"が指定されている場合には、追加の専門手的な判断を要するためEditorに通知する。（このためにエラーを設定する）[109:Source of ID]
@@ -140,7 +140,7 @@ class entityCircuits extends entityBasic
       this.errorNums['Uniform'].push(127);
     } else {
       // Uniformに指定範囲外の値が記述されている。
-      if (!listItems.Uniform.includes(this.items['Uniform']))
+      if (!g_bra_data.listItems.Uniform.includes(this.items['Uniform']))
         this.errorNums['Uniform'].push(128);
     }
   }
@@ -149,7 +149,7 @@ class entityCircuits extends entityBasic
   {
     if (this.isDescribed(this.items['Transmitter'])) {
       // Transmitterに指定範囲外の値が記述されている。
-      if (!listItems.Transmitter.includes(this.items['Transmitter']))
+      if (!g_bra_data.listItems.Transmitter.includes(this.items['Transmitter']))
         this.errorNums['Transmitter'].push(131);
     }
   }
@@ -158,7 +158,7 @@ class entityCircuits extends entityBasic
   {
     if (this.isDescribed(this.items['Modulation Type'])) {
       // Modulation Typeに指定範囲外の値が記述されている。
-      if (!listItems.ModulationType.includes(this.items['Modulation Type']))
+      if (!g_bra_data.listItems.ModulationType.includes(this.items['Modulation Type']))
         this.errorNums['Modulation Type'].push(134);
     }
   }

@@ -32,8 +32,8 @@ class braData
     this.hcdNames[3] = sheetHCDs.getRange("B4").getValue().trim();
     Logger.log(this.hcdNames);
 
-    listItems = new ListItems();
-    Logger.log(listItems);
+    this.listItems = new ListItems();
+    Logger.log(this.listItems);
 
     // Data
     this.references = null;

@@ -49,7 +49,7 @@ class entityConnections extends entityBasic
       this.errorNums['sCID relation'].push(207);
     } else {
       // sCID relationに指定範囲外の値が記述されている。
-      if (!listItems.CIDRelation.includes(this.items['sCID relation']))
+      if (!g_bra_data.listItems.CIDRelation.includes(this.items['sCID relation']))
         this.errorNums['sCID relation'].push(208);
     }
   }
@@ -81,7 +81,7 @@ class entityConnections extends entityBasic
       this.errorNums['rCID relation'].push(229);
     } else {
       // rCID relationに指定範囲外の値が記述されている。[230:rCID relation]
-      if (!listItems.CIDRelation.includes(this.items['rCID relation']))
+      if (!g_bra_data.listItems.CIDRelation.includes(this.items['rCID relation']))
         this.errorNums['rCID relation'].push(230);
     }
   }
@@ -108,7 +108,7 @@ class entityConnections extends entityBasic
       this.errorNums['Reference ID'].push(252);
     } else {
       // Reference IDに指定範囲外の値が記述されている。[253:Reference ID]
-      if (!listItems.ReferenceID.includes(this.items['Reference ID']))
+      if (!g_bra_data.listItems.ReferenceID.includes(this.items['Reference ID']))
         this.errorNums['Reference ID'].push(253);
 
       // Reference IDに"makeshift"が指定されている場合には、追加の専門手的な判断を要するためEditorに通知する。（このためにエラーを設定する）[254:Reference ID]
@@ -122,7 +122,7 @@ class entityConnections extends entityBasic
       this.errorNums['Taxon'].push(259);
     } else {
       // Taxonに指定範囲外の値が記述されている。[260:Taxon]
-      if (!listItems.Taxon.includes(this.items['Taxon']))
+      if (!g_bra_data.listItems.Taxon.includes(this.items['Taxon']))
         this.errorNums['Taxon'].push(260);
     }
   }
@@ -132,7 +132,7 @@ class entityConnections extends entityBasic
       this.errorNums['Measurement method'].push(265);
     } else {
       // Measurement methodに指定範囲外の値が記述されている。[266:Measurement method]
-      if (!listItems.MeasurementMethod.includes(this.items['Measurement method']))
+      if (!g_bra_data.listItems.MeasurementMethod.includes(this.items['Measurement method']))
         this.errorNums['Measurement method'].push(266);
     }
   }
@@ -167,7 +167,7 @@ class entityConnections extends entityBasic
   check_Indepth_literature() {
     // In-depth literatureのReference IDに指定範囲以外の値が記述されている。（同253）[283:In-depth literature]
     if (this.isDescribed(this.items['In-depth literature'])) {
-      if (!listItems.ReferenceID.includes(this.items['In-depth literature']))
+      if (!g_bra_data.listItems.ReferenceID.includes(this.items['In-depth literature']))
         this.errorNums['In-depth literature'].push(283);
     }
   }
