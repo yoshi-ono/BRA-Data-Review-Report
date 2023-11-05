@@ -102,21 +102,21 @@ class braData
   {
     this.references = new dataReferences(this.referencesReviewEL);
     this.references.review();
-    return this.references.report(g_sheet_reportReferences, 3, 8, 19);
+    return this.references.report(g_sheet_reportReferences, 3, 8, 13, 19, 24);
   }
 
   reviewCircuits()
   {
     this.circuits = new dataCircuits(this.circuitsReviewEL);
     this.circuits.review();
-    return this.circuits.report(g_sheet_reportCircuits, 3, 8, 19);
+    return this.circuits.report(g_sheet_reportCircuits, 3, 8, 13, 19, 24);
   }
 
   reviewConnections()
   {
     this.connections = new dataConnections(this.connectionsReviewEL);
     this.connections.review();
-    return this.connections.report(g_sheet_reportConnections, 3, 8, 19);
+    return this.connections.report(g_sheet_reportConnections, 3, 8, 13, 19, 24);
   }
 
   reviewHcdEditor(hcdNumber)
@@ -125,13 +125,13 @@ class braData
     this.hcd_editor[hcdNumber].review();
     switch (hcdNumber) {
       case 1:
-        return this.hcd_editor[hcdNumber].report(g_sheet_reportHCDeditor, 4, 8, 16);
+        return this.hcd_editor[hcdNumber].report(g_sheet_reportHCDeditor, 4, 8, 12, 16, 20);
         break;
       case 2:
-        return this.hcd_editor[hcdNumber].report(g_sheet_reportHCDeditor, 25, 29, 37);
+        return this.hcd_editor[hcdNumber].report(g_sheet_reportHCDeditor, 25, 29, 33, 37, 41);
         break;
       case 3:
-        return this.hcd_editor[hcdNumber].report(g_sheet_reportHCDeditor, 46, 50, 58);
+        return this.hcd_editor[hcdNumber].report(g_sheet_reportHCDeditor, 46, 50, 54, 58, 62);
         break;
     }
   }

@@ -222,6 +222,23 @@ class entityBasic
     }
   }
 
+  setManualCount(code)
+  {
+    if (g_bra_data.listItems.isManualWarning(code)) {
+      this.manualWarningCount++;
+      if (this.reportManualWarningCodes != "") {
+        this.reportManualWarningCodes += ";\n";
+      }
+      this.reportManualWarningCodes += Utilities.formatString("row(%s) %s", this.row, code);
+    } else {
+      this.manualErrorCount++;
+      if (this.reportManualErrorCodes != "") {
+        this.reportManualErrorCodes += ";\n";
+      }
+      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, code);
+    }
+  }
+
   setReviewResults(itemName, nameEC1, nameEC2, nameOEC)
   {
     this.manualErrorCount = 0;
@@ -230,13 +247,11 @@ class entityBasic
     this.reportManualWarningCodes = "";
 
     if (this.isDescribed(this.items[nameEC1])) {
-      this.manualErrorCount++;
-      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, this.items[nameEC1]) + "\n";
+      this.setManualCount(this.items[nameEC1]);
     }
 
     if (this.isDescribed(this.items[nameEC2])) {
-      this.manualErrorCount++;
-      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, this.items[nameEC2]) + "\n";
+      this.setManualCount(this.items[nameEC2]);
     }
 
     if (this.isDescribed(this.items[nameOEC])) {
@@ -247,11 +262,11 @@ class entityBasic
       var errorCodes = otherEC.split(';');
       for (var code of errorCodes) {
         if (this.isDescribed(code))
-          this.manualErrorCount++;
+          this.setManualCount(code);
       }
-      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, otherEC) + "\n";
     }
 
+    // Review results 更新
     this.items[itemName] = "";
     if (this.autoErrorCount > 0 || this.manualErrorCount > 0) {
       this.items[itemName] += Utilities.formatString("Error: %s", this.autoErrorCount + this.manualErrorCount);

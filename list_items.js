@@ -14,6 +14,9 @@ class ListItems
     this.ReferenceID = this.getItems("U2:U223");
     this.Taxon = this.getItems("H2:H12");
     this.MeasurementMethod = this.getItems("M2:M20");
+
+    // Error Type: 3
+    this.ManualWarning = ["104", "12345"];
   }
 
   getItems(range)
@@ -36,5 +39,28 @@ class ListItems
       items.push(val);
     }
     return items;
+  }
+
+  isManualWarning(errorStr)
+  {
+    // エラー番号のみ
+    var regex = /^\d+$/;
+    var result = regex.exec(errorStr);
+    //Logger.log("エラー番号のみ：" + result);
+
+    if (result != null) {
+      return this.ManualWarning.includes(result[0]);
+    }
+
+    // エラー表記 [NNN:項目]エラーの説明
+    var regex = /^\[(\d+):/
+    var result = regex.exec(errorStr);
+    //Logger.log("エラー表記：" + result);
+
+    if (result != null) {
+      return this.ManualWarning.includes(result[1]);
+    }
+
+    return false;
   }
 }

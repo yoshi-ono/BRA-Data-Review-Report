@@ -17,6 +17,7 @@ class dataReferences extends dataBasic
     this.reviewItems.push('Project ID');
 
     this.initItemErrors();
+    this.initItemWarnings();
   }
 
   /**

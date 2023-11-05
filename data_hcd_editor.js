@@ -28,6 +28,7 @@ class dataHcdEditor extends dataBasic
     this.reviewItems.push('Output Semantics ' + this.hcdNoStr);
 
     this.initItemErrors();
+    this.initItemWarnings();
   }
 
   /**

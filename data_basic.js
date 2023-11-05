@@ -120,11 +120,26 @@ class dataBasic
     this.sheet.getRange(entity.row, this.colNumAutoErrorCodes).setValue(entity.items[this.resultItemAutoErrorCodes]);
 
     // レポート用サマライズ
-    for (var j = 0; j < entity.reviewItems.length; j++)
+    for (var j = 0; j < entity.reviewItems.length; j++) {
       this.summaryItemErrors(entity, entity.reviewItems[j]);
+      this.summaryItemWarnings(entity, entity.reviewItems[j]);
+    }
 
-    this.manualErrors['Codes'] += entity.reportManualErrorCodes;
-    this.manualErrors['Count'] += entity.manualErrorCount;
+    if (entity.manualErrorCount > 0) {
+      if (this.manualErrors['Codes'] != "") {
+        this.manualErrors['Codes'] += ";\n";
+      }
+      this.manualErrors['Codes'] += entity.reportManualErrorCodes;
+      this.manualErrors['Count'] += entity.manualErrorCount;
+    }
+
+    if (entity.manualWarningCount > 0) {
+      if (this.manualWarnings['Codes'] != "") {
+        this.manualWarnings['Codes'] += ";\n";
+      }
+      this.manualWarnings['Codes'] += entity.reportManualWarningCodes;
+      this.manualWarnings['Count'] += entity.manualWarningCount;
+    }
   }
 
   /*
@@ -188,20 +203,34 @@ class dataBasic
     return 'Pass';
   }
 
-  report(reportSheet, rowResult, rowAutoErrorCodes, rowManualErrorCodes)
+  /**
+   * @param {SpreadsheetApp.Sheet} reportSheet  レポート書き込み先シート
+   * @param {number} rowResult                  Result 書き込み行番号
+   * @param {number} rowAutoErrorCodes          Auto error codes 書き込み行番号
+   * @param {number} rowAutoWarningCodes        Auto warning codes 書き込み行番号
+   * @param {number} rowManualErrorCodes        Manual error codes 書き込み行番号
+   * @param {number} rowManualWarningCodes      Manual warning codes 書き込み行番号
+   * @return {string} 'Pass' or 'Fail' (Call getResult())
+   */
+  report(reportSheet, rowResult, rowAutoErrorCodes, rowAutoWarningCodes, rowManualErrorCodes, rowManualWarningCodes)
   {
     // Auto-review results
     for (var i = 0; i < this.reviewItems.length; i++) {
       reportSheet.getRange(rowAutoErrorCodes, 3 + i).setValue(this.itemErrors[this.reviewItems[i]]['Codes']);
       reportSheet.getRange(rowAutoErrorCodes + 1, 3 + i).setValue(this.itemErrors[this.reviewItems[i]]['Count']);
-
       //Logger.log("[" + this.sheet.getName() + " " + this.reviewItems[i] + "]: " + this.itemErrors[this.reviewItems[i]]);
+
+      reportSheet.getRange(rowAutoWarningCodes, 3 + i).setValue(this.itemWarnings[this.reviewItems[i]]['Codes']);
+      reportSheet.getRange(rowAutoWarningCodes + 1, 3 + i).setValue(this.itemWarnings[this.reviewItems[i]]['Count']);
     }
 
     // Manual-review results
     reportSheet.getRange(rowManualErrorCodes, 3).setValue(this.manualErrors['Codes']);
     reportSheet.getRange(rowManualErrorCodes + 1, 3).setValue(this.manualErrors['Count']);
     //Logger.log(this.manualErrors);
+
+    reportSheet.getRange(rowManualWarningCodes, 3).setValue(this.manualWarnings['Codes']);
+    reportSheet.getRange(rowManualWarningCodes + 1, 3).setValue(this.manualWarnings['Count']);
 
     // Results
     var result = this.getResult();
