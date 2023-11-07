@@ -136,8 +136,8 @@ class entityHCDeditor extends entityBasic
             }
           }
           if (!isMatch) {
-              //this.errorNums[itemName].push(434);
-              Logger.log(`Skip Error 434 row(${this.row})`);
+              this.warningNums[itemName].push(434);
+              //Logger.log(`Skip Error 434 row(${this.row})`);
           }
 
           // O(Y)に記載されているYが，AB（Circuit ID）カラムと異なる[435:Process]
