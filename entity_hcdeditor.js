@@ -7,7 +7,28 @@ class entityHCDeditor extends entityBasic
   {
     super(header, data, row, reviewItems);
     this.hcdNoStr = hcdNoStr;
-    this.check();
+
+    if (this.isNotInUse()) {
+      this.enable = false;
+    } else {
+      this.enable = true;
+      this.check();
+    }
+  }
+
+  isNotInUse()
+  {
+    var itemName = 'Component Label ' + this.hcdNoStr;
+
+    var minStr = this.items[itemName].trim();
+    minStr = minStr.replace(/ /g, '');
+    minStr = minStr.toLowerCase();
+
+    if (minStr === "(notinuse)") {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /*
@@ -168,6 +189,29 @@ class entityHCDeditor extends entityBasic
       if (!this.isDescribed(this.items[itemName])) {
         this.errorNums[itemName].push(439);
       }
+    }
+  }
+
+  /*
+   *------------------------------------------------------------
+   *  Auto Error Codes, Review results 記録（オーバーライド）
+   *------------------------------------------------------------
+   */
+  setAutoErrorCodes(itemName)
+  {
+    if (this.enable) {
+      super.setAutoErrorCodes(itemName);
+    } else {
+      this.items[itemName] = "";
+    }
+  }
+
+  setReviewResults(itemName, nameEC1, nameEC2, nameOEC)
+  {
+    if (this.enable) {
+      super.setReviewResults(itemName, nameEC1, nameEC2, nameOEC);
+    } else {
+      this.items[itemName] = "(Not in use)";
     }
   }
 }
