@@ -20,11 +20,11 @@ class entityHCDeditor extends entityBasic
   {
     var itemName = 'Component Label ' + this.hcdNoStr;
 
-    var minStr = this.items[itemName].trim();
-    minStr = minStr.replace(/ /g, '');
-    minStr = minStr.toLowerCase();
+    var lowStr = this.items[itemName].trim();
+    lowStr = lowStr.replace(/ /g, '');
+    lowStr = lowStr.toLowerCase();
 
-    if (minStr === "(notinuse)") {
+    if (lowStr === "(notinuse)") {
       return true;
     } else {
       return false;

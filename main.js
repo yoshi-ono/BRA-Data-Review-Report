@@ -95,6 +95,9 @@ function main(toolDocId)
     Logger.log(g_BRAver + ": " + templateURL);
   }
 
+  var hyperlink = Utilities.formatString('=HYPERLINK("%s", "%s")', templateURL, g_BRAver);
+  g_sheet_reportSummary.getRange("H37").setFormula(hyperlink)
+
   try {
     g_spreadsheet_template = SpreadsheetApp.openByUrl(templateURL);
   } catch (e) {
