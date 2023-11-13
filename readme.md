@@ -1,5 +1,5 @@
-# HCD Data Review Report
-スタンドアロン
+# BRA Data Review Report
+スタンドアロンのメインプログラムです。
 
-コンテナバインド
-(https://github.com/yoshi-ono/HCD-Data-Review-Processing/)
+コンテナバインドの最小限プログラムから呼び出されます。
+(https://github.com/yoshi-ono/BRA-Data-Review-Processing/)
