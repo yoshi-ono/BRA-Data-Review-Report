@@ -29,7 +29,7 @@ class Setting
   showStatus(status)
   {
     try {
-      this.spreadsheet.toast(status, "自動審査")
+      this.spreadsheet.toast(status, "Auto-Review")
     } catch (e) {
       Logger.log(e.message);
     }

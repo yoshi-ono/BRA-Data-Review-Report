@@ -77,7 +77,7 @@ function main(toolDocId)
   g_sheet_reportSummary.getRange("C37").setValue(bra_ver);
 
   if (bra_ver.trim() !== g_BRAver) {
-    setExecutionErrMsg("BRA version が「" + g_BRAver + "」ではありません。");
+    setExecutionErrMsg("BRA version is not \"" + g_BRAver + "\".");
     return execution_error;
   }
 
@@ -87,7 +87,7 @@ function main(toolDocId)
   while (files.hasNext())
   {
     if (templateURL != "") {
-      setExecutionErrMsg("Template file が複数存在します。");
+      setExecutionErrMsg("Template file is a duplicate.");
       return execution_error;
     }
     var templateFile = files.next();
@@ -101,7 +101,7 @@ function main(toolDocId)
   try {
     g_spreadsheet_template = SpreadsheetApp.openByUrl(templateURL);
   } catch (e) {
-    setExecutionErrMsg("Template file が開けません。");
+    setExecutionErrMsg("Can't open Template file.");
     return execution_error;
   }
 
@@ -114,7 +114,7 @@ function main(toolDocId)
 
   try {
     // References
-    setting.showStatus("References を審査しています。");
+    setting.showStatus("Processing review category \"References\".");
     if (g_bra_data.reviewReferences() === 'Fail')
       retCode = auto_incomplete;
     
@@ -124,7 +124,7 @@ function main(toolDocId)
     formulasError += refTemplate.getReportString();
 
     // Circuits
-    setting.showStatus("Circuits を審査しています。");
+    setting.showStatus("Processing review category \"Circuits\".");
     if (g_bra_data.reviewCircuits() === 'Fail')
       retCode = auto_incomplete;
 
@@ -134,7 +134,7 @@ function main(toolDocId)
     formulasError += cirTemplate.getReportString();
 
     // Connections
-    setting.showStatus("Connections を審査しています。");
+    setting.showStatus("Processing review category \"Connections\".");
     if (g_bra_data.reviewConnections() === 'Fail')
       retCode = auto_incomplete;
 
@@ -144,7 +144,7 @@ function main(toolDocId)
     formulasError += conTemplate.getReportString();
 
     // HCDeditor
-    setting.showStatus("HCDeditor(1) を審査しています。");
+    setting.showStatus("Processing review category \"HCDeditor(1)\".");
     if (g_bra_data.reviewHcdEditor(1) === 'Fail')
       retCode = auto_incomplete;
 
@@ -153,15 +153,15 @@ function main(toolDocId)
     Logger.log(hcdTemplate.not_match)
     formulasError += hcdTemplate.getReportString();
 
-    setting.showStatus("HCDeditor(2) を審査しています。");
+    setting.showStatus("Processing review category \"HCDeditor(2)\".");
     if (g_bra_data.reviewHcdEditor(2) === 'Fail')
       retCode = auto_incomplete;
 
-    setting.showStatus("HCDeditor(3) を審査しています。");
+    setting.showStatus("Processing review category \"HCDeditor(3)\".");
     if (g_bra_data.reviewHcdEditor(3) === 'Fail')
       retCode = auto_incomplete;
     
-    setting.showStatus("審査を終了しました。");
+    setting.showStatus("Processing completed.");
   }
   catch (e) {
     setExecutionErrMsg(e.message);
