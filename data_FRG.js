@@ -9,24 +9,31 @@ class dataFRG extends dataBasic
 
   setReviewItems()
   {
-    this.reviewItems.push('Circuit ID');
-    this.reviewItems.push('Projected Circuits');
     this.reviewItems.push('Node ID');
     this.reviewItems.push('Sub Nodes');
-    this.reviewItems.push('Implementation');
-    this.reviewItems.push('Capability');
-    this.reviewItems.push('Requirements');
-    this.reviewItems.push('Semantics');
-    this.reviewItems.push('Capability Realization by Implementation');
-    this.reviewItems.push('Capability Synthesis');
-    this.reviewItems.push('Requirements Realization by Interface');
-    this.reviewItems.push('Requirements Endorsement by Capability');
-    this.reviewItems.push('Requirements Synthesis');
+    this.reviewItems.push('Circuit ID');
+    this.reviewItems.push('Projected Circuits');
+
     this.reviewItems.push('Capability Realization by Implementation (LLM)');
+    this.reviewItems.push('Capability Realization by Implementation');
+
+    this.reviewItems.push('Capability');
+
     this.reviewItems.push('Capability Synthesis (LLM)');
+    this.reviewItems.push('Capability Synthesis');
+
     this.reviewItems.push('Requirements Realization by Interface (LLM)');
+    this.reviewItems.push('Requirements Realization by Interface');
+
     this.reviewItems.push('Requirements Endorsement by Capability (LLM)');
+    this.reviewItems.push('Requirements Endorsement by Capability');
+
+    this.reviewItems.push('Requirements');
+
     this.reviewItems.push('Requirements Synthesis (LLM)');
+    this.reviewItems.push('Requirements Synthesis');
+
+    this.reviewItems.push('Semantics');
 
     this.initItemErrors();
     this.initItemWarnings();

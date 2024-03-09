@@ -17,7 +17,6 @@ class entityFRG extends entityBasic {
     this.check_Projected_Circuits();
     this.check_Node_ID();
     this.check_Sub_Nodes();
-    this.check_Implementation();
     this.check_Capability();
     this.check_Requirements();
     this.check_Semantics();
@@ -67,13 +66,6 @@ class entityFRG extends entityBasic {
       // Node ID列にないNode IDが記載されている [414:Sub Nodes]
       // [Manual Error: 1] FRGの図面中に記述されたNode IDと一致しない [416:Sub Nodes]
       // [Manual Error: 1] FRGの図面中で依存関係にある Sub Nodes と比較したときに、記載された Sub Nodes に過不足がある [417:Sub Nodes]
-    }
-  }
-  check_Implementation() {
-    if (!this.isDescribed(this.items['Implementation'])) {
-      this.errorNums['Implementation'].push(4005);
-    } else {
-      //  [442:Implementation]
     }
   }
   check_Capability() {
