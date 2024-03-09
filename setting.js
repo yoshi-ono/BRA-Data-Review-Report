@@ -2,7 +2,8 @@ var g_sheet_reportSummary;
 var g_sheet_reportReferences;
 var g_sheet_reportCircuits;
 var g_sheet_reportConnections;
-var g_sheet_reportHCDeditor;
+//var g_sheet_reportHCDeditor;
+var g_sheet_reportFRG;
 
 var g_bra_data;
 
@@ -18,7 +19,8 @@ class Setting
     g_sheet_reportReferences = this.spreadsheet.getSheetByName('References');
     g_sheet_reportCircuits = this.spreadsheet.getSheetByName('Circuits');
     g_sheet_reportConnections = this.spreadsheet.getSheetByName('Connections');
-    g_sheet_reportHCDeditor = this.spreadsheet.getSheetByName('HCDeditor');
+    //g_sheet_reportHCDeditor = this.spreadsheet.getSheetByName('HCDeditor');
+    g_sheet_reportFRG = this.spreadsheet.getSheetByName('FRG');
 
     today = Utilities.formatDate(new Date(), 'JST', "yyyy/MM/dd HH:mm:ss");
 

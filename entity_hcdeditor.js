@@ -1,7 +1,7 @@
 /*
- *  HCDeditor エンティティ クラス
+ *  HCDeditor エンティティ クラス（不使用）
  */
-class entityHCDeditor extends entityBasic
+class entityHCDeditor_NOTUSE extends entityBasic
 {
   constructor(header, data, row, reviewItems, hcdNoStr)
   {

@@ -9,7 +9,8 @@ class Template
     this.range = this.template.getDataRange();
     this.formulas = this.range.getFormulas();
     
-    if (sheetName == 'HCDeditor')
+    //if (sheetName == 'HCDeditor')
+    if (sheetName == 'FRG')
       this.lastRow = this.formulas.length;
     else
       this.lastRow = this.getFormulasLastRow();

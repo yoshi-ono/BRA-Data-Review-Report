@@ -1,4 +1,4 @@
-class dataHcdEditor extends dataBasic
+class dataHcdEditor_NOTUSE extends dataBasic
 {
   constructor(hcdNumber, reviewDataRows, enable)
   {

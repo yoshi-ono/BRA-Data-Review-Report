@@ -12,7 +12,7 @@ class braData
   get Description() { return this.sheetProject.getRange("E2").getValue(); }
   get BRAVersion() { return this.sheetProject.getRange("F2").getValue(); }
 
-  get hcd_editor_anyone() { return this.hcd_editor[1]; }
+  //get hcd_editor_anyone() { return this.hcd_editor[1]; }
 
   openBraSpreadSheet()
   {
@@ -24,22 +24,23 @@ class braData
 
     this.sheetProject = this.getSheet("Project");
     this.readReviewEndLine();
-
+/*
     var sheetHCDs = this.getSheet('HCDs');
     this.hcdNames = {};
     this.hcdNames[1] = sheetHCDs.getRange("B2").getValue().trim();
     this.hcdNames[2] = sheetHCDs.getRange("B3").getValue().trim();
     this.hcdNames[3] = sheetHCDs.getRange("B4").getValue().trim();
     Logger.log(this.hcdNames);
-
+*/
     this.listItems = new ListItems();
     Logger.log(this.listItems);
 
-    // Data
+    // Data (Sheet)
     this.references = null;
     this.circuits = null;
     this.connections = null;
-    this.hcd_editor = {};
+    //this.hcd_editor = {};
+    this.frg = null;
   }
 
   readReviewEndLine()
@@ -61,11 +62,17 @@ class braData
     if (!this.checkReviewEL(this.connectionsReviewEL)) {
       throw new Error("Project シートの Review End Line には、1以上の整数を入力してください。（Connections）");
     }
-
+/*
     this.hcdeditorReviewEL = this.sheetProject.getRange("B8").getValue();
     Logger.log("HCDeditor Review End Line: " + this.hcdeditorReviewEL);
     if (!this.checkReviewEL(this.hcdeditorReviewEL)) {
       throw new Error("Project シートの Review End Line には、1以上の整数を入力してください。（HCDeditor）");
+   }
+*/
+    this.frgReviewEL = this.sheetProject.getRange("B8").getValue();
+    Logger.log("FRG Review End Line: " + this.frgReviewEL);
+    if (!this.checkReviewEL(this.frgReviewEL)) {
+      throw new Error("Project シートの Review End Line には、1以上の整数を入力してください。（FRG）");
    }
   }
 
@@ -81,7 +88,7 @@ class braData
     }
     return false;
   }
-
+/*
   isEnableHCD(hcdNumber)
   {
     if (this.hcdNames[hcdNumber] == "")
@@ -89,7 +96,7 @@ class braData
     else
       return true;
   }
-
+*/
   getSheet(sheetName)
   {
     return this.braSpreadsheet.getSheetByName(sheetName);
@@ -118,7 +125,7 @@ class braData
     this.connections.review();
     return this.connections.report(g_sheet_reportConnections, 3, 8, 13, 19, 24);
   }
-
+/*
   reviewHcdEditor(hcdNumber)
   {
     this.hcd_editor[hcdNumber] = new dataHcdEditor(hcdNumber, this.hcdeditorReviewEL, this.isEnableHCD(hcdNumber));
@@ -134,5 +141,12 @@ class braData
         return this.hcd_editor[hcdNumber].report(g_sheet_reportHCDeditor, 46, 50, 54, 58, 62);
         break;
     }
+  }
+*/
+  reviewFRG()
+  {
+    this.frg = new dataFRG(this.frgReviewEL);
+    this.frg.review();
+    return this.frg.report(g_sheet_reportFRG, 3, 8, 13, 19, 24);
   }
 }

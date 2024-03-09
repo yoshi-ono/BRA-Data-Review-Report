@@ -3,7 +3,7 @@ const auto_incomplete = "fail";
 const auto_complete = "pass";
 
 var g_spreadsheet_template;
-const g_BRAver = "Template-v1-7.bra";
+const g_BRAver = "Template-v2-0-BETA.bra";
 const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
 
 /**
@@ -12,7 +12,7 @@ const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
 function debug_auto_review()
 {
   // BRA Data Review Tool のドキュメントID
-  var toolDocId = '1-2_cZSlQu_rDhhJ_8MtrkJb_6Hd4j7pQZHtW8KNqm7c';
+  var toolDocId = '19_Moul--_GardnQGh6HbQ6qfLaplLNvoWScOBX-R08I';
 
   var ret = main(toolDocId);
   Logger.log(ret);
@@ -142,7 +142,7 @@ function main(toolDocId)
     conTemplate.checkFormulas(g_bra_data.connections.allFormulas, g_bra_data.connectionsReviewEL);
     Logger.log(conTemplate.not_match)
     formulasError += conTemplate.getReportString();
-
+/*
     // HCDeditor
     setting.showStatus("Processing review category \"HCDeditor(1)\".");
     if (g_bra_data.reviewHcdEditor(1) === 'Fail')
@@ -160,7 +160,17 @@ function main(toolDocId)
     setting.showStatus("Processing review category \"HCDeditor(3)\".");
     if (g_bra_data.reviewHcdEditor(3) === 'Fail')
       retCode = auto_incomplete;
-    
+*/
+    // FRG
+    setting.showStatus("Processing review category \"FRG\".");
+    if (g_bra_data.reviewFRG() === 'Fail')
+      retCode = auto_incomplete;
+
+    var frgTemplate = new Template('FRG');
+    frgTemplate.checkFormulas(g_bra_data.frg.allFormulas, g_bra_data.frgReviewEL);
+    Logger.log(frgTemplate.not_match)
+    formulasError += frgTemplate.getReportString();
+
     setting.showStatus("Processing completed.");
   }
   catch (e) {
