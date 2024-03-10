@@ -69,11 +69,22 @@ class entityFRG extends entityBasic {
     }
   }
   check_Sub_Nodes() {
-    if (!this.isDescribed(this.items['Sub Nodes'])) {
-      this.errorNums['Sub Nodes'].push(4004);
-    } else {
+    if (this.isDescribed(this.items['Sub Nodes'])) {
       // （列挙）Node ID列にないNode IDが記載されている [414:Sub Nodes]
-
+      var nodes = this.items['Sub Nodes'];
+      if (isFinite(nodes))
+        nodes = String(nodes);
+      
+      var list = nodes.split(';');
+      for (var n of list) {
+        if (this.isDescribed(n)) {
+          var rows = g_bra_data.frg.searchItem('Node ID', n.trim());
+          if (rows.length == 0) {
+            this.errorNums['Sub Nodes'].push(414);
+            break;
+          }
+        }
+      }
 
       // （不要？）先頭が「R.」「C.」「U.」（あるいは「プロジェクト名:Node ID」）のいずれかで始まっていない [413:Sub Nodes]
       // [Manual Error: 1] FRGの図面中に記述されたNode IDと一致しない [416:Sub Nodes]
