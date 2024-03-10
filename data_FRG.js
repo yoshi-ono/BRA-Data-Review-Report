@@ -1,3 +1,6 @@
+/*
+ *  FRG データ（シート）クラス
+ */
 class dataFRG extends dataBasic
 {
   constructor(reviewDataRows)

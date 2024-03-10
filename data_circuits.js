@@ -6,10 +6,10 @@ class dataCircuits extends dataBasic
     this.setReviewItems();
     this.setResultItemName();
 
-    this.createMultisetCircuitID();
+    //this.createMultisetCircuitID();
   }
 
-  createMultisetCircuitID()
+  createMultisetCircuitID_NOTUSE()
   {
     this.multisetCircuitID = new Map();
 

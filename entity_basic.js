@@ -77,17 +77,17 @@ class entityBasic
 
   isDefinedCircuit(value)
   {
-    /*
     var rows = g_bra_data.circuits.searchItem('Circuit ID', value.trim());
     if (rows.length == 0)
       return false;
     else
       return true;
-    */
+/*
     if (!g_bra_data.circuits.multisetCircuitID.has(value.trim()))
       return false;
     else
       return true;
+*/
   }
 
   isDefinedCircuits(values)
