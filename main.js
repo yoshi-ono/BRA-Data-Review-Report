@@ -42,6 +42,12 @@ function main(toolDocId)
   // クリア
   setExecutionErrMsg("");
   g_sheet_reportSummary.getRange("E25").setValue("");
+  g_sheet_reportSummary.getRange("C32").setValue("");
+  g_sheet_reportSummary.getRange("C33").setValue("");
+  g_sheet_reportSummary.getRange("C34").setValue("");
+  g_sheet_reportSummary.getRange("C35").setValue("");
+  g_sheet_reportSummary.getRange("C36").setValue("");
+  g_sheet_reportSummary.getRange("H47").setValue("");
 
   // BRA Data
   var bra_id = g_sheet_reportSummary.getRange('C9').getValue();
@@ -69,12 +75,11 @@ function main(toolDocId)
   //--------------------------------------------------------------------------------
   g_sheet_reportSummary.getRange("C32").setValue(g_bra_data.Contributor);
   g_sheet_reportSummary.getRange("C33").setValue(g_bra_data.ProjectID);
-  g_sheet_reportSummary.getRange("C34").setValue(g_bra_data.NumberOfHCDs);
-  g_sheet_reportSummary.getRange("C35").setValue(g_bra_data.ListOfContributors);
-  g_sheet_reportSummary.getRange("C36").setValue(g_bra_data.Description);
+  g_sheet_reportSummary.getRange("C34").setValue(g_bra_data.ListOfContributors);
+  g_sheet_reportSummary.getRange("C35").setValue(g_bra_data.Description);
 
   var bra_ver = g_bra_data.BRAVersion;
-  g_sheet_reportSummary.getRange("C37").setValue(bra_ver);
+  g_sheet_reportSummary.getRange("C36").setValue(bra_ver);
 
   if (bra_ver.trim() !== g_BRAver) {
     setExecutionErrMsg("BRA version is not \"" + g_BRAver + "\".");
@@ -96,7 +101,7 @@ function main(toolDocId)
   }
 
   var hyperlink = Utilities.formatString('=HYPERLINK("%s", "%s")', templateURL, g_BRAver);
-  g_sheet_reportSummary.getRange("H37").setFormula(hyperlink)
+  g_sheet_reportSummary.getRange("H36").setFormula(hyperlink)
 
   try {
     g_spreadsheet_template = SpreadsheetApp.openByUrl(templateURL);
@@ -187,7 +192,7 @@ function main(toolDocId)
   if (retCode == auto_incomplete)
     overallResult = 'Fail';
 
-  g_sheet_reportSummary.getRange("H48").setValue(overallResult);
+  g_sheet_reportSummary.getRange("H47").setValue(overallResult);
 
   return retCode;
 }

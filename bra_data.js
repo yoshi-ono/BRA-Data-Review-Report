@@ -7,10 +7,9 @@ class braData
 
   get Contributor() { return this.sheetProject.getRange("A2").getValue(); }
   get ProjectID() { return this.sheetProject.getRange("B2").getValue(); }
-  get NumberOfHCDs() { return this.sheetProject.getRange("C2").getValue(); }
-  get ListOfContributors() { return this.sheetProject.getRange("D2").getValue(); }
-  get Description() { return this.sheetProject.getRange("E2").getValue(); }
-  get BRAVersion() { return this.sheetProject.getRange("F2").getValue(); }
+  get ListOfContributors() { return this.sheetProject.getRange("C2").getValue(); }
+  get Description() { return this.sheetProject.getRange("D2").getValue(); }
+  get BRAVersion() { return this.sheetProject.getRange("E2").getValue(); }
 
   //get hcd_editor_anyone() { return this.hcd_editor[1]; }
 
