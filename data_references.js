@@ -46,7 +46,8 @@ class dataReferences extends dataBasic
   recordResult(entity)
   {
     if (entity.BibTex != "") {
-      this.sheet.getRange(entity.row, this.colNumBibTex).setValue(entity.BibTex);
+      // 改行の対応が出来るまで自動書き込みを一時停止
+      //this.sheet.getRange(entity.row, this.colNumBibTex).setValue(entity.BibTex);
     }
 
     super.recordResult(entity);
