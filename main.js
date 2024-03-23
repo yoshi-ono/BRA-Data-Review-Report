@@ -23,7 +23,7 @@ function debug_auto_review()
  */
 function setExecutionErrMsg(msg)
 {
-  g_sheet_reportSummary.getRange("H48").setValue('Halt');
+  g_sheet_reportSummary.getRange("H47").setValue('Halt');
 
   g_sheet_reportSummary.getRange("C21").setValue(msg);
   Logger.log("Execution errors: " + msg);
