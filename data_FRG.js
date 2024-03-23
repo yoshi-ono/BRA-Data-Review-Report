@@ -19,7 +19,8 @@ class dataFRG extends dataBasic
 
     this.reviewItems.push('Capability Realization by Implementation (LLM)');
     this.reviewItems.push('Capability Realization by Implementation');
-
+    
+    this.reviewItems.push('Implementation of Uniform Circuit');
     this.reviewItems.push('Capability');
 
     this.reviewItems.push('Capability Synthesis (LLM)');
@@ -36,7 +37,7 @@ class dataFRG extends dataBasic
     this.reviewItems.push('Requirements Synthesis (LLM)');
     this.reviewItems.push('Requirements Synthesis');
 
-    this.reviewItems.push('Semantics');
+    this.reviewItems.push('Output Semantics');
 
     this.initItemErrors();
     this.initItemWarnings();
