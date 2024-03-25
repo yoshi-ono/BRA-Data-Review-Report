@@ -3,7 +3,7 @@ const auto_incomplete = "fail";
 const auto_complete = "pass";
 
 var g_spreadsheet_template;
-const g_BRAver = "Template-v2-0-BETA.bra";
+const g_BRAver = "Template-v2-0.bra";
 const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
 
 /**
