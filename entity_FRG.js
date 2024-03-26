@@ -7,6 +7,45 @@ class entityFRG extends entityBasic {
     this.check();
   }
 
+  isCorrectNodeId(nodeId)
+  {
+    var nodeName = nodeId;
+    var indexPName = nodeId.indexOf(":");
+
+    // 先頭が「R.｜C. ｜A.｜U.」（あるいは「プロジェクト名:R.｜C.｜A.｜U.」）のいずれかで始まっていない
+    // ※プロジェクト名は、大文字／小文字／数字が使える [411:Node ID]
+    if (indexPName >= 0) {
+      var projectName = nodeId.slice(0, indexPName);  // 先頭がプロジェクト名
+      nodeName = nodeId.slice(indexPName + 1);
+      var regex = /^[0-9a-zA-Z]+$/;
+      if (regex.exec(projectName) == null) {
+        Logger.log("Node ID プロジェクト名エラー：" + projectName);
+        return 411;
+      }
+    }
+
+    var nodeNames = nodeName.split(".");
+    if (nodeNames.length < 2) {
+      Logger.log("Node ID \".\"が含まれていない：" + nodeName);
+      return 411;
+    }
+
+    if (nodeNames[0] != 'R' && nodeNames[0] != 'C' && nodeNames[0] != 'A' && nodeNames[0] != 'U') {
+      Logger.log("Node ID 先頭文字エラー：" + nodeNames[0]);
+      return 411;
+    }
+
+    // 先頭の「R.｜C.｜A.｜U.」（あるいは「プロジェクト名:R.｜C.｜A.｜U.」）に続く文字がケバブケースではない。
+    // ※ケバブケースは、大文字／小文字／数字／ハイフンが使える [412:Node ID]
+    var regex = /^[0-9a-zA-Z-]+$/;
+    if (regex.exec(nodeNames[1]) == null) {
+      Logger.log("Node ID ケバブケースではない：" + nodeNames[1]);
+      return 412;
+    }
+
+    return 0;
+  }
+
   /*
    *------------------------------------------------------------
    *  エラーチェック
@@ -76,11 +115,10 @@ class entityFRG extends entityBasic {
     if (!this.isDescribed(this.items['Node ID'])) {
       this.errorNums['Node ID'].push(410);
     } else {
-      // 先頭が「R.｜C. ｜A.｜U.」（あるいは「プロジェクト名:R.｜C.｜A.｜U.」）のいずれかで始まっていない
-      // ※プロジェクト名は、大文字／小文字／数字が使える [411:Node ID]
-      
-      // 先頭の「R.｜C.｜A.｜U.」（あるいは「プロジェクト名:R.｜C.｜A.｜U.」）に続く文字がケバブケースではない。
-      // ※ケバブケースは、大文字／小文字／数字／ハイフンが使える [412:Node ID]
+      var errorCode = isCorrectNodeId(this.items['Node ID']);
+      if (errorCode > 0) {
+        this.errorNums['Node ID'].push(errorCode);
+      }
 
       // [Manual Error: 1] FRGの図面中に記述されたNode IDと一致しない [415:Node ID]
     }
