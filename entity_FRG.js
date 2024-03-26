@@ -19,19 +19,19 @@ class entityFRG extends entityBasic {
       nodeName = nodeId.slice(indexPName + 1);
       var regex = /^[0-9a-zA-Z]+$/;
       if (regex.exec(projectName) == null) {
-        Logger.log("Node ID プロジェクト名エラー：" + projectName);
+        Logger.log("Node ID プロジェクト名エラー: " + projectName);
         return 411;
       }
     }
 
     var nodeNames = nodeName.split(".");
-    if (nodeNames.length < 2) {
-      Logger.log("Node ID \".\"が含まれていない：" + nodeName);
+    if (nodeNames.length != 2) {
+      Logger.log("Node ID \".\"が1つ含まれていない: " + nodeName);
       return 411;
     }
 
     if (nodeNames[0] != 'R' && nodeNames[0] != 'C' && nodeNames[0] != 'A' && nodeNames[0] != 'U') {
-      Logger.log("Node ID 先頭文字エラー：" + nodeNames[0]);
+      Logger.log("Node ID 先頭文字エラー: " + nodeNames[0]);
       return 411;
     }
 
@@ -39,10 +39,11 @@ class entityFRG extends entityBasic {
     // ※ケバブケースは、大文字／小文字／数字／ハイフンが使える [412:Node ID]
     var regex = /^[0-9a-zA-Z-]+$/;
     if (regex.exec(nodeNames[1]) == null) {
-      Logger.log("Node ID ケバブケースではない：" + nodeNames[1]);
+      Logger.log("Node ID ケバブケースではない: " + nodeNames[1]);
       return 412;
     }
 
+    Logger.log("Node ID is correct: " + nodeId);
     return 0;
   }
 
@@ -115,7 +116,7 @@ class entityFRG extends entityBasic {
     if (!this.isDescribed(this.items['Node ID'])) {
       this.errorNums['Node ID'].push(410);
     } else {
-      var errorCode = isCorrectNodeId(this.items['Node ID']);
+      var errorCode = this.isCorrectNodeId(this.items['Node ID']);
       if (errorCode > 0) {
         this.errorNums['Node ID'].push(errorCode);
       }
