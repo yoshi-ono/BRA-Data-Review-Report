@@ -47,31 +47,31 @@ class braData
     this.referencesReviewEL = this.sheetProject.getRange("B5").getValue();
     Logger.log("References Review End Line: " + this.referencesReviewEL);
     if (!this.checkReviewEL(this.referencesReviewEL)) {
-      throw new Error("Project シートの Review End Line には、1以上の整数を入力してください。（References）");
+      throw new Error("Please enter a number greater than or equal to 1 in \"Review End Line\" of the Project sheet. (References)");
     }
 
     this.circuitsReviewEL = this.sheetProject.getRange("B6").getValue();
     Logger.log("Circuits Review End Line: " + this.circuitsReviewEL);
     if (!this.checkReviewEL(this.circuitsReviewEL)) {
-      throw new Error("Project シートの Review End Line には、1以上の整数を入力してください。（Circuits）");
+      throw new Error("Please enter a number greater than or equal to 1 in \"Review End Line\" of the Project sheet. (Circuits)");
     }
 
     this.connectionsReviewEL = this.sheetProject.getRange("B7").getValue();
     Logger.log("Connections Review End Line: " + this.connectionsReviewEL);
     if (!this.checkReviewEL(this.connectionsReviewEL)) {
-      throw new Error("Project シートの Review End Line には、1以上の整数を入力してください。（Connections）");
+      throw new Error("Please enter a number greater than or equal to 1 in \"Review End Line\" of the Project sheet. (Connections)");
     }
 /*
     this.hcdeditorReviewEL = this.sheetProject.getRange("B8").getValue();
     Logger.log("HCDeditor Review End Line: " + this.hcdeditorReviewEL);
     if (!this.checkReviewEL(this.hcdeditorReviewEL)) {
-      throw new Error("Project シートの Review End Line には、1以上の整数を入力してください。（HCDeditor）");
+      throw new Error("Please enter a number greater than or equal to 1 in \"Review End Line\" of the Project sheet. (HCDeditor)");
    }
 */
     this.frgReviewEL = this.sheetProject.getRange("B8").getValue();
     Logger.log("FRG Review End Line: " + this.frgReviewEL);
     if (!this.checkReviewEL(this.frgReviewEL)) {
-      throw new Error("Project シートの Review End Line には、1以上の整数を入力してください。（FRG）");
+      throw new Error("Please enter a number greater than or equal to 1 in \"Review End Line\" of the Project sheet. (FRG)");
    }
   }
 
