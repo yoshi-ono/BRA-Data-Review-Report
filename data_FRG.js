@@ -13,7 +13,7 @@ class dataFRG extends dataBasic
   setReviewItems()
   {
     this.reviewItems.push('Node ID');
-    this.reviewItems.push('Sub Nodes');
+    this.reviewItems.push('Subnodes');
     this.reviewItems.push('Circuit ID');
     this.reviewItems.push('Projected Circuits');
 

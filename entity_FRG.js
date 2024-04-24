@@ -98,13 +98,13 @@ class entityFRG extends entityBasic {
     }
   }
   check_Implementation_of_Uniform_Circuit() {
-    // Sub Nodes列が記述されていないが、Implementation of Uniform Circuitが記述されていない [404:Implementation of Uniform Circuit]
-    if (!this.isDescribed(this.items['Sub Nodes'])) {
+    // Subnodes列が記述されていないが、Implementation of Uniform Circuitが記述されていない [404:Implementation of Uniform Circuit]
+    if (!this.isDescribed(this.items['Subnodes'])) {
       if (!this.isDescribed(this.items['Implementation of Uniform Circuit'])) {
         this.errorNums['Implementation of Uniform Circuit'].push(404);
       }
     }
-    // Sub Nodes列が記述されているにもかかわらず、Implementation of Uniform Circuitが記述されている [405:Implementation of Uniform Circuit]
+    // Subnodes列が記述されているにもかかわらず、Implementation of Uniform Circuitが記述されている [405:Implementation of Uniform Circuit]
     else {
       if (this.isDescribed(this.items['Implementation of Uniform Circuit'])) {
         this.errorNums['Implementation of Uniform Circuit'].push(405);
@@ -125,9 +125,9 @@ class entityFRG extends entityBasic {
     }
   }
   check_Sub_Nodes() {
-    if (this.isDescribed(this.items['Sub Nodes'])) {
-      // Sub Nodesに列挙されたNode IDの何れかが、Node IDとして定義されていない。 [414:Sub Nodes]
-      var nodes = this.items['Sub Nodes'];
+    if (this.isDescribed(this.items['Subnodes'])) {
+      // Subnodesに列挙されたNode IDの何れかが、Node IDとして定義されていない。 [414:Subnodes]
+      var nodes = this.items['Subnodes'];
       if (isFinite(nodes))
         nodes = String(nodes);
       
@@ -136,14 +136,14 @@ class entityFRG extends entityBasic {
         if (this.isDescribed(n)) {
           var rows = g_bra_data.frg.searchItem('Node ID', n.trim());
           if (rows.length == 0) {
-            this.errorNums['Sub Nodes'].push(414);
+            this.errorNums['Subnodes'].push(414);
             break;
           }
         }
       }
 
-      // [Manual Error: 1] FRGの図面中に記述されたNode IDと一致しない [416:Sub Nodes]
-      // [Manual Error: 1] FRGの図面中で依存関係にある Sub Nodes と比較したときに、記載された Sub Nodes に過不足がある [417:Sub Nodes]
+      // [Manual Error: 1] FRGの図面中に記述されたNode IDと一致しない [416:Subnodes]
+      // [Manual Error: 1] FRGの図面中で依存関係にある Subnodes と比較したときに、記載された Subnodes に過不足がある [417:Subnodes]
     }
   }
   check_Capability() {
