@@ -117,8 +117,12 @@ class entityCircuits extends entityBasic
         this.errorNums['Sub-Circuits'].push(120);
       }
     }
-    // Sub-Circuitに列挙されたCircuit IDの何れかが、Cicuit IDとして定義されていない。[121:Sub-Circuits]
     if (this.isDescribed(this.items['Sub-Circuits'])) {
+      // Sub-Circuitに列挙されたCircuit IDの終端が";"になっていない。[122:Sub-Circuits]
+      if (!this.hasTerminalSymbol(this.items['Sub-Circuits']))
+        this.errorNums['Sub-Circuits'].push(122);
+
+      // Sub-Circuitに列挙されたCircuit IDの何れかが、Cicuit IDとして定義されていない。[121:Sub-Circuits]
       if (!this.isDefinedCircuits(this.items['Sub-Circuits']))
         this.errorNums['Sub-Circuits'].push(121);
     }

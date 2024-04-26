@@ -90,6 +90,10 @@ class entityFRG extends entityBasic {
   }
   check_Projected_Circuits() {
     if (this.isDescribed(this.items['Projected Circuits'])) {
+      // Projected Circuitsに列挙されたCircuit IDの終端が";"になっていない。 [406:Projected Circuits]
+      if (!this.hasTerminalSymbol(this.items['Projected Circuits']))
+        this.errorNums['Projected Circuits'].push(406);
+
       // （列挙）Circuits シートに登録されているCircuit ID以外のCircuit IDが記述されている． [403:Projected Circuits]
       if (!this.isDefinedCircuits(this.items['Projected Circuits']))
         this.errorNums['Projected Circuits'].push(403);
@@ -126,8 +130,13 @@ class entityFRG extends entityBasic {
   }
   check_Sub_Nodes() {
     if (this.isDescribed(this.items['Subnodes'])) {
-      // Subnodesに列挙されたNode IDの何れかが、Node IDとして定義されていない。 [414:Subnodes]
       var nodes = this.items['Subnodes'];
+
+      // Subnodesに列挙されたNode IDの終端が";"になっていない。 [413:Subnodes]
+      if (!this.hasTerminalSymbol(nodes))
+        this.errorNums['Subnodes'].push(413);
+
+      // Subnodesに列挙されたNode IDの何れかが、Node IDとして定義されていない。 [414:Subnodes]
       if (isFinite(nodes))
         nodes = String(nodes);
       

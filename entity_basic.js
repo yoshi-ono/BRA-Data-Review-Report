@@ -108,6 +108,19 @@ class entityBasic
     return ret;
   }
 
+  /**
+   * 列挙値の終端が";"であるかどうか。
+   */
+  hasTerminalSymbol(values)
+  {
+    var items = values;
+    if (isFinite(items)) {
+      items = String(items);
+    }
+    var str = items.trim();
+    return str.endsWith(';');
+  }
+
   check_Contributor(errorNum1) {
     // Contributorが記述されていない。
     if (!this.isDescribed(this.items['Contributor'])) {
