@@ -127,15 +127,11 @@ class dataBasic
 
     if (entity.manualErrorCount > 0) {
       this.manualErrors['Codes'] += entity.reportManualErrorCodes;
-      this.manualErrors['Codes'] += ";\n";
-
       this.manualErrors['Count'] += entity.manualErrorCount;
     }
 
     if (entity.manualWarningCount > 0) {
       this.manualWarnings['Codes'] += entity.reportManualWarningCodes;
-      this.manualWarnings['Codes'] += ";\n";
-
       this.manualWarnings['Count'] += entity.manualWarningCount;
     }
   }
@@ -159,24 +155,20 @@ class dataBasic
   summaryItemErrors(entity, reviewItem)
   {
     if (entity.hasErrorNums(reviewItem)) {
-      var str = Utilities.formatString("row(%s) %s", entity.row, entity.getErrorNumsString(reviewItem));
+      var str = Utilities.formatString("row(%s) %s;\n", entity.row, entity.getErrorNumsString(reviewItem));
       //Logger.log(str);
 
       this.itemErrors[reviewItem]['Codes'] += str;
-      this.itemErrors[reviewItem]['Codes'] += ";\n"
-
       this.itemErrors[reviewItem]['Count'] += entity.getErrorCount(reviewItem);
     }
   }
   summaryItemWarnings(entity, reviewItem)
   {
     if (entity.hasWarningNums(reviewItem)) {
-      var str = Utilities.formatString("row(%s) %s", entity.row, entity.getWarningNumsString(reviewItem));
+      var str = Utilities.formatString("row(%s) %s;\n", entity.row, entity.getWarningNumsString(reviewItem));
       //Logger.log(str);
 
       this.itemWarnings[reviewItem]['Codes'] += str;
-      this.itemWarnings[reviewItem]['Codes'] += ";\n"
-
       this.itemWarnings[reviewItem]['Count'] += entity.getWarningCount(reviewItem);
     }
   }

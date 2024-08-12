@@ -210,13 +210,13 @@ class entityBasic
       eCount = this.errorNums[this.reviewItems[i]].length;
       if (eCount > 0) {
         this.autoErrorCount += eCount;
-        errorsString += ";\n" + this.getErrorIDsString(this.reviewItems[i])
+        errorsString += this.getErrorIDsString(this.reviewItems[i]) + ";\n";
       }
 
       wCount = this.warningNums[this.reviewItems[i]].length;
       if (wCount > 0) {
         this.autoWarningCount += wCount;
-        warningsString += ";\n" + this.getWarningIDsString(this.reviewItems[i])
+        warningsString += this.getWarningIDsString(this.reviewItems[i]) + ";\n";
       }
     }
  
@@ -224,14 +224,11 @@ class entityBasic
     this.items[itemName] = "";
  
     if (this.autoErrorCount > 0) {
-      this.items[itemName] += Utilities.formatString("%s Error(s)%s", this.autoErrorCount, errorsString);
+      this.items[itemName] += Utilities.formatString("%s Error(s);\n%s", this.autoErrorCount, errorsString);
     }
 
     if (this.autoWarningCount > 0) {
-      if (this.items[itemName] != "") {
-        this.items[itemName] += ";\n"
-      }
-      this.items[itemName] += Utilities.formatString("%s Warning(s)%s", this.autoWarningCount, warningsString);
+      this.items[itemName] += Utilities.formatString("%s Warning(s);\n%s", this.autoWarningCount, warningsString);
     }
   }
 
@@ -239,16 +236,10 @@ class entityBasic
   {
     if (g_bra_data.listItems.isManualWarning(code)) {
       this.manualWarningCount++;
-      if (this.reportManualWarningCodes != "") {
-        this.reportManualWarningCodes += ";\n";
-      }
-      this.reportManualWarningCodes += Utilities.formatString("row(%s) %s", this.row, code);
+      this.reportManualWarningCodes += Utilities.formatString("row(%s) %s;\n", this.row, code);
     } else {
       this.manualErrorCount++;
-      if (this.reportManualErrorCodes != "") {
-        this.reportManualErrorCodes += ";\n";
-      }
-      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s", this.row, code);
+      this.reportManualErrorCodes += Utilities.formatString("row(%s) %s;\n", this.row, code);
     }
   }
 
@@ -282,14 +273,11 @@ class entityBasic
     // Review results 更新
     this.items[itemName] = "";
     if (this.autoErrorCount > 0 || this.manualErrorCount > 0) {
-      this.items[itemName] += Utilities.formatString("Error: %s", this.autoErrorCount + this.manualErrorCount);
+      this.items[itemName] += Utilities.formatString("Error: %s;\n", this.autoErrorCount + this.manualErrorCount);
     }
 
     if (this.autoWarningCount > 0 || this.manualWarningCount > 0) {
-      if (this.items[itemName] != "") {
-        this.items[itemName] += ";\n";
-      }
-      this.items[itemName] += Utilities.formatString("Warning: %s", this.autoWarningCount + this.manualWarningCount);
+      this.items[itemName] += Utilities.formatString("Warning: %s;\n", this.autoWarningCount + this.manualWarningCount);
     }
 
     if (this.items[itemName] == "") {
