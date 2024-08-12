@@ -126,18 +126,16 @@ class dataBasic
     }
 
     if (entity.manualErrorCount > 0) {
-      if (this.manualErrors['Codes'] != "") {
-        this.manualErrors['Codes'] += ";\n";
-      }
       this.manualErrors['Codes'] += entity.reportManualErrorCodes;
+      this.manualErrors['Codes'] += ";\n";
+
       this.manualErrors['Count'] += entity.manualErrorCount;
     }
 
     if (entity.manualWarningCount > 0) {
-      if (this.manualWarnings['Codes'] != "") {
-        this.manualWarnings['Codes'] += ";\n";
-      }
       this.manualWarnings['Codes'] += entity.reportManualWarningCodes;
+      this.manualWarnings['Codes'] += ";\n";
+
       this.manualWarnings['Count'] += entity.manualWarningCount;
     }
   }
@@ -164,10 +162,8 @@ class dataBasic
       var str = Utilities.formatString("row(%s) %s", entity.row, entity.getErrorNumsString(reviewItem));
       //Logger.log(str);
 
-      if (this.itemErrors[reviewItem]['Codes'] != "") {
-        this.itemErrors[reviewItem]['Codes'] += ";\n"
-      }
       this.itemErrors[reviewItem]['Codes'] += str;
+      this.itemErrors[reviewItem]['Codes'] += ";\n"
 
       this.itemErrors[reviewItem]['Count'] += entity.getErrorCount(reviewItem);
     }
@@ -178,10 +174,8 @@ class dataBasic
       var str = Utilities.formatString("row(%s) %s", entity.row, entity.getWarningNumsString(reviewItem));
       //Logger.log(str);
 
-      if (this.itemWarnings[reviewItem]['Codes'] != "") {
-        this.itemWarnings[reviewItem]['Codes'] += ";\n"
-      }
       this.itemWarnings[reviewItem]['Codes'] += str;
+      this.itemWarnings[reviewItem]['Codes'] += ";\n"
 
       this.itemWarnings[reviewItem]['Count'] += entity.getWarningCount(reviewItem);
     }
