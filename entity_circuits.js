@@ -111,13 +111,15 @@ class entityCircuits extends entityBasic
 
   checkSubCircuit()
   {
-    // Source of IDがcollectionであるにも関わらず、Sub-Circuitsが記述されていない。[120:Sub-Circuits]
-    if (this.items['Source of ID'] == "collection") {
-      if (!this.isDescribed(this.items['Sub-Circuits'])) {
+    if (!this.isDescribed(this.items['Sub-Circuits'])) {
+      // Source of IDがcollectionであるにも関わらず、Sub-Circuitsが記述されていない。[120:Sub-Circuits]
+      if (this.items['Source of ID'] == "collection")
         this.errorNums['Sub-Circuits'].push(120);
-      }
-    }
-    if (this.isDescribed(this.items['Sub-Circuits'])) {
+
+      // ROIを指定する行（2行目）において、Sub-Circuitsが記述されていない。 [123:Sub-Circuits]
+      if (this.row == 2)      
+        this.errorNums['Sub-Circuits'].push(123);
+    } else {
       // Sub-Circuitに列挙されたCircuit IDの終端が";"になっていない。[122:Sub-Circuits]
       if (!this.hasTerminalSymbol(this.items['Sub-Circuits']))
         this.errorNums['Sub-Circuits'].push(122);
