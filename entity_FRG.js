@@ -4,6 +4,9 @@
 class entityFRG extends entityBasic {
   constructor(header, data, row, reviewItems) {
     super(header, data, row, reviewItems);
+
+    this.NodeID_Prefix = "";
+
     this.check();
   }
 
@@ -33,6 +36,8 @@ class entityFRG extends entityBasic {
     if (nodeNames[0] != 'R' && nodeNames[0] != 'C' && nodeNames[0] != 'A' && nodeNames[0] != 'U') {
       Logger.log("Node ID 先頭文字エラー: " + nodeNames[0]);
       return 402;
+    } else {
+      this.NodeID_Prefix = nodeNames[0];
     }
 
     // 先頭の「R.｜C.｜A.｜U.」（あるいは「プロジェクト名:R.｜C.｜A.｜U.」）に続く文字がケバブケースではない。
@@ -114,7 +119,15 @@ class entityFRG extends entityBasic {
     }
   }
   check_Circuit_ID() {
-    if (this.isDescribed(this.items['Circuit ID'])) {
+    if (!this.isDescribed(this.items['Circuit ID'])) {
+      // Node ID列の接頭辞で「U.」を指定しているが、Circuit ID列が記述されていない [424:Circuit ID]
+      if (this.NodeID_Prefix == 'U')
+        this.errorNums['Circuit ID'].push(424);
+
+      // Node ID列の接頭辞で「A.」を指定しているが、Circuit ID列が記述されていない [425:Circuit ID]
+      if (this.NodeID_Prefix == 'A')
+        this.errorNums['Circuit ID'].push(425);
+    } else {
       // Circuits シートに登録されているCircuit ID以外のCircuit IDが記述されている． [420:Circuit ID]
       if (!this.isDefinedCircuit(this.items['Circuit ID']))
         this.errorNums['Circuit ID'].push(420);
@@ -157,6 +170,8 @@ class entityFRG extends entityBasic {
     if (this.isDescribed(this.items['Capability'])) {
       if (!this.isDescribed(this.items['Capability Realization by Implementation']))
         this.errorNums['Capability Realization by Implementation'].push(450);
+
+      // [Manual Warning: 3(->ListItems)] Capability Realization by Implementation 列の説明に疑義がある [451:Capability Realization by Implementation]
     }
   }
   check_Implementation_of_Uniform_Circuit() {
@@ -174,7 +189,13 @@ class entityFRG extends entityBasic {
     }
   }
   check_Capability() {
-    // [Manual Warning: 3(->ListItems)] Motif以外のCapabilityが用いられている [470:Capability]
+    if (!this.isDescribed(this.items['Capability'])) {
+      // Node ID列の接頭辞で「C.」を指定しているが、Capability列が記述されていない [471:Capability]
+      if (this.NodeID_Prefix == 'C')
+        this.errorNums['Capability'].push(471);
+    } else {
+      // [Manual Warning: 3(->ListItems)] Motif以外のCapabilityが用いられている [470:Capability]
+    }
   }
   check_Capability_Synthesis_LLM() {
     // [Warning] 記述がされていない [481:Capability Synthesis (LLM)]
@@ -188,6 +209,7 @@ class entityFRG extends entityBasic {
     }
   }
   check_Capability_Synthesis() {
+    // [Manual Warning: 3(->ListItems)] Capability Synthesis列の説明に疑義がある [482:Capability Synthesis]
   }
   check_Requirements_Realization_by_Interface_LLM() {
     // [Warning] 記述がされていない [501:Requirements Realization by Interface (LLM)]
@@ -224,11 +246,18 @@ class entityFRG extends entityBasic {
       if (!this.isDescribed(this.items['Requirements Endorsement by Capability']))
         this.errorNums['Requirements Endorsement by Capability'].push(530);
     }
+
+    // [Manual Warning: 3(->ListItems)] Requirements Endorsement by Capablity列の説明に疑義がある [522:Requirements Endorsement by Capability]
   }
   check_Requirements() {
-    // [Warning] Requirements が記述されていない [541:Requirements]
     if (!this.isDescribed(this.items['Requirements'])) {
-      this.warningNums['Requirements'].push(541);
+      if (this.NodeID_Prefix == 'R') {
+        // Node ID列の接頭辞で「R.」を指定しているが、Requirements 列が記述されていない [542:Requirements]
+        this.errorNums['Capability'].push(542);
+      } else {
+        // [Warning] Requirements が記述されていない [541:Requirements]
+        this.warningNums['Requirements'].push(541);
+      }
     } else {
       // 「Node ID:説明文」の記法で記述されていない [540:Requirements]
       var val = this.items['Requirements'].trim();
@@ -254,11 +283,22 @@ class entityFRG extends entityBasic {
       if (!this.isDescribed(this.items['Requirements Synthesis']))
         this.errorNums['Requirements Synthesis'].push(560);
     }
+
+    // [Manual Warning: 3(->ListItems)] Requirements Synthesis 列の説明に疑義がある [552:Requirements Synthesis]
   }
   check_Semantics() {
-    // [Warning] Semanticsが記述されていない [570:Semantics]
-      if (!this.isDescribed(this.items['Output Semantics'])) {
-      this.warningNums['Output Semantics'].push(570);
+    if (!this.isDescribed(this.items['Output Semantics'])) {
+      if (this.items['Region Category'] == 'input' || this.items['Region Category'] == 'input/output') {
+        // Region Category列が「input」or「input/output」にも関わらず、Output Semantics列が記述されていない [571:Output Semantics]
+        this.errorNums['Output Semantics'].push(571);
+      } else if (this.isDescribed(this.items['Requirements'])) {
+        // Requirements 列が記述されているにもかかわらず、Output Semantics列が記述されていない [572:Output Semantics]
+        this.errorNums['Output Semantics'].push(572);
+      } else {
+        // [Warning] Semanticsが記述されていない [570:Semantics]
+        this.warningNums['Output Semantics'].push(570);
+      }
     }
+
   }
 }
