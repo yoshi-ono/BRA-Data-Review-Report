@@ -291,9 +291,6 @@ class entityFRG extends entityBasic {
       if (this.items['Region Category'] == 'input' || this.items['Region Category'] == 'input/output') {
         // Region Category列が「input」or「input/output」にも関わらず、Output Semantics列が記述されていない [571:Output Semantics]
         this.errorNums['Output Semantics'].push(571);
-      } else if (this.isDescribed(this.items['Requirements'])) {
-        // Requirements 列が記述されているにもかかわらず、Output Semantics列が記述されていない [572:Output Semantics]
-        this.errorNums['Output Semantics'].push(572);
       } else {
         // [Warning] Semanticsが記述されていない [570:Semantics]
         this.warningNums['Output Semantics'].push(570);
