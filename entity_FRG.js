@@ -75,7 +75,7 @@ class entityFRG extends entityBasic {
     this.check_Requirements();
     this.check_Requirements_Synthesis_LLM();
     this.check_Requirements_Synthesis();
-    this.check_Semantics();
+    this.check_Output_Semantics();
   }
 
   check_Node_ID() {
@@ -286,16 +286,10 @@ class entityFRG extends entityBasic {
 
     // [Manual Warning: 3(->ListItems)] Requirements Synthesis 列の説明に疑義がある [552:Requirements Synthesis]
   }
-  check_Semantics() {
+  check_Output_Semantics() {
+    // Output Semanticsが記述されていない [570:Semantics]
     if (!this.isDescribed(this.items['Output Semantics'])) {
-      if (this.items['Region Category'] == 'input' || this.items['Region Category'] == 'input/output') {
-        // Region Category列が「input」or「input/output」にも関わらず、Output Semantics列が記述されていない [571:Output Semantics]
-        this.errorNums['Output Semantics'].push(571);
-      } else {
-        // [Warning] Semanticsが記述されていない [570:Semantics]
-        this.warningNums['Output Semantics'].push(570);
-      }
+      this.errorNums['Output Semantics'].push(570);
     }
-
   }
 }
