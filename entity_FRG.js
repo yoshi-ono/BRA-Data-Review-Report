@@ -63,7 +63,7 @@ class entityFRG extends entityBasic {
     this.check_Circuit_ID();
     this.check_Projected_Circuits();
     this.check_Capability_Realization_by_Implementation_LLM();
-    this.check_Capability_Realization_by_Implementation();
+    //this.check_Capability_Realization_by_Implementation();
     this.check_Implementation_of_Uniform_Circuit();
     this.check_Capability();
     this.check_Capability_Synthesis_LLM();
@@ -165,6 +165,7 @@ class entityFRG extends entityBasic {
         this.errorNums['Capability Realization by Implementation (LLM)'].push(440);
     }
   }
+/*
   check_Capability_Realization_by_Implementation() {
     // Capability列が記述されているが、Capability Realization by Implementationが記述されていない [450:Capability Realization by Implementation]
     if (this.isDescribed(this.items['Capability'])) {
@@ -174,6 +175,7 @@ class entityFRG extends entityBasic {
       // [Manual Warning: 3(->ListItems)] Capability Realization by Implementation 列の説明に疑義がある [451:Capability Realization by Implementation]
     }
   }
+*/
   check_Implementation_of_Uniform_Circuit() {
     // Subnodes列が記述されていないが、Implementation of Uniform Circuitが記述されていない [460:Implementation of Uniform Circuit]
     if (!this.isDescribed(this.items['Subnodes'])) {

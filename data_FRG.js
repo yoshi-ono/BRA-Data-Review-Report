@@ -18,8 +18,9 @@ class dataFRG extends dataBasic
     this.reviewItems.push('Projected Circuits');
 
     this.reviewItems.push('Capability Realization by Implementation (LLM)');
-    this.reviewItems.push('Capability Realization by Implementation');
-    
+    //this.reviewItems.push('Capability Realization by Implementation');
+    this.reviewItems.push('Mechanism');
+
     this.reviewItems.push('Implementation of Uniform Circuit');
     this.reviewItems.push('Capability');
 
