@@ -143,13 +143,30 @@ class entityFRG extends entityBasic {
   }
   check_Projected_Circuits() {
     if (this.isDescribed(this.items['Projected Circuits'])) {
+      var circuits = this.items['Projected Circuits'];
+
       // Projected Circuitsに列挙されたCircuit IDの終端が";"になっていない。 [431:Projected Circuits]
-      if (!this.hasTerminalSymbol(this.items['Projected Circuits']))
+      if (!this.hasTerminalSymbol(circuits))
         this.errorNums['Projected Circuits'].push(431);
 
       // （列挙）Circuits シートに登録されているCircuit ID以外のCircuit IDが記述されている． [430:Projected Circuits]
-      if (!this.isDefinedCircuits(this.items['Projected Circuits']))
+      if (!this.isDefinedCircuits(circuits))
         this.errorNums['Projected Circuits'].push(430);
+
+      // // 記載されているCircuit IDが、FRGシートのCircuit ID列に記載されていない [433:Projected Circuits]
+      // if (isFinite(circuits))
+      //   circuits = String(circuits);
+      
+      // var list = circuits.split(';');
+      // for (var circuit of list) {
+      //   if (this.isDescribed(circuit)) {
+      //     var rows = g_bra_data.frg.searchItem('Circuit ID', circuit.trim());
+      //     if (rows.length == 0) {
+      //       this.errorNums['Projected Circuits'].push(433);
+      //       break;
+      //     }
+      //   }
+      // }
 
       // [Manual Warning: 3(->ListItems)] BIF Image に記述された出力先のCircuit IDと一致しない。 [432:Projected Circuits]
     }
@@ -261,11 +278,11 @@ class entityFRG extends entityBasic {
         this.warningNums['Requirements'].push(541);
       }
     } else {
-      // 「Node ID:説明文」の記法で記述されていない [540:Requirements]
-      var val = this.items['Requirements'].trim();
-      var searchString = this.items['Node ID'] + ":";
-      if (!val.startsWith(searchString))
-        this.errorNums['Requirements'].push(540);
+      // // 「Node ID:説明文」の記法で記述されていない [540:Requirements]
+      // var val = this.items['Requirements'].trim();
+      // var searchString = this.items['Node ID'] + ":";
+      // if (!val.startsWith(searchString))
+      //   this.errorNums['Requirements'].push(540);
     }
   }
   check_Requirements_Synthesis_LLM() {
@@ -280,11 +297,11 @@ class entityFRG extends entityBasic {
     }
   }
   check_Requirements_Synthesis() {
-    // Requirements列が記述されているが、Requirements Synthesis が記述されていない [560:Requirements Synthesis]
-    if (this.isDescribed(this.items['Requirements'])) {
-      if (!this.isDescribed(this.items['Requirements Synthesis']))
-        this.errorNums['Requirements Synthesis'].push(560);
-    }
+    // // Requirements列が記述されているが、Requirements Synthesis が記述されていない [560:Requirements Synthesis]
+    // if (this.isDescribed(this.items['Requirements'])) {
+    //   if (!this.isDescribed(this.items['Requirements Synthesis']))
+    //     this.errorNums['Requirements Synthesis'].push(560);
+    // }
 
     // [Manual Warning: 3(->ListItems)] Requirements Synthesis 列の説明に疑義がある [552:Requirements Synthesis]
   }
