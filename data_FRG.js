@@ -35,8 +35,8 @@ class dataFRG extends dataBasic
 
     this.reviewItems.push('Requirements');
 
-    this.reviewItems.push('Requirements Synthesis (LLM)');
-    this.reviewItems.push('Requirements Synthesis');
+    //this.reviewItems.push('Requirements Synthesis (LLM)');
+    //this.reviewItems.push('Requirements Synthesis');
 
     this.reviewItems.push('Output Semantics');
 

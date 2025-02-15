@@ -73,8 +73,8 @@ class entityFRG extends entityBasic {
     this.check_Requirements_Endorsement_by_Capability_LLM();
     this.check_Requirements_Endorsement_by_Capability();
     this.check_Requirements();
-    this.check_Requirements_Synthesis_LLM();
-    this.check_Requirements_Synthesis();
+    //this.check_Requirements_Synthesis_LLM();
+    //this.check_Requirements_Synthesis();
     this.check_Output_Semantics();
   }
 
@@ -286,15 +286,15 @@ class entityFRG extends entityBasic {
     }
   }
   check_Requirements_Synthesis_LLM() {
-    // [Warning] 記述がされていない [551:Requirements Synthesis (LLM)]
-    if (!this.isDescribed(this.items['Requirements Synthesis (LLM)'])) {
-      this.warningNums['Requirements Synthesis (LLM)'].push(551);
-    } else {
-      // 「NG:」であると評価されている [550:Requirements Synthesis (LLM)]
-      var val = this.items['Requirements Synthesis (LLM)'].trim();
-      if (val.startsWith("NG:"))
-        this.errorNums['Requirements Synthesis (LLM)'].push(550);
-    }
+    // // [Warning] 記述がされていない [551:Requirements Synthesis (LLM)]
+    // if (!this.isDescribed(this.items['Requirements Synthesis (LLM)'])) {
+    //   this.warningNums['Requirements Synthesis (LLM)'].push(551);
+    // } else {
+    //   // 「NG:」であると評価されている [550:Requirements Synthesis (LLM)]
+    //   var val = this.items['Requirements Synthesis (LLM)'].trim();
+    //   if (val.startsWith("NG:"))
+    //     this.errorNums['Requirements Synthesis (LLM)'].push(550);
+    // }
   }
   check_Requirements_Synthesis() {
     // // Requirements列が記述されているが、Requirements Synthesis が記述されていない [560:Requirements Synthesis]
