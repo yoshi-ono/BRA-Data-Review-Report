@@ -153,20 +153,20 @@ class entityFRG extends entityBasic {
       if (!this.isDefinedCircuits(circuits))
         this.errorNums['Projected Circuits'].push(430);
 
-      // // 記載されているCircuit IDが、FRGシートのCircuit ID列に記載されていない [433:Projected Circuits]
-      // if (isFinite(circuits))
-      //   circuits = String(circuits);
+      // 記載されているCircuit IDが、FRGシートのCircuit ID列に記載されていない [433:Projected Circuits]
+      if (isFinite(circuits))
+        circuits = String(circuits);
       
-      // var list = circuits.split(';');
-      // for (var circuit of list) {
-      //   if (this.isDescribed(circuit)) {
-      //     var rows = g_bra_data.frg.searchItem('Circuit ID', circuit.trim());
-      //     if (rows.length == 0) {
-      //       this.errorNums['Projected Circuits'].push(433);
-      //       break;
-      //     }
-      //   }
-      // }
+      var list = circuits.split(';');
+      for (var circuit of list) {
+        if (this.isDescribed(circuit)) {
+          var rows = g_bra_data.frg.searchItem('Circuit ID', circuit.trim());
+          if (rows.length == 0) {
+            this.errorNums['Projected Circuits'].push(433);
+            break;
+          }
+        }
+      }
 
       // [Manual Warning: 3(->ListItems)] BIF Image に記述された出力先のCircuit IDと一致しない。 [432:Projected Circuits]
     }
@@ -306,9 +306,38 @@ class entityFRG extends entityBasic {
     // [Manual Warning: 3(->ListItems)] Requirements Synthesis 列の説明に疑義がある [552:Requirements Synthesis]
   }
   check_Output_Semantics() {
-    // Output Semanticsが記述されていない [570:Semantics]
+    // Output Semanticsが記述されていない [570:Output Semantics]
     if (!this.isDescribed(this.items['Output Semantics'])) {
       this.errorNums['Output Semantics'].push(570);
+    } else {
+      var output_semantics = this.items['Output Semantics'];
+
+      if (isFinite(output_semantics))
+        output_semantics = String(output_semantics);
+      
+      var list = output_semantics.split(';');
+      const regex = /^\[(?<circuitId>[^\]]+)\](?<description>.*);?$/;
+      var uniformCircuits = this.items['Uniform Circuits'];
+      var listCircuits = uniformCircuits.split(';').map(function(value) { return value.trim(); });
+
+      for (var text of list) {
+        var match = text.match(regex);
+        if (match == null) {
+          // 「[Circuit ID] 説明;」の記法で記述されていない [574:Output Semantics]
+          this.errorNums['Output Semantics'].push(574);
+        } else {
+          var circuitId = match.groups.circuitId;
+          var description = match.groups.description;
+
+          // Output Semanticsの「説明」に"[", "]", ";"が用いられている [573:Output Semantics]
+          if (description.includes("[") || description.includes("]") || description.includes(";"))
+            this.errorNums['Output Semantics'].push(573);
+
+          // 同じレコードのAH列（Uniform Circuit）に含まれないCircuit IDが用いられている [575:Output Semantics]
+          if (!listCircuits.includes(circuitId))
+            this.errorNums['Output Semantics'].push(575);
+        }
+      }
     }
   }
 }
