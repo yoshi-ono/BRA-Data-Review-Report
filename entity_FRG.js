@@ -63,7 +63,7 @@ class entityFRG extends entityBasic {
     this.check_Circuit_ID();
     this.check_Projected_Circuits();
     this.check_Capability_Realization_by_Implementation_LLM();
-    //this.check_Capability_Realization_by_Implementation();
+    this.check_Capability_and_Mechanism();
     this.check_Implementation_of_Uniform_Circuit();
     this.check_Capability();
     this.check_Capability_Synthesis_LLM();
@@ -182,17 +182,31 @@ class entityFRG extends entityBasic {
         this.errorNums['Capability Realization by Implementation (LLM)'].push(440);
     }
   }
-/*
-  check_Capability_Realization_by_Implementation() {
-    // Capability列が記述されているが、Capability Realization by Implementationが記述されていない [450:Capability Realization by Implementation]
-    if (this.isDescribed(this.items['Capability'])) {
-      if (!this.isDescribed(this.items['Capability Realization by Implementation']))
-        this.errorNums['Capability Realization by Implementation'].push(450);
 
-      // [Manual Warning: 3(->ListItems)] Capability Realization by Implementation 列の説明に疑義がある [451:Capability Realization by Implementation]
+  check_Capability_and_Mechanism() {
+    var c_and_m = this.items['Capability&Mechanism'];
+
+    if (isFinite(c_and_m))
+      c_and_m = String(c_and_m);
+
+    const splitter = "<<mechanism to realize the capability>>";
+
+    if (c_and_m.includes(splitter)) {
+      var capab_mecha = c_and_m.split(splitter);
+
+      // <<mechanism to realize the capability>>前が空欄になっている [451:Capability&Mechanism]
+      if (capab_mecha[0].trim() == "")
+        this.errorNums['Capability&Mechanism'].push(451);
+
+      // <<mechanism to realize the capability>>後が空欄になっている [452:Capability&Mechanism]
+      if (capab_mecha[1].trim() == "")
+        this.errorNums['Capability&Mechanism'].push(452);
+    } else {
+      // <<mechanism to realize the capability>>が記述されていない [450:Capability&Mechanism]
+      this.errorNums['Capability&Mechanism'].push(450);
     }
   }
-*/
+
   check_Implementation_of_Uniform_Circuit() {
     // Subnodes列が記述されていないが、Implementation of Uniform Circuitが記述されていない [460:Implementation of Uniform Circuit]
     if (!this.isDescribed(this.items['Subnodes'])) {
@@ -272,7 +286,7 @@ class entityFRG extends entityBasic {
     if (!this.isDescribed(this.items['Requirements'])) {
       if (this.NodeID_Prefix == 'R') {
         // Node ID列の接頭辞で「R.」を指定しているが、Requirements 列が記述されていない [542:Requirements]
-        this.errorNums['Capability'].push(542);
+        this.errorNums['Requirements'].push(542);
       } else {
         // [Warning] Requirements が記述されていない [541:Requirements]
         this.warningNums['Requirements'].push(541);
@@ -321,7 +335,10 @@ class entityFRG extends entityBasic {
       var listCircuits = uniformCircuits.split(';').map(function(value) { return value.trim(); });
 
       for (var text of list) {
-        var match = text.match(regex);
+        if (text == "")
+          continue;
+
+        var match = text.trim().match(regex);
         if (match == null) {
           // 「[Circuit ID] 説明;」の記法で記述されていない [574:Output Semantics]
           this.errorNums['Output Semantics'].push(574);

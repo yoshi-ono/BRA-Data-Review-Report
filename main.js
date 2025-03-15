@@ -3,7 +3,7 @@ const auto_incomplete = "fail";
 const auto_complete = "pass";
 
 var g_spreadsheet_template;
-const g_BRAver = "Template-v2-1-1.bra";
+const g_BRAver = "Template-v2-2-ZETA.bra";
 const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
 
 /**
@@ -12,7 +12,7 @@ const g_publicFolderId = "1U97WQIPzSHMkaC9bMEV90gU0tWpwYUqx";
 function debug_auto_review()
 {
   // BRA Data Review Tool のドキュメントID
-  var toolDocId = '19_Moul--_GardnQGh6HbQ6qfLaplLNvoWScOBX-R08I';
+  var toolDocId = '1J_Vtzc0lUTQCPSDAQkcUVP1oFS0RcHmI-KW1UXLVmuM';
 
   var ret = main(toolDocId);
   Logger.log(ret);
