@@ -16,7 +16,7 @@ class ListItems
     this.MeasurementMethod = this.getItems("M2:M20");
 
     // Error Type: 3
-    this.ManualWarning = ["104", "422", "423", "432", "451", "470", "490", "511", "531", "561"];
+    this.ManualWarning = ["104", "422", "423", "432", "470", "472", "511", "512", "513", "514", "515", "542", "564"];
   }
 
   getItems(range)

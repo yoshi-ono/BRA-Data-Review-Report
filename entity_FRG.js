@@ -59,23 +59,27 @@ class entityFRG extends entityBasic {
    */
   check() {
     this.check_Node_ID();
-    this.check_Sub_Nodes();
+    this.check_Subnodes();
     this.check_Circuit_ID();
     this.check_Projected_Circuits();
-    this.check_Capability_Realization_by_Implementation_LLM();
+
+    this.check_Capability_and_Mechanism_Review_LLM();
     this.check_Capability_and_Mechanism();
+
     this.check_Implementation_of_Uniform_Circuit();
     this.check_Capability();
-    this.check_Capability_Synthesis_LLM();
-    this.check_Capability_Synthesis();
-    this.check_Requirements_Realization_by_Interface_LLM();
+    this.check_Mechanism_Synthesis_Review_LLM();
+
+    this.check_Requirements_Realization_by_Interface_Review_LLM();
     this.check_Requirements_Realization_by_Interface();
-    this.check_Requirements_Endorsement_by_Capability_LLM();
-    this.check_Requirements_Endorsement_by_Capability();
+
+    this.check_Requirements_Endorsement_by_Capability_Review_LLM();
+
     this.check_Requirements();
-    //this.check_Requirements_Synthesis_LLM();
-    //this.check_Requirements_Synthesis();
+    this.check_Requirements_Review_LLM();
+
     this.check_Output_Semantics();
+    this.check_Output_Semantics_Review_LLM();
   }
 
   check_Node_ID() {
@@ -91,7 +95,7 @@ class entityFRG extends entityBasic {
       // [Manual Error: 1] FRGの図面中に記述されたNode IDと一致しない [404:Node ID]
     }
   }
-  check_Sub_Nodes() {
+  check_Subnodes() {
     if (this.isDescribed(this.items['Subnodes'])) {
       var nodes = this.items['Subnodes'];
 
@@ -102,7 +106,7 @@ class entityFRG extends entityBasic {
       // Subnodesに列挙されたNode IDの何れかが、Node IDとして定義されていない。 [411:Subnodes]
       if (isFinite(nodes))
         nodes = String(nodes);
-      
+
       var list = nodes.split(';');
       for (var n of list) {
         if (this.isDescribed(n)) {
@@ -156,7 +160,7 @@ class entityFRG extends entityBasic {
       // 記載されているCircuit IDが、FRGシートのCircuit ID列に記載されていない [433:Projected Circuits]
       if (isFinite(circuits))
         circuits = String(circuits);
-      
+
       var list = circuits.split(';');
       for (var circuit of list) {
         if (this.isDescribed(circuit)) {
@@ -171,15 +175,16 @@ class entityFRG extends entityBasic {
       // [Manual Warning: 3(->ListItems)] BIF Image に記述された出力先のCircuit IDと一致しない。 [432:Projected Circuits]
     }
   }
-  check_Capability_Realization_by_Implementation_LLM() {
-    // [Warning] 記述されていない [441:Capability Realization by Implementation (LLM)]
-    if (!this.isDescribed(this.items['Capability Realization by Implementation (LLM)'])) {
-      this.warningNums['Capability Realization by Implementation (LLM)'].push(441);
+
+  check_Capability_and_Mechanism_Review_LLM() {
+    // [Warning] 記述されていない [441:Capability&Mechanism Review (LLM)]
+    if (!this.isDescribed(this.items['Capability&Mechanism Review (LLM)'])) {
+      this.warningNums['Capability&Mechanism Review (LLM)'].push(441);
     } else {
-      // 「NG:」であると評価されている [440:Capability Realization by Implementation (LLM)]
-      var val = this.items['Capability Realization by Implementation (LLM)'].trim();
+      // 「NG:」であると評価されている [440:Capability&Mechanism Review (LLM)]
+      var val = this.items['Capability&Mechanism Review (LLM)'].trim();
       if (val.startsWith("NG:"))
-        this.errorNums['Capability Realization by Implementation (LLM)'].push(440);
+        this.errorNums['Capability&Mechanism Review (LLM)'].push(440);
     }
   }
 
@@ -222,37 +227,32 @@ class entityFRG extends entityBasic {
     }
   }
   check_Capability() {
-    if (!this.isDescribed(this.items['Capability'])) {
-      // Node ID列の接頭辞で「C.」を指定しているが、Capability列が記述されていない [471:Capability]
-      if (this.NodeID_Prefix == 'C')
-        this.errorNums['Capability'].push(471);
+    // [Manual Warning: 3(->ListItems)] Motif以外のCapabilityが用いられている [470:Capability]
+    // [Manual Error: 1] Output semanticsの内容が書かれている [471:Capability]
+    // [Manual Warning: 3(->ListItems)] Capability に Output semantics の情報を入れても Requirements になっていない [472:Capability]
+  }
+
+  check_Mechanism_Synthesis_Review_LLM() {
+    // [Warning] 記述がされていない [481:Mechanism Synthesis Review (LLM)]
+    if (!this.isDescribed(this.items['Mechanism Synthesis Review (LLM)'])) {
+      this.warningNums['Mechanism Synthesis Review (LLM)'].push(481);
     } else {
-      // [Manual Warning: 3(->ListItems)] Motif以外のCapabilityが用いられている [470:Capability]
+      // 「NG:」であると評価されている [480:Mechanism Synthesis Review (LLM)]
+      var val = this.items['Mechanism Synthesis Review (LLM)'].trim();
+      if (val.startsWith("NG:"))
+        this.errorNums['Mechanism Synthesis Review (LLM)'].push(480);
     }
   }
-  check_Capability_Synthesis_LLM() {
-    // [Warning] 記述がされていない [481:Capability Synthesis (LLM)]
-    if (!this.isDescribed(this.items['Capability Synthesis (LLM)'])) {
-      this.warningNums['Capability Synthesis (LLM)'].push(481);
+
+  check_Requirements_Realization_by_Interface_Review_LLM() {
+    // [Warning] 記述がされていない [501:Requirements Realization by Interface Review (LLM)]
+    if (!this.isDescribed(this.items['Requirements Realization by Interface Review (LLM)'])) {
+      this.warningNums['Requirements Realization by Interface Review (LLM)'].push(501);
     } else {
-      // 「NG:」であると評価されている [480:Capability Synthesis (LLM)]
-      var val = this.items['Capability Synthesis (LLM)'].trim();
+      // 「NG:」であると評価されている [500:Requirements Realization by Interface Review (LLM)]
+      var val = this.items['Requirements Realization by Interface Review (LLM)'].trim();
       if (val.startsWith("NG:"))
-        this.errorNums['Capability Synthesis (LLM)'].push(480);
-    }
-  }
-  check_Capability_Synthesis() {
-    // [Manual Warning: 3(->ListItems)] Capability Synthesis列の説明に疑義がある [482:Capability Synthesis]
-  }
-  check_Requirements_Realization_by_Interface_LLM() {
-    // [Warning] 記述がされていない [501:Requirements Realization by Interface (LLM)]
-    if (!this.isDescribed(this.items['Requirements Realization by Interface (LLM)'])) {
-      this.warningNums['Requirements Realization by Interface (LLM)'].push(501);
-    } else {
-      // 「NG:」であると評価されている [500:Requirements Realization by Interface (LLM)]
-      var val = this.items['Requirements Realization by Interface (LLM)'].trim();
-      if (val.startsWith("NG:"))
-        this.errorNums['Requirements Realization by Interface (LLM)'].push(500);
+        this.errorNums['Requirements Realization by Interface Review (LLM)'].push(500);
     }
   }
   check_Requirements_Realization_by_Interface() {
@@ -262,35 +262,31 @@ class entityFRG extends entityBasic {
         this.errorNums['Requirements Realization by Interface'].push(510);
     }
   }
-  check_Requirements_Endorsement_by_Capability_LLM() {
-    // [Warning] 記述がされていない [521:Requirements Endorsement by Capability (LLM)]
-    if (!this.isDescribed(this.items['Requirements Endorsement by Capability (LLM)'])) {
-      this.warningNums['Requirements Endorsement by Capability (LLM)'].push(521);
-    } else {
-      // 「NG:」であると評価されている [520:Requirements Endorsement by Capability (LLM)]
-      var val = this.items['Requirements Endorsement by Capability (LLM)'].trim();
-      if (val.startsWith("NG:"))
-        this.errorNums['Requirements Endorsement by Capability (LLM)'].push(520);
-    }
-  }
-  check_Requirements_Endorsement_by_Capability() {
-    // Requirements列とCapability列が記述されているが、Requirements Endorsement by Capabilityが記述されていない [530:Requirements Endorsement by Capability]
-    if (this.isDescribed(this.items['Requirements']) && this.isDescribed(this.items['Capability'])) {
-      if (!this.isDescribed(this.items['Requirements Endorsement by Capability']))
-        this.errorNums['Requirements Endorsement by Capability'].push(530);
-    }
 
-    // [Manual Warning: 3(->ListItems)] Requirements Endorsement by Capablity列の説明に疑義がある [522:Requirements Endorsement by Capability]
+  check_Requirements_Endorsement_by_Capability_Review_LLM() {
+    // [Warning] 記述がされていない [521:Requirements Endorsement by Capability Review (LLM)]
+    if (!this.isDescribed(this.items['Requirements Endorsement by Capability Review (LLM)'])) {
+      this.warningNums['Requirements Endorsement by Capability Review (LLM)'].push(521);
+    } else {
+      // 「NG:」であると評価されている [520:Requirements Endorsement by Capability Review (LLM)]
+      var val = this.items['Requirements Endorsement by Capability Review (LLM)'].trim();
+      if (val.startsWith("NG:"))
+        this.errorNums['Requirements Endorsement by Capability Review (LLM)'].push(520);
+    }
   }
+
   check_Requirements() {
     if (!this.isDescribed(this.items['Requirements'])) {
-      if (this.NodeID_Prefix == 'R') {
-        // Node ID列の接頭辞で「R.」を指定しているが、Requirements 列が記述されていない [542:Requirements]
-        this.errorNums['Requirements'].push(542);
-      } else {
-        // [Warning] Requirements が記述されていない [541:Requirements]
-        this.warningNums['Requirements'].push(541);
-      }
+      // if (this.NodeID_Prefix == 'R') {
+      //   // Node ID列の接頭辞で「R.」を指定しているが、Requirements 列が記述されていない [542:Requirements]
+      //   this.errorNums['Requirements'].push(542);
+      // } else {
+      //   // [Warning] Requirements が記述されていない [541:Requirements]
+      //   this.warningNums['Requirements'].push(541);
+      // }
+
+      // Requirements が記述されていない [541:Requirements]
+      this.errorNums['Requirements'].push(541);
     } else {
       // // 「Node ID:説明文」の記法で記述されていない [540:Requirements]
       // var val = this.items['Requirements'].trim();
@@ -299,40 +295,32 @@ class entityFRG extends entityBasic {
       //   this.errorNums['Requirements'].push(540);
     }
   }
-  check_Requirements_Synthesis_LLM() {
-    // // [Warning] 記述がされていない [551:Requirements Synthesis (LLM)]
-    // if (!this.isDescribed(this.items['Requirements Synthesis (LLM)'])) {
-    //   this.warningNums['Requirements Synthesis (LLM)'].push(551);
-    // } else {
-    //   // 「NG:」であると評価されている [550:Requirements Synthesis (LLM)]
-    //   var val = this.items['Requirements Synthesis (LLM)'].trim();
-    //   if (val.startsWith("NG:"))
-    //     this.errorNums['Requirements Synthesis (LLM)'].push(550);
-    // }
+  check_Requirements_Review_LLM() {
+    // [Warning] 記述がされていない [551:Requirements Review (LLM)]
+    if (!this.isDescribed(this.items['Requirements Review (LLM)'])) {
+      this.warningNums['Requirements Review (LLM)'].push(551);
+    } else {
+      // 「NG:」であると評価されている [550:Requirements Review (LLM)]
+      var val = this.items['Requirements Review (LLM)'].trim();
+      if (val.startsWith("NG:"))
+        this.errorNums['Requirements Review (LLM)'].push(550);
+    }
   }
-  check_Requirements_Synthesis() {
-    // // Requirements列が記述されているが、Requirements Synthesis が記述されていない [560:Requirements Synthesis]
-    // if (this.isDescribed(this.items['Requirements'])) {
-    //   if (!this.isDescribed(this.items['Requirements Synthesis']))
-    //     this.errorNums['Requirements Synthesis'].push(560);
-    // }
 
-    // [Manual Warning: 3(->ListItems)] Requirements Synthesis 列の説明に疑義がある [552:Requirements Synthesis]
-  }
   check_Output_Semantics() {
-    // Output Semanticsが記述されていない [570:Output Semantics]
+    // Output Semanticsが記述されていない [560:Output Semantics]
     if (!this.isDescribed(this.items['Output Semantics'])) {
-      this.errorNums['Output Semantics'].push(570);
+      this.errorNums['Output Semantics'].push(560);
     } else {
       var output_semantics = this.items['Output Semantics'];
 
       if (isFinite(output_semantics))
         output_semantics = String(output_semantics);
-      
+
       var list = output_semantics.split(';');
       const regex = /^\[(?<circuitId>[^\]]+)\](?<description>.*);?$/;
       var uniformCircuits = this.items['Uniform Circuits'];
-      var listCircuits = uniformCircuits.split(';').map(function(value) { return value.trim(); });
+      var listCircuits = uniformCircuits.split(';').map(function (value) { return value.trim(); });
 
       for (var text of list) {
         if (text == "")
@@ -340,21 +328,32 @@ class entityFRG extends entityBasic {
 
         var match = text.trim().match(regex);
         if (match == null) {
-          // 「[Circuit ID] 説明;」の記法で記述されていない [574:Output Semantics]
-          this.errorNums['Output Semantics'].push(574);
+          // 「[Circuit ID] 説明;」の記法で記述されていない [562:Output Semantics]
+          this.errorNums['Output Semantics'].push(562);
         } else {
           var circuitId = match.groups.circuitId;
           var description = match.groups.description;
 
-          // Output Semanticsの「説明」に"[", "]", ";"が用いられている [573:Output Semantics]
+          // Output Semanticsの「説明」に"[", "]", ";"が用いられている [561:Output Semantics]
           if (description.includes("[") || description.includes("]") || description.includes(";"))
-            this.errorNums['Output Semantics'].push(573);
+            this.errorNums['Output Semantics'].push(561);
 
-          // 同じレコードのAH列（Uniform Circuit）に含まれないCircuit IDが用いられている [575:Output Semantics]
+          // 同じレコードのAH列（Uniform Circuit）に含まれないCircuit IDが用いられている [563:Output Semantics]
           if (!listCircuits.includes(circuitId))
-            this.errorNums['Output Semantics'].push(575);
+            this.errorNums['Output Semantics'].push(563);
         }
       }
+    }
+  }
+  check_Output_Semantics_Review_LLM() {
+    // [Warning] 記述がされていない [571:Output Semantics Review (LLM)]
+    if (!this.isDescribed(this.items['Output Semantics Review (LLM)'])) {
+      this.warningNums['Output Semantics Review (LLM)'].push(571);
+    } else {
+      // 「NG:」であると評価されている [570:Output Semantics Review (LLM)]
+      var val = this.items['Output Semantics Review (LLM)'].trim();
+      if (val.startsWith("NG:"))
+        this.errorNums['Output Semantics Review (LLM)'].push(570);
     }
   }
 }

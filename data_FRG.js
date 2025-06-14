@@ -17,28 +17,23 @@ class dataFRG extends dataBasic
     this.reviewItems.push('Circuit ID');
     this.reviewItems.push('Projected Circuits');
 
-    this.reviewItems.push('Capability Realization by Implementation (LLM)');
-    //this.reviewItems.push('Capability Realization by Implementation');
     this.reviewItems.push('Capability&Mechanism');
+    this.reviewItems.push('Capability&Mechanism Review (LLM)');
 
     this.reviewItems.push('Implementation of Uniform Circuit');
     this.reviewItems.push('Capability');
+    this.reviewItems.push('Mechanism Synthesis Review (LLM)');
 
-    this.reviewItems.push('Capability Synthesis (LLM)');
-    this.reviewItems.push('Capability Synthesis');
-
-    this.reviewItems.push('Requirements Realization by Interface (LLM)');
+    this.reviewItems.push('Requirements Realization by Interface Review (LLM)');
     this.reviewItems.push('Requirements Realization by Interface');
 
-    this.reviewItems.push('Requirements Endorsement by Capability (LLM)');
-    this.reviewItems.push('Requirements Endorsement by Capability');
+    this.reviewItems.push('Requirements Endorsement by Capability Review (LLM)');
 
     this.reviewItems.push('Requirements');
-
-    //this.reviewItems.push('Requirements Synthesis (LLM)');
-    //this.reviewItems.push('Requirements Synthesis');
+    this.reviewItems.push('Requirements Review (LLM)');
 
     this.reviewItems.push('Output Semantics');
+    this.reviewItems.push('Output Semantics Review (LLM)');
 
     this.initItemErrors();
     this.initItemWarnings();
