@@ -1,7 +1,10 @@
 # Copilot Instructions for BRA Data Review Report
 
 ## Project Overview
-This is a **Google Apps Script** project that performs automated review of BRA (Brain Research Architecture) data files. The system operates as a standalone main program called from a minimal container-bound program in [BRA-Data-Review-Processing](https://github.com/yoshi-ono/BRA-Data-Review-Processing/).
+This is a **Google Apps Script** project that performs automated review of BRA (Brain Research Architecture) data files according to error code lists. The system operates as a standalone main program called from two different systems:
+
+1. **BRA Data Review Tool**: UI for automated review, calls this program via [BRA Data Review Processing](https://github.com/yoshi-ono/BRA-Data-Review-Processing/)
+2. **BRAES**: Editorial System for BRA data, calls this program for automatic review of submitted data via [BRAES Main](https://github.com/yoshi-ono/BRAES_Main)
 
 ## Architecture & Core Components
 
@@ -78,6 +81,7 @@ hasTerminalSymbol()   // Ends with semicolon for lists
 
 ### Error Code Management
 - Error codes are managed in the `AdminOnly` sheet of BRA data files
+- Master error code list: [BRA data: Error code List (Master)](https://docs.google.com/spreadsheets/d/1mCQOmjBRIx-k12a2x8uV3aSKKZ5dDW0na4bVnZtAzhM/edit)
 - `ListItems` class loads valid values for dropdowns and validation
 - Manual warning codes are hardcoded in `ManualWarning` array
 

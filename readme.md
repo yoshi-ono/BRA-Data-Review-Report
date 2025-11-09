@@ -4,12 +4,15 @@
 エラーコードリストに従い、BRAデータを自動審査します。
 
 ## BRA Data Review Tool
-コンテナバインドの最小限プログラムから呼び出されます。
-(https://github.com/yoshi-ono/BRA-Data-Review-Processing/)
+**BRA Data Review Tool**は、自動審査のUIです。Toolにコンテナバインドされた最小限プログラム
+[BRA Data Review Processing](https://github.com/yoshi-ono/BRA-Data-Review-Processing/)
+から本プログラムを呼び出します。
 
 ## BRAES
-BRAESメインプログラムから呼び出されます。
-(https://github.com/yoshi-ono/BRAES_Main)
+**BRAES**は、BRAデータの Editorial System です。
+投稿されたBRAデータを自動審査する時に本プログラムを呼び出します。
+
+[BRAESメインプログラム](https://github.com/yoshi-ono/BRAES_Main)
 
 ## エラーコードリスト
 [BRA data: Error code List (Master)](https://docs.google.com/spreadsheets/d/1mCQOmjBRIx-k12a2x8uV3aSKKZ5dDW0na4bVnZtAzhM/edit)
