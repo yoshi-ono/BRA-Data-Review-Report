@@ -195,6 +195,18 @@ class entityFRG extends entityBasic {
       c_and_m = String(c_and_m);
 
     const splitter = "<<mechanism to realize the capability>>";
+    const grainest_mechanism = "<<mechanism realized by grainest coding scheme>>";
+
+    // <<mechanism realized by grainest coding scheme>>が記述されていない [448:Capability&Mechanism]
+    if (!c_and_m.includes(grainest_mechanism)) {
+      this.errorNums['Capability&Mechanism'].push(448);
+    } else {
+      // <<mechanism realized by grainest coding scheme>>後が空欄になっている [449:Capability&Mechanism]
+      var grainestParts = c_and_m.split(grainest_mechanism);
+      if (grainestParts.length > 1 && grainestParts[1].trim() === "") {
+        this.warningNums['Capability&Mechanism'].push(449);
+      }
+    }
 
     if (c_and_m.includes(splitter)) {
       var capab_mecha = c_and_m.split(splitter);

@@ -17,7 +17,11 @@
 ## エラーコードリスト
 [BRA data: Error code List (Master)](https://docs.google.com/spreadsheets/d/1mCQOmjBRIx-k12a2x8uV3aSKKZ5dDW0na4bVnZtAzhM/edit)
 
-Error type: 0, 2 が自動審査の対象
+Error type: 0, 2 が自動審査の対象。0(Auto error), 2(Auto warnig)
+
+Error type: 1, 3 は、手動審査の対象なので実装しない。ただし、1(Manual error), 3(Manual warnig)の区別のため、ManualWarning 変数に該当エラーコードを定義する。
+
+廃止エラーコード（実装不要）: 137, 203, 241, 278
 
 ### Error code List in CSV format
 - [References](error_code_list/References.csv)

@@ -82,10 +82,13 @@ hasTerminalSymbol()   // Ends with semicolon for lists
 ### Error Code Management
 - Error codes are managed in the `AdminOnly` sheet of BRA data files
 - Master error code list: [BRA data: Error code List (Master)](https://docs.google.com/spreadsheets/d/1mCQOmjBRIx-k12a2x8uV3aSKKZ5dDW0na4bVnZtAzhM/edit)
-- **Error Types**: Only Error type 0 and 2 are subject to automatic review
+- **Error Types**: 
+  - Type 0 (Auto error) and Type 2 (Auto warning) are subject to automatic review
+  - Type 1 (Manual error) and Type 3 (Manual warning) are for manual review only - not implemented
+  - ManualWarning array defines Type 3 codes for proper classification
+- **Deprecated Error Codes**: 137, 203, 241, 278 (implementation not required)
 - CSV format error code lists available in `error_code_list/` directory for each category
 - `ListItems` class loads valid values for dropdowns and validation
-- Manual warning codes are hardcoded in `ManualWarning` array
 
 ## Key Dependencies & Integration
 - **Google Drive API**: Template file access via folder ID
@@ -101,4 +104,4 @@ hasTerminalSymbol()   // Ends with semicolon for lists
 - `entity_*.js`: Row-level data validators
 - `template.js`: Formula validation against template
 - `list_items.js`: Valid values and error code management
-- `error_code_list/`: CSV format error code lists for each review category (References, Circuits, Connections, FRG)
+- `error_code_list/`: CSV format error code lists (References.csv, Circuits.csv, Connections.csv, FRG.csv)

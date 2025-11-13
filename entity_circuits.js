@@ -42,6 +42,17 @@ class entityCircuits extends entityBasic
       if (rows.length > 1)
         this.errorNums['Circuit ID'].push(103);
 
+      // ROIを指定する行（2行目）において、Circuit ID が「ROI_」で始まっていない。[105:Circuit ID]
+      if (this.row == 2) {
+        var circuitId = this.items['Circuit ID'];
+        if (isFinite(circuitId)) {
+          circuitId = String(circuitId);
+        }
+        if (!circuitId.startsWith('ROI_')) {
+          this.errorNums['Circuit ID'].push(105);
+        }
+      }
+
       // [Manual] 既存のCircuitを異なる名前で表している疑いがある（意味的な重複） 
     }
   }
