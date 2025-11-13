@@ -20,7 +20,7 @@
 Error type: 0, 2 が自動審査の対象
 
 ### Error code List in CSV format
-- [References](error_code_list/BRA data_ Error code List (Master) - References.csv)
-- [Circuits](error_code_list/BRA data_ Error code List (Master) - Circuits.csv)
-- [Connections](error_code_list/BRA data_ Error code List (Master) - Connections.csv)
-- [FRG](error_code_list/BRA data_ Error code List (Master) - FRG.csv)
+- [References](error_code_list/References.csv)
+- [Circuits](error_code_list/Circuits.csv)
+- [Connections](error_code_list/Connections.csv)
+- [FRG](error_code_list/FRG.csv)
