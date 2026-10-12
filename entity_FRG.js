@@ -216,7 +216,8 @@ class entityFRG extends entityBasic {
         this.errorNums['Capability&Mechanism'].push(451);
 
       // <<mechanism to realize the capability>>後が空欄になっている [452:Capability&Mechanism]
-      if (capab_mecha[1].trim() == "")
+      var mechanism = capab_mecha[1].split(grainest_mechanism)[0];
+      if (mechanism.trim() == "")
         this.errorNums['Capability&Mechanism'].push(452);
     } else {
       // <<mechanism to realize the capability>>が記述されていない [450:Capability&Mechanism]

@@ -23,6 +23,12 @@ Error type: 1, 3 は、手動審査の対象なので実装しない。ただし
 
 廃止エラーコード（実装不要）: 137, 203, 241, 278
 
+### FRG: Capability&Mechanism の空欄判定
+エラーコード452は、`<<mechanism to realize the capability>>` から
+`<<mechanism realized by grainest coding scheme>>` までのMechanism文が空欄（空白・改行のみを含む）の場合にAuto errorとして検出します。
+後者の見出しがない場合は、前者の見出しからセル末尾までを判定します。
+コーディングスキーム文の空欄は、エラーコード449（Auto warning）として別に判定します。
+
 ### Error code List in CSV format
 - [References](error_code_list/References.csv)
 - [Circuits](error_code_list/Circuits.csv)
