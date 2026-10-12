@@ -203,7 +203,7 @@ class entityFRG extends entityBasic {
     } else {
       // <<mechanism realized by grainest coding scheme>>後が空欄になっている [449:Capability&Mechanism]
       var grainestParts = c_and_m.split(grainest_mechanism);
-      if (grainestParts.length > 1 && grainestParts[1].trim() === "") {
+      if (grainestParts[1].trim() == "") {
         this.warningNums['Capability&Mechanism'].push(449);
       }
     }
